@@ -5,9 +5,9 @@
 **Primary source:** [ClientRequirement.md](ClientRequirement.md)  
 **Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md)  
 **Deliverables:** [DELIVERABLES.md](DELIVERABLES.md)  
-**Status:** Draft  
+**Status:** Implemented (P1 + P2+ in `app/`); production URL pending reactivation  
 **Author:** Monica Peters (MoniGarr) | Gauntlet AI GFA Cohort 5 Fellowship, 2026  
-**Last updated:** 2026-06-10
+**Last updated:** 2026-06-09
 
 ---
 
@@ -16,8 +16,9 @@
 | Layer | Authority | Role |
 |-------|-----------|------|
 | **Client truth** | [ClientRequirement.md](ClientRequirement.md) | Normative requirements and **two deliverables only** |
+| **Proof** | [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) | File paths + live URLs proving §10 deliverables |
 | **Submission** | [DELIVERABLES.md](DELIVERABLES.md) + **§10 below** | Checklist for repo + URL + client constraints |
-| **Target-state design** | [ARCHITECTURE.md](ARCHITECTURE.md) | Phased LabelForge factory — **P2+**, not submission blockers |
+| **Target-state design** | [ARCHITECTURE.md](ARCHITECTURE.md) | Phased LabelForge factory — **P2+ shipped in `app/`** |
 | **Interview craft** | §7, §4.3, §12 | Gauntlet-style depth in **code + README approach** after P1 ships |
 
 **Rule:** Ship **P1 MVP** first. Factory, RAG, and eval CI are proof of senior engineering — not a third client deliverable.
@@ -385,7 +386,11 @@ All production code files must use [CODE_COMMENT_HEADER_TEMPLATE.md](CODE_COMMEN
 
 > **Client truth lives here and in [DELIVERABLES.md](DELIVERABLES.md).** [ClientRequirement.md](ClientRequirement.md) lists exactly **two** submissions. Everything else is implementation or phased target state.
 
-**Authoritative client list:** [ClientRequirement.md](ClientRequirement.md) § Deliverables.
+**Authoritative client list:** [ClientRequirement.md](ClientRequirement.md) § Deliverables.  
+**Proof with file paths and URLs:** [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md).
+
+**Current repository:** [github.com/monigarr/instructions](https://github.com/monigarr/instructions) — application in [`app/`](app/).  
+**Deployed URL:** [labelforge.onrender.com](https://labelforge.onrender.com) (Render service suspended as of 2026-06-09; reactivate before submission).
 
 Only **two submissions** are mandatory. LabelForge factory work (§7) is **phased engineering depth** — prove it in **code + README approach**, not as extra doc deliverables.
 
@@ -444,9 +449,10 @@ Omitting P2+ folders does **not** fail submission if §10.1–10.2 are met. Docu
 
 | Artifact | Purpose |
 |----------|---------|
+| [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) | Proof index — file locations, API endpoints, live URLs |
 | [DELIVERABLES.md](DELIVERABLES.md) | Submission checklist mapped to ClientRequirement.md |
 | [ClientRequirement.md](ClientRequirement.md) | Primary source of truth |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Phased target-state design (factory P2+) |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Phased target-state design (factory P2+ implemented in `app/`) |
 | [PRD.md](PRD.md) | This document |
 
 ---

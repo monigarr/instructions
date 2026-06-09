@@ -70,7 +70,7 @@ async def verify_label(
 async def batch_verify(
     manifest: str = Form(...),
     images: list[UploadFile] = File(...),
-    async_mode: bool = Form(default="true"),
+    async_mode: str = Form(default="true"),
 ):
     try:
         manifest_data = json.loads(manifest)
@@ -168,6 +168,6 @@ async def resume_batch_review(batch_id: str):
     }
 
 
-_ui_dist = Path(__file__).resolve().parent.parent / "ui" / "dist"
+_ui_dist = Path(__file__).resolve().parents[2] / "ui" / "dist"
 if _ui_dist.exists():
     app.mount("/", StaticFiles(directory=str(_ui_dist), html=True), name="ui")

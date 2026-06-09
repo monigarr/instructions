@@ -1,6 +1,7 @@
 # Deliverables
 
 **Primary source of truth:** [ClientRequirement.md](ClientRequirement.md)  
+**Proof index:** [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) — file paths + live URLs  
 **Derived specs:** [PRD.md](PRD.md) §10 · [ARCHITECTURE.md](ARCHITECTURE.md) (phased target state)
 
 ## Document hierarchy
@@ -8,8 +9,9 @@
 | Layer | Document | What it governs |
 |-------|----------|-----------------|
 | **Normative (client)** | [ClientRequirement.md](ClientRequirement.md) | The only authoritative **must** list |
+| **Proof** | [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) | Evidence map — repo paths, endpoints, URLs |
 | **Submission checklist** | This file + [PRD.md](PRD.md) §10 | What you submit and what the app must prove |
-| **Target-state design** | [ARCHITECTURE.md](ARCHITECTURE.md) | How to build toward agent factory depth **after P1** — not a third deliverable |
+| **Target-state design** | [ARCHITECTURE.md](ARCHITECTURE.md) | Agent factory depth in `app/` (P2+ shipped in code) |
 
 **Ship order:** Execute **P1** first (working repo + URL + core verification). Treat LabelForge factory depth (agents, graph, RAG, evals) as **senior craft in code and README approach** — not doc checkboxes that block submission.
 
@@ -72,11 +74,11 @@ Derived from [ClientRequirement.md](ClientRequirement.md) stakeholder interviews
 
 ### 2.1 Core workflow
 
-- [ ] Agent uploads **label artwork** and provides **application data** (form, file, or equivalent)
-- [ ] System **extracts** text/fields from the label (AI/OCR or equivalent — language/framework choice is yours)
-- [ ] System **compares** extracted values to application data **field by field**
-- [ ] System reports **match**, **mismatch**, or **unable to verify** (with reason) per field and per label
-- [ ] Human compliance agent retains final judgment — tool **assists**, does not replace legal review
+- [x] Agent uploads **label artwork** and provides **application data** (form, file, or equivalent) — [`app/ui/src/App.tsx`](app/ui/src/App.tsx), `POST /verify`
+- [x] System **extracts** text/fields from the label (AI/OCR or equivalent — language/framework choice is yours) — [`app/src/adapters/ocr/`](app/src/adapters/ocr/), [`app/src/structure/field_mapper.py`](app/src/structure/field_mapper.py)
+- [x] System **compares** extracted values to application data **field by field** — [`app/src/rules/field_rules.py`](app/src/rules/field_rules.py)
+- [x] System reports **match**, **mismatch**, or **unable to verify** (with reason) per field and per label — [`app/src/domain/models.py`](app/src/domain/models.py)
+- [x] Human compliance agent retains final judgment — tool **assists**, does not replace legal review — `needs_review` verdicts, UI footer
 
 ### 2.2 TTB label fields (minimum)
 
@@ -96,27 +98,27 @@ Handle labels with information like the client’s **distilled spirits example**
 
 ### 2.3 Performance (Sarah Chen — adoption threshold)
 
-- [ ] **~5 seconds or less** per label for the core verification path (user-perceived)
-- [ ] Prior vendor pilot failed at 30–40 s — speed is **non-negotiable** for credibility
+- [x] **~5 seconds or less** per label for the core verification path (user-perceived) — `elapsed_ms` in API; eval P95 **7.8 ms** on golden fixtures locally ([DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §2.3)
+- [x] Prior vendor pilot failed at 30–40 s — speed is **non-negotiable** for credibility — documented in [`app/README.md`](app/README.md) § Performance
 
 ### 2.4 Batch processing (Sarah Chen / Janet Seattle office)
 
-- [ ] Support **batch uploads** — not only one label at a time
-- [ ] Target scale: **200–300** label applications in peak scenarios
-- [ ] Batch progress and summary (passed / failed / needs review)
+- [x] Support **batch uploads** — not only one label at a time — [`app/src/api/main.py`](app/src/api/main.py) `POST /batch/verify`
+- [x] Target scale: **200–300** label applications in peak scenarios — async batch with concurrency cap ([`app/src/verify/batch_service.py`](app/src/verify/batch_service.py))
+- [x] Batch progress and summary (passed / failed / needs review) — `GET /batch/{batch_id}`, batch tab UI
 
 ### 2.5 User experience (Sarah Chen / Dave Morrison)
 
-- [ ] **Clean, obvious UI** — suitable for users with low tech comfort (benchmark: approachable to a non-technical senior user)
-- [ ] No hidden critical actions; minimal training to complete a verification
-- [ ] Side-by-side or clear view of **application value vs. label value** for mismatches
-- [ ] Tool must **not** make the workflow harder than manual review (Dave Morrison)
+- [x] **Clean, obvious UI** — suitable for users with low tech comfort (benchmark: approachable to a non-technical senior user) — [`app/ui/src/App.tsx`](app/ui/src/App.tsx)
+- [x] No hidden critical actions; minimal training to complete a verification — two-tab layout, primary action buttons
+- [x] Side-by-side or clear view of **application value vs. label value** for mismatches — verdict table columns
+- [x] Tool must **not** make the workflow harder than manual review (Dave Morrison) — single-screen flow
 
 ### 2.6 Error handling
 
-- [ ] Reject or flag bad/unreadable uploads with **actionable** messages
-- [ ] Do not silently pass low-confidence extractions
-- [ ] Document behavior for edge cases in README assumptions
+- [x] Reject or flag bad/unreadable uploads with **actionable** messages — [`app/src/ingest/validator.py`](app/src/ingest/validator.py), `unreadable_blank` fixture
+- [x] Do not silently pass low-confidence extractions — `unable_to_verify` + confidence checks in rules
+- [x] Document behavior for edge cases in README assumptions — [`app/README.md`](app/README.md) § Assumptions & trade-offs
 
 ---
 
@@ -162,26 +164,26 @@ Use this before you submit the interview.
 
 ### Repository
 
-- [ ] Public (or accessible) GitHub repo with all source code  
-- [ ] README: install, run, sample verification steps  
-- [ ] README: approach, tools, assumptions, trade-offs, limitations  
-- [ ] Test labels + fixture data included or generated via documented script  
-- [ ] No secrets in git; `.env.example` provided if needed  
-- [ ] Core requirements §2 satisfied in running app  
+- [x] Public (or accessible) GitHub repo with all source code — [github.com/monigarr/instructions](https://github.com/monigarr/instructions)  
+- [x] README: install, run, sample verification steps — [`app/README.md`](app/README.md)  
+- [x] README: approach, tools, assumptions, trade-offs, limitations — [`app/README.md`](app/README.md) § Approach  
+- [x] Test labels + fixture data included or generated via documented script — [`app/fixtures/`](app/fixtures/), [`app/scripts/generate_fixtures.py`](app/scripts/generate_fixtures.py)  
+- [x] No secrets in git; `.env.example` provided if needed — [`app/.env.example`](app/.env.example)  
+- [x] Core requirements §2 satisfied in running app — see [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md)  
 
 ### Deployment
 
-- [ ] Live URL in README (and submission form if applicable)  
-- [ ] Single-label verification works on deployed URL  
-- [ ] Batch verification works on deployed URL  
-- [ ] URL stable enough for evaluator demo session  
+- [ ] Live URL in README (and submission form if applicable) — **https://labelforge.onrender.com suspended**; reactivate on Render  
+- [ ] Single-label verification works on deployed URL — verify after resume  
+- [ ] Batch verification works on deployed URL — verify after resume  
+- [ ] URL stable enough for evaluator demo session — verify after resume  
 
 ### Requirements traceability
 
-- [ ] ≤ ~5 s per label validated on representative samples (note test conditions in README)  
-- [ ] Batch upload tested at non-trivial volume (document max tested batch size)  
-- [ ] Government warning rule demonstrated (including rejection of wrong-case warning if feasible)  
-- [ ] Standalone — no COLA references as runtime dependency  
+- [x] ≤ ~5 s per label validated on representative samples (note test conditions in README) — eval suite + `elapsed_ms`  
+- [ ] Batch upload tested at non-trivial volume (document max tested batch size) — architecture supports 200–300; document tested count before submit  
+- [x] Government warning rule demonstrated (including rejection of wrong-case warning if feasible) — `test_warning_title_case_rejected` in [`app/tests/test_rules.py`](app/tests/test_rules.py)  
+- [x] Standalone — no COLA references as runtime dependency  
 
 ---
 
@@ -192,6 +194,7 @@ These documents **support** building and defending the solution; they are **not*
 | Artifact | Purpose |
 |----------|---------|
 | [ClientRequirement.md](ClientRequirement.md) | Primary requirements and stakeholder context |
+| [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) | Proof index — file paths, endpoints, live URLs |
 | [PRD.md](PRD.md) | Product requirements and acceptance criteria |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System design, AI factory pattern, trade-offs |
 | [CODE_COMMENT_HEADER_TEMPLATE.md](CODE_COMMENT_HEADER_TEMPLATE.md) | Code file header standard for application repo |
@@ -212,4 +215,4 @@ Agent factory, RAG, graphs, and evals may appear **internally** or in README app
 - [ClientRequirement.md](ClientRequirement.md) — **authoritative** deliverables, constraints, evaluation criteria  
 - [TTB label guidance](https://www.ttb.gov) — regulatory context for label elements  
 
-*Last updated: 2026-06-10*
+*Last updated: 2026-06-09*

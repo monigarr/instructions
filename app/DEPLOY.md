@@ -1,5 +1,10 @@
 # Deployment Guide
 
+**Production URL:** https://labelforge.onrender.com (Render Blueprint in [`render.yaml`](../render.yaml))  
+**Proof index:** [DELIVERABLES_PROOF.md](../DELIVERABLES_PROOF.md)
+
+> As of 2026-06-09 the Render service is **owner-suspended**. Resume it in the Render dashboard or redeploy via Blueprint before interview submission.
+
 ## Docker (recommended)
 
 ```bash

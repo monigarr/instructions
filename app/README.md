@@ -44,14 +44,15 @@ Open http://localhost:8000
 
 ## Demo URL
 
-| Environment | URL |
-|-------------|-----|
-| **Local (Docker)** | http://localhost:8000 |
-| **Production** | Deploy via [DEPLOY.md](DEPLOY.md) — set your HTTPS URL here before submission |
+| Environment | URL | Status |
+|-------------|-----|--------|
+| **Production (Render)** | https://labelforge.onrender.com | **Suspended** — resume service on Render or redeploy via [DEPLOY.md](DEPLOY.md) + [render.yaml](../render.yaml) |
+| **Local (Docker)** | http://localhost:8000 | `docker compose up --build` |
+| **Local dev UI** | http://localhost:5173 | `npm run dev` in `ui/` with API on :8000 |
 
-Example after deploying to Railway/Render: `https://labelforge-production.up.railway.app`
+**Proof index:** [DELIVERABLES_PROOF.md](../DELIVERABLES_PROOF.md) — file paths, API smoke tests, fixture map.
 
-Document cold-start delay (~10–30 s on free tiers) and env vars in platform settings.
+Document cold-start delay (~10–30 s on free tiers) and env vars in platform settings when production is live.
 
 ## Approach
 

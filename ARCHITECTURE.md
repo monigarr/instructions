@@ -17,8 +17,9 @@
 | Layer | Document | Governs |
 |-------|----------|---------|
 | **Client truth** | [ClientRequirement.md](ClientRequirement.md) | Requirements + **repo + URL only** |
+| **Proof** | [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) | File paths + live URLs |
 | **Submission** | [DELIVERABLES.md](DELIVERABLES.md), PRD §10 | What to submit and prove |
-| **Target state (this doc)** | ARCHITECTURE.md | Factory / graph / RAG / evals evolution **after P1** |
+| **Target state (this doc)** | ARCHITECTURE.md | Factory / graph / RAG / evals — **implemented in `app/`** |
 | **Ship order** | PRD §12 | **P1 first** → P2 factory depth → P3 eval CI |
 
 **Cardinal rule:** Implement **P1** as a working verification pipeline; grow toward this architecture without blocking submission.
@@ -29,16 +30,16 @@
 # PROJECT ARCHITECTURE
 # ============================================================================
 # Project Name: LabelForge — TTB Alcohol Label Verification Agent Factory
-# Repository: TreasuryTakeHomeGitHub (application repo)
+# Repository: github.com/monigarr/instructions (application in app/)
 # Version: 0.3.0
-# Status: Final Draft for Architecture Defense
+# Status: P1 shipped; P2+ factory/graph/RAG/evals implemented in app/ (see DELIVERABLES_PROOF.md)
 # Classification: Internal
 # Author: Monica Peters (MoniGarr)
 # Organization: MoniGarr.com LLC | Gauntlet AI GFA Cohort 5 Fellowship, 2026
 # Architecture Method: M.O.M. + M.I.L.E. + Gauntlet AI-Native Factory Pattern
 # Primary Maintainers: MoniGarr
 # Created: 2026-06-09
-# Last Updated: 2026-06-09
+# Last Updated: 2026-06-09 (repo state aligned with DELIVERABLES_PROOF.md)
 # License: TBD
 # ============================================================================
 #
@@ -63,8 +64,8 @@
 
 | Phase | Goal | Submission Status |
 |-------|------|-------------------|
-| **P1** | Runnable repo + deployed URL — upload → OCR/extract → deterministic rules → field-level results (single + batch) | **Submit this.** |
-| **P2+** | Target-state **Autonomous Agent Software Factory** — LangGraph, RAG, specialized agents, eval harness, S.O.L.I.D. — demonstrating senior Gauntlet-style AI-native craft **in code and README**, not as extra submission artifacts | Interview craft; never blocks P1. |
+| **P1** | Runnable repo + deployed URL — upload → OCR/extract → deterministic rules → field-level results (single + batch) | **Shipped** in [`app/`](app/) — see [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) |
+| **P2+** | Target-state **Autonomous Agent Software Factory** — LangGraph, RAG, specialized agents, eval harness, S.O.L.I.D. | **Implemented** in `app/src/factory/`, `graph/`, `agents/`, `rag/`, `evals/`; toggle via `USE_FACTORY_GRAPH` |
 
 The factory pattern is **phased evolution**, not scope creep. P1 meets the client; P2+ meets the interview architecture story without violating "working core over ambitious incomplete features."
 
