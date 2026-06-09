@@ -10,7 +10,7 @@ Gauntlet AI GFA Cohort 5 take-home: **AI-powered alcohol label verification** fo
 |-------|--------|
 | **Application code** | Complete in [`app/`](app/) — FastAPI + React UI, single + batch verify, TTB rules, fixtures, tests, evals, Docker, CI |
 | **Planning docs** | Client requirements, PRD, architecture, deliverables checklist |
-| **Production URL** | [labelforge.onrender.com](https://labelforge.onrender.com) — **suspended**; resume on Render or redeploy via [`render.yaml`](render.yaml) |
+| **Production URL** | [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) — live on Render Starter |
 
 ## Client deliverables
 

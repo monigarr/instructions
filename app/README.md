@@ -46,13 +46,13 @@ Open http://localhost:8000
 
 | Environment | URL | Status |
 |-------------|-----|--------|
-| **Production (Render)** | https://labelforge.onrender.com | **Suspended** — resume service on Render or redeploy via [DEPLOY.md](DEPLOY.md) + [render.yaml](../render.yaml) |
+| **Production (Render)** | https://labelforge-w32d.onrender.com | Live — Starter plan (always-on, no free-tier cold start) |
 | **Local (Docker)** | http://localhost:8000 | `docker compose up --build` |
 | **Local dev UI** | http://localhost:5173 | `npm run dev` in `ui/` with API on :8000 |
 
 **Proof index:** [DELIVERABLES_PROOF.md](../DELIVERABLES_PROOF.md) — file paths, API smoke tests, fixture map.
 
-Document cold-start delay (~10–30 s on free tiers) and env vars in platform settings when production is live.
+Deploy via [DEPLOY.md](DEPLOY.md) and [render.yaml](../render.yaml). Tesseract OCR runs in-container; no API keys required for the default demo path.
 
 ## Approach
 
