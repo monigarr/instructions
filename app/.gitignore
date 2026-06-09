@@ -1,0 +1,16 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+dist/
+build/
+*.egg-info/
+node_modules/
+ui/dist/
+uploads/
+data/chroma/
+*.log
+.DS_Store

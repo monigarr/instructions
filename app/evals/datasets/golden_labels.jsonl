@@ -1,0 +1,4 @@
+{"label_id": "old_tom_match", "fixture": "fixtures/labels/old_tom_match.png", "application": "fixtures/applications/old_tom_match.json", "expected_summary": "passed"}
+{"label_id": "old_tom_abv_mismatch", "fixture": "fixtures/labels/old_tom_abv_mismatch.png", "application": "fixtures/applications/old_tom_abv_mismatch.json", "expected_summary": "failed"}
+{"label_id": "warning_title_case", "fixture": "fixtures/labels/warning_title_case.png", "application": "fixtures/applications/warning_title_case.json", "expected_summary": "failed"}
+{"label_id": "stones_throw_brand", "fixture": "fixtures/labels/stones_throw_brand.png", "application": "fixtures/applications/stones_throw_brand.json", "expected_summary": "needs_review"}

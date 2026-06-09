@@ -1,0 +1,268 @@
+:root {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --text: #1a2332;
+  --muted: #5a6578;
+  --primary: #1e5a96;
+  --primary-hover: #164770;
+  --pass: #1a7f4e;
+  --fail: #b42318;
+  --review: #b54708;
+  --border: #d8dee9;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 2rem;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1.5rem 0 1rem;
+}
+
+.tab {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: 2px solid var(--border);
+  background: var(--surface);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tab.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.upload-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  text-align: center;
+  color: var(--muted);
+}
+
+.upload-zone.small {
+  min-height: 80px;
+}
+
+.upload-zone input {
+  display: none;
+}
+
+.preview {
+  max-width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+}
+
+.json-input {
+  width: 100%;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 1rem 0;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.alert {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.alert-error {
+  background: #fef3f2;
+  border: 1px solid #fecdca;
+  color: var(--fail);
+}
+
+.results {
+  margin-top: 1rem;
+}
+
+.summary {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+.status-pass {
+  color: var(--pass);
+}
+
+.status-fail {
+  color: var(--fail);
+}
+
+.status-review {
+  color: var(--review);
+}
+
+.summary.status-pass {
+  background: #ecfdf3;
+}
+.summary.status-fail {
+  background: #fef3f2;
+}
+.summary.status-review {
+  background: #fffaeb;
+}
+
+.verdict-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.verdict-table th,
+.verdict-table td {
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  vertical-align: top;
+  text-align: left;
+}
+
+.verdict-table th {
+  background: #eef2f7;
+}
+
+.verdict-table small {
+  display: block;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.badge.status-pass {
+  background: #d1fadf;
+}
+.badge.status-fail {
+  background: #fee4e2;
+}
+.badge.status-review {
+  background: #fef0c7;
+}
+
+.batch-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0.75rem 0;
+  font-weight: 600;
+}
+
+.batch-list {
+  list-style: none;
+  padding: 0;
+}
+
+.batch-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.footer {
+  margin-top: 2rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.progress-note {
+  font-style: italic;
+  color: var(--muted);
+}
+
+.errors-list {
+  color: var(--fail);
+}

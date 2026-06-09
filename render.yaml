@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: labelforge
+    runtime: docker
+    rootDir: app
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: OCR_PROVIDER
+        value: tesseract
+      - key: USE_FACTORY_GRAPH
+        value: "false"
+      - key: RAG_ENABLED
+        value: "false"
+      - key: STRICT_WARNING
+        value: "true"
+      - key: BATCH_CONCURRENCY
+        value: "6"

@@ -1,0 +1,11 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - OCR_PROVIDER=tesseract
+      - USE_FACTORY_GRAPH=false
+      - RAG_ENABLED=false
+    volumes:
+      - ./fixtures:/app/fixtures
