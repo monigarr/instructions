@@ -31,9 +31,10 @@ flowchart LR
 
 ## Who is reviewing?
 
-### Client reviewers (ClientRequirement.md)
+### Human Code Reviewers (ClientRequirement.md)
 
-[ClientRequirement.md](ClientRequirement.md) defines exactly **two submissions**. Start with **[REVIEWER_GUIDE.md](REVIEWER_GUIDE.md)** — no graph/RAG/eval depth required.
+[ClientRequirement.md](ClientRequirement.md) defines exactly **two submissions**. 
+Start with **[REVIEWER_GUIDE.md](REVIEWER_GUIDE.md)** — no graph/RAG/eval depth required.
 
 | Step | What to do | What it proves |
 |------|------------|----------------|
@@ -58,7 +59,7 @@ flowchart LR
 | **Dave Morrison** | Brand nuance; simple workflow | `stones_throw_brand` → `needs_review`; two-tab UI |
 | **Marcus Williams** | Standalone, offline OCR, no COLA | Tesseract default; no COLA integration |
 
-### Interview reviewers (engineering depth)
+### Human Tech Interviewers (engineering depth)
 
 After the client path above, explore **optional P2+ layers** — same verdict outcomes, richer orchestration:
 
