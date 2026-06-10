@@ -8,7 +8,7 @@
 | [DELIVERABLES.md](DELIVERABLES.md) | Submission checklist |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Agent factory design (implemented in `app/`) |
 
-**Last verified:** 2026-06-09 — 30 golden evals, CI regression gate, **9** pytest tests green, production `/health` OK
+**Last verified:** 2026-06-10 — 30 golden evals, CI green on push, **9** pytest tests, production `/verify` passes `old_tom_match`
 
 ---
 
@@ -37,14 +37,15 @@ Production defaults: `use_factory_graph: false`, `rag_enabled: false`.
 2. Enable `USE_FACTORY_GRAPH=true` / `RAG_ENABLED=true` locally
 3. Read [ARCHITECTURE.md](ARCHITECTURE.md) and [`app/src/graph/verification_graph.py`](app/src/graph/verification_graph.py)
 
-**Production smoke (2026-06-09):**
+**Production smoke (2026-06-10):**
 
 | Check | Result |
 |-------|--------|
 | `GET /health` | `200` — `ocr_provider: tesseract` |
-| `POST /verify` | `200` — 7 field verdicts, **`elapsed_ms: 3902`** (~3.9 s) on Render Starter (`old_tom_match` + Tesseract OCR) |
+| `POST /verify` | `200` — **`summary: passed`**, 7/7 fields `match`, **`elapsed_ms: 3683`** (~3.7 s) on Render Starter (`old_tom_match` + Tesseract OCR) |
 | `POST /batch/verify` | `200` — async batch completed |
 | `GET /` (UI) | `200` — LabelForge React app |
+| **GitHub Actions CI** | `success` — [run 27246213961](https://github.com/monigarr/instructions/actions/runs/27246213961) on `a7eeafe` |
 
 Production `/verify` smoke (repeatable from `app/`):
 
@@ -52,7 +53,7 @@ Production `/verify` smoke (repeatable from `app/`):
 python -c "from pathlib import Path; import httpx; r=httpx.post('https://labelforge-w32d.onrender.com/verify', files={'image': ('old_tom_match.png', Path('fixtures/labels/old_tom_match.png').read_bytes(), 'image/png')}, data={'application': Path('fixtures/applications/old_tom_match.json').read_text(encoding='utf-8')}, timeout=120); d=r.json(); print(r.status_code, d['summary'], len(d['verdicts']), round(d['elapsed_ms'],1))"
 ```
 
-Observed on 2026-06-09: `200 failed 7 3902.4` — API healthy; `government_warning` may read `mismatch` under production Tesseract on the synthetic PNG (OCR variance), while other fields match.
+Observed on 2026-06-10: `200 passed 7 3683.2` — client demo fixture passes end-to-end on production after word-wrapped warning text in fixture PNGs (`a7eeafe`).
 
 ---
 
@@ -175,7 +176,7 @@ python scripts/generate_eval_datasets.py
 | Evidence | Value | Source |
 |----------|-------|--------|
 | Client target | ≤ ~5 s user-perceived | Sarah Chen requirement |
-| Production sample | **~3.2–3.9 s** on Render Starter (`old_tom_match`, Tesseract) | `elapsed_ms: 3190` and `3902` on 2026-06-09 live `/verify` smoke |
+| Production sample | **~3.7 s** on Render Starter (`old_tom_match`, Tesseract, `summary: passed`) | `elapsed_ms: 3683` on 2026-06-10 live `/verify` smoke |
 | Local golden eval P95 | **~11.6 ms** (30 fixtures, sidecar OCR path) | `python evals/runners/run_eval_suite.py` |
 | Instrumentation | `elapsed_ms` on every response | [`app/src/verify/pipeline.py`](app/src/verify/pipeline.py) |
 
