@@ -152,7 +152,7 @@ pytest tests/ -v          # 9 tests: test_rules.py (4) + test_eval_metrics.py (5
 python evals/runners/run_eval_suite.py
 ```
 
-The eval suite reports aggregate and **per-field** golden accuracy (`field_accuracy_by_field`), summary accuracy, adversarial warning recall, false-pass rate, RAG hit rate (`rag_hit_rate_by_field`), and P95 latency. CI fails on golden/summary/adversarial regression ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
+The eval suite reports aggregate and **per-field** golden accuracy (`field_accuracy_by_field`), summary accuracy, adversarial warning recall, false-pass rate, RAG hit rate (`rag_hit_rate_by_field`), and P95 latency. CI fails on golden/summary/adversarial regression ([`../.github/workflows/ci.yml`](../.github/workflows/ci.yml)).
 
 ## Regenerate eval data
 

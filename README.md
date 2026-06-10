@@ -51,7 +51,7 @@ Batch verify routes through the factory graph when `USE_FACTORY_GRAPH=true` (sin
 | **Eval discipline** | 30 golden + adversarial + RAG suites; CI fails on regression | [`app/evals/`](app/evals/) |
 | **RAG grounding** | TTB field corpus (markdown); optional Chroma | [`app/src/rag/corpus/`](app/src/rag/corpus/) |
 | **Ports & adapters** | Swappable OCR (Tesseract / Azure / sidecar fallback) | [`app/src/adapters/ocr/`](app/src/adapters/ocr/) |
-| **Production path** | Docker, Render Blueprint, GitHub Actions CI | [`render.yaml`](render.yaml), [`app/.github/workflows/ci.yml`](app/.github/workflows/ci.yml) |
+| **Production path** | Docker, Render Blueprint, GitHub Actions CI | [`render.yaml`](render.yaml), [`.github/workflows/ci.yml`](.github/workflows/ci.yml) |
 
 ---
 

@@ -90,7 +90,7 @@ Observed on 2026-06-09: `200 failed 7 3902.4` — API healthy; `government_warni
 | RAG corpus | [`app/src/rag/corpus/`](app/src/rag/corpus/) | TTB field guidance as markdown for grounding |
 | OCR adapters | [`app/src/adapters/ocr/`](app/src/adapters/ocr/) | Tesseract (default), Azure, sidecar fallback |
 | React UI | [`app/ui/src/App.tsx`](app/ui/src/App.tsx) | Single + batch tabs, side-by-side verdict table |
-| CI | [`app/.github/workflows/ci.yml`](app/.github/workflows/ci.yml) | pytest + eval datasets + **fail on regression** |
+| CI | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | pytest + eval datasets + **fail on regression** |
 
 ### 1.2 Deliverable 2 — Deployed application URL
 
@@ -224,7 +224,7 @@ pytest tests/ -v          # 9 tests: 4 rules + 5 eval metric helpers
 python evals/runners/run_eval_suite.py
 ```
 
-**CI pipeline** ([`app/.github/workflows/ci.yml`](app/.github/workflows/ci.yml)):
+**CI pipeline** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)):
 
 1. `generate_fixtures.py`
 2. `generate_eval_datasets.py`

@@ -32,17 +32,39 @@ def _font(size: int):
         return ImageFont.load_default()
 
 
-def draw_label(lines: list[str], path: Path, width: int = 800, height: int = 1000) -> None:
+def _wrap_line(line: str, font: ImageFont.FreeTypeFont | ImageFont.ImageFont, draw: ImageDraw.ImageDraw, max_width: int) -> list[str]:
+    words = line.split()
+    if not words:
+        return [line]
+    wrapped: list[str] = []
+    current = words[0]
+    for word in words[1:]:
+        candidate = f"{current} {word}"
+        bbox = draw.textbbox((0, 0), candidate, font=font)
+        if bbox[2] - bbox[0] <= max_width:
+            current = candidate
+        else:
+            wrapped.append(current)
+            current = word
+    wrapped.append(current)
+    return wrapped
+
+
+def draw_label(lines: list[str], path: Path, width: int = 800, height: int = 1200) -> None:
     img = Image.new("RGB", (width, height), color=(250, 245, 235))
     draw = ImageDraw.Draw(img)
-    y = 40
+    margin = 40
+    max_text_width = width - (margin * 2)
+    y = margin
     for i, line in enumerate(lines):
         size = 28 if i == 0 else 18
         if line.startswith("GOVERNMENT WARNING"):
             size = 16
         font = _font(size)
-        draw.text((40, y), line, fill=(20, 20, 20), font=font)
-        y += size + 14
+        for wrapped in _wrap_line(line, font, draw, max_text_width):
+            draw.text((margin, y), wrapped, fill=(20, 20, 20), font=font)
+            y += size + 10
+        y += 4
     path.parent.mkdir(parents=True, exist_ok=True)
     img.save(path, format="PNG")
 

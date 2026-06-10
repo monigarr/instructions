@@ -184,7 +184,7 @@ Use this before you submit the interview.
 
 - [x] ≤ ~5 s per label validated on representative samples (note test conditions in README) — eval suite + `elapsed_ms`  
 - [x] Batch upload tested at non-trivial volume — production batch smoke + 30-item `batch_manifest.json`; architecture supports 200–300 via async API ([DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §2.4)
-- [x] 30 golden evals with CI regression gate — [`app/evals/`](app/evals/), [`app/.github/workflows/ci.yml`](app/.github/workflows/ci.yml); **9** pytest tests (4 rules + 5 eval metric helpers)
+- [x] 30 golden evals with CI regression gate — [`app/evals/`](app/evals/), [`.github/workflows/ci.yml`](.github/workflows/ci.yml); **9** pytest tests (4 rules + 5 eval metric helpers)
 - [x] Government warning rule demonstrated (including rejection of wrong-case warning if feasible) — `test_warning_title_case_rejected` in [`app/tests/test_rules.py`](app/tests/test_rules.py)  
 - [x] Standalone — no COLA references as runtime dependency  
 
