@@ -1,76 +1,108 @@
 # Deliverables Proof — LabelForge
 
-**Primary source of truth:** [ClientRequirement.md](ClientRequirement.md)  
-**Submission checklist:** [DELIVERABLES.md](DELIVERABLES.md)  
-**Last verified:** 2026-06-09 (local tests + URL health checks)
+**For code reviewers:** start with §0, then follow the path that matches your role.
 
-This document maps each **client-required deliverable** and **functional requirement** to concrete proof: repository file paths, API endpoints, live URLs, and how an evaluator can reproduce the evidence.
+| Link | Purpose |
+|------|---------|
+| [ClientRequirement.md](ClientRequirement.md) | Authoritative client requirements |
+| [DELIVERABLES.md](DELIVERABLES.md) | Submission checklist |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Agent factory design (implemented in `app/`) |
+
+**Last verified:** 2026-06-09 — 30 golden evals, CI regression gate, pytest green
+
+---
+
+## 0. Sixty-second reviewer summary
+
+**Monica Peters (MoniGarr)** — AI-native full-stack prototype for TTB label verification: **shipped product first**, **deterministic rules for compliance verdicts**, **agent factory + eval harness** for interview-grade depth.
+
+| | |
+|---|---|
+| **Live demo** | [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) |
+| **Repo** | [github.com/monigarr/instructions](https://github.com/monigarr/instructions) |
+| **Client submission** | Live URL + P1 pipeline + 30-fixture catalog |
+| **Interview depth** | 30 golden evals, graph flags, RAG corpus — optional at runtime |
+
+### Client reviewers (ClientRequirement.md)
+
+1. Open the **live URL** → upload `app/fixtures/labels/old_tom_match.png` + paste `app/fixtures/applications/old_tom_match.json`
+2. Try **Batch Verify** with `batch_manifest.json` + label PNGs
+3. Skim §2 below for requirement traceability
+
+Production defaults: `use_factory_graph: false`, `rag_enabled: false`.
+
+### Interview reviewers
+
+1. Run eval suite: `cd app && python evals/runners/run_eval_suite.py`
+2. Enable `USE_FACTORY_GRAPH=true` / `RAG_ENABLED=true` locally
+3. Read [ARCHITECTURE.md](ARCHITECTURE.md) and [`app/src/graph/verification_graph.py`](app/src/graph/verification_graph.py)
+
+**Production smoke (2026-06-09):**
+
+| Check | Result |
+|-------|--------|
+| `GET /health` | `200` — `ocr_provider: tesseract` |
+| `POST /verify` | `200` — 7 field verdicts, ~3 s elapsed on Render Starter |
+| `POST /batch/verify` | `200` — async batch completed |
+| `GET /` (UI) | `200` — LabelForge React app |
 
 ---
 
 ## 1. Client deliverables (authoritative)
 
-[ClientRequirement.md](ClientRequirement.md) § Deliverables lists exactly **two** submissions:
+[ClientRequirement.md](ClientRequirement.md) lists exactly **two** submissions:
 
-| # | Client deliverable | Proof | Status |
-|---|-------------------|-------|--------|
-| 1 | **Source code repository** (GitHub or similar) | [https://github.com/monigarr/instructions](https://github.com/monigarr/instructions) | **Live** |
-| 2 | **Deployed application URL** | [https://labelforge.onrender.com](https://labelforge.onrender.com) | **Suspended** — service exists on Render but owner-suspended; reactivate in Render dashboard or redeploy via [render.yaml](render.yaml) |
+| # | Client deliverable | URL / location | Status |
+|---|-------------------|----------------|--------|
+| 1 | **Source code repository** | [github.com/monigarr/instructions](https://github.com/monigarr/instructions) → [`app/`](app/) | **Complete** |
+| 2 | **Deployed application URL** | [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) | **Live** (Render Starter, Blueprint-managed) |
+
+> **Note:** An older Render hostname (`labelforge.onrender.com`) was owner-suspended. The current production service is **`labelforge-w32d`**, deployed via [`render.yaml`](render.yaml).
 
 ### 1.1 Deliverable 1 — Source code repository
 
 | Client asks for | Where it lives | How to verify |
 |-----------------|----------------|---------------|
-| All source code | [`app/`](app/) — FastAPI backend, React UI, rules, OCR, batch, fixtures, evals | `cd app && pip install -e ".[dev]" && pytest tests/ -v` |
-| README with setup and run instructions | [`app/README.md`](app/README.md) | Follow Quick start; verify sample label |
+| All source code | [`app/`](app/) — FastAPI, React UI, rules, OCR, batch, fixtures, evals, agents, graph | `cd app && pip install -e ".[dev]" && pytest tests/ -v` |
+| README with setup and run instructions | [`app/README.md`](app/README.md) | Quick start + Docker path |
 | Brief approach documentation | [`app/README.md`](app/README.md) § Approach | Stack, verification flow, assumptions, trade-offs |
-| Repo overview + doc index | [`README.md`](README.md) | Links to client docs and `app/` |
+| Repo overview | [`README.md`](README.md) | Client vs interview reviewer paths |
+| Synthetic test labels | [`app/fixtures/`](app/fixtures/) — **30** golden cases | `python scripts/generate_fixtures.py` |
 
-**Key application paths:**
+**Interview-only depth (not client submission items):**
 
-| Area | Path |
-|------|------|
-| API entrypoint | [`app/src/api/main.py`](app/src/api/main.py) |
-| Single-label pipeline | [`app/src/verify/pipeline.py`](app/src/verify/pipeline.py) |
-| Batch processing | [`app/src/verify/batch_service.py`](app/src/verify/batch_service.py) |
-| TTB field rules | [`app/src/rules/field_rules.py`](app/src/rules/field_rules.py) |
-| OCR (offline default) | [`app/src/adapters/ocr/tesseract_provider.py`](app/src/adapters/ocr/tesseract_provider.py) |
-| OCR fallback / firewall-safe | [`app/src/adapters/ocr/sidecar_provider.py`](app/src/adapters/ocr/sidecar_provider.py) |
-| React UI (single + batch tabs) | [`app/ui/src/App.tsx`](app/ui/src/App.tsx) |
-| Test labels + application fixtures | [`app/fixtures/labels/`](app/fixtures/labels/), [`app/fixtures/applications/`](app/fixtures/applications/) |
-| Environment template (no secrets) | [`app/.env.example`](app/.env.example) |
-| Unit tests | [`app/tests/test_rules.py`](app/tests/test_rules.py) |
-| Eval harness (golden + adversarial) | [`app/evals/`](app/evals/) |
-| CI | [`app/.github/workflows/ci.yml`](app/.github/workflows/ci.yml) |
-| Docker / production image | [`app/Dockerfile`](app/Dockerfile), [`app/docker-compose.yml`](app/docker-compose.yml) |
+| Capability | Path | One-line description |
+|------------|------|----------------------|
+| P1 verification pipeline | [`app/src/verify/pipeline.py`](app/src/verify/pipeline.py) | Ingest → OCR → structure → rules → result |
+| Deterministic TTB rules | [`app/src/rules/field_rules.py`](app/src/rules/field_rules.py) | Reproducible match/mismatch/needs_review per field |
+| Agent factory + DI | [`app/src/factory/labelforge_factory.py`](app/src/factory/labelforge_factory.py) | Wires pipeline or LangGraph runner from config |
+| LangGraph orchestration | [`app/src/graph/verification_graph.py`](app/src/graph/verification_graph.py) | Conditional OCR fallback, agent nodes |
+| Specialized agents | [`app/src/agents/`](app/src/agents/) | Ingestion, vision, structuring, nuance, RAG, explanation |
+| Eval harness | [`app/evals/`](app/evals/) | **30 golden** + adversarial + RAG query metrics |
+| RAG corpus | [`app/src/rag/corpus/`](app/src/rag/corpus/) | TTB field guidance as markdown for grounding |
+| OCR adapters | [`app/src/adapters/ocr/`](app/src/adapters/ocr/) | Tesseract (default), Azure, sidecar fallback |
+| React UI | [`app/ui/src/App.tsx`](app/ui/src/App.tsx) | Single + batch tabs, side-by-side verdict table |
+| CI | [`app/.github/workflows/ci.yml`](app/.github/workflows/ci.yml) | pytest + eval datasets + **fail on regression** |
 
 ### 1.2 Deliverable 2 — Deployed application URL
 
-| Environment | URL | Proof endpoint | Status (2026-06-09) |
-|-------------|-----|----------------|---------------------|
-| **Production (Render)** | [https://labelforge.onrender.com](https://labelforge.onrender.com) | `GET /health` | **Suspended** — redeploy or resume service on Render |
-| **Production UI** | [https://labelforge.onrender.com/](https://labelforge.onrender.com/) | Browser: Single Label + Batch tabs | Same as above |
-| **Local API + built UI (Docker)** | [http://localhost:8000](http://localhost:8000) | `GET /health` | Works after `cd app && docker compose up --build` |
-| **Local dev UI** | [http://localhost:5173](http://localhost:5173) | Vite dev server | Works with API on port 8000 |
+| Environment | URL | Proof | Status |
+|-------------|-----|-------|--------|
+| **Production** | [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) | `GET /health`, UI at `/` | **Live** |
+| **Local Docker** | [http://localhost:8000](http://localhost:8000) | Same API + built UI | After `cd app && docker compose up --build` |
+| **Local dev UI** | [http://localhost:5173](http://localhost:5173) | Vite proxy to API :8000 | `cd app/ui && npm run dev` |
 
-**Deployment configuration (proof deploy is wired):**
-
-| Artifact | Path | Purpose |
-|----------|------|---------|
-| Render Blueprint | [`render.yaml`](render.yaml) | One-click deploy; root dir `app`, health `/health` |
-| Deploy guide | [`app/DEPLOY.md`](app/DEPLOY.md) | Render, Railway, Docker smoke tests |
-| Railway config | [`app/railway.toml`](app/railway.toml) | Alternative platform |
-
-**Smoke test (replace URL when production is live):**
+**Smoke test (production):**
 
 ```bash
-curl https://labelforge.onrender.com/health
-curl -X POST https://labelforge.onrender.com/verify \
+curl https://labelforge-w32d.onrender.com/health
+
+curl -X POST https://labelforge-w32d.onrender.com/verify \
   -F "image=@app/fixtures/labels/old_tom_match.png" \
   -F "application=$(cat app/fixtures/applications/old_tom_match.json)"
 ```
 
-**Expected `/health` response shape** (from [`app/src/api/main.py`](app/src/api/main.py)):
+**Expected `/health`:**
 
 ```json
 {
@@ -85,163 +117,176 @@ curl -X POST https://labelforge.onrender.com/verify \
 
 ## 2. Functional requirements proof
 
-Derived from [ClientRequirement.md](ClientRequirement.md). Each row links stakeholder context to implementation evidence.
+Derived from [ClientRequirement.md](ClientRequirement.md).
 
 ### 2.1 Core workflow
 
 | Requirement | Proof (files) | Live / local proof |
 |-------------|---------------|-------------------|
-| Upload label + application data | UI: [`app/ui/src/App.tsx`](app/ui/src/App.tsx) (`onVerifySingle`, batch upload); API: `POST /verify`, `POST /batch/verify` in [`app/src/api/main.py`](app/src/api/main.py) | Upload `old_tom_match.png` + paste JSON from [`app/fixtures/applications/old_tom_match.json`](app/fixtures/applications/old_tom_match.json) |
-| Extract text/fields from label | [`app/src/adapters/ocr/`](app/src/adapters/ocr/), [`app/src/structure/field_mapper.py`](app/src/structure/field_mapper.py) | Response includes structured `verdicts` with `label_value` per field |
-| Compare field by field | [`app/src/rules/engine.py`](app/src/rules/engine.py), [`app/src/rules/field_rules.py`](app/src/rules/field_rules.py) | Verdict table: Application vs Label columns in UI |
-| Match / mismatch / unable to verify | `VerdictStatus` in [`app/src/domain/models.py`](app/src/domain/models.py); rules return per-field status + `reason` | See `warning_title_case` and `unreadable_blank` fixtures |
-| Human retains final judgment | UI footer + `needs_review` status; no auto-approve in pipeline | [`app/ui/src/App.tsx`](app/ui/src/App.tsx) footer; `BrandFuzzyRule` → `needs_review` |
+| Upload label + application data | [`app/ui/src/App.tsx`](app/ui/src/App.tsx); `POST /verify`, `POST /batch/verify` | [Live demo](https://labelforge-w32d.onrender.com) — `old_tom_match` |
+| Extract text/fields | [`app/src/adapters/ocr/`](app/src/adapters/ocr/), [`app/src/structure/field_mapper.py`](app/src/structure/field_mapper.py) | Response `verdicts[].label_value` per field |
+| Compare field by field | [`app/src/rules/engine.py`](app/src/rules/engine.py), [`app/src/rules/field_rules.py`](app/src/rules/field_rules.py) | UI columns: Application vs Label |
+| Match / mismatch / unable to verify | [`app/src/domain/models.py`](app/src/domain/models.py) | Fixtures `warning_title_case`, `unreadable_blank` |
+| Human retains final judgment | `needs_review` verdicts; no auto-approve | `BrandFuzzyRule` → `needs_review`; UI footer |
 
-### 2.2 TTB label fields (minimum)
+### 2.2 TTB label fields
 
-Client distilled-spirits example in [`app/fixtures/applications/old_tom_match.json`](app/fixtures/applications/old_tom_match.json):
-
-| Field | Example value | Rule implementation |
-|-------|---------------|---------------------|
-| Brand name | `OLD TOM DISTILLERY` | `BrandFuzzyRule` — [`app/src/rules/field_rules.py`](app/src/rules/field_rules.py) |
+| Field | Example | Rule |
+|-------|---------|------|
+| Brand name | `OLD TOM DISTILLERY` | `BrandFuzzyRule` |
 | Class / type | `Kentucky Straight Bourbon Whiskey` | `ClassTypeRule` |
 | Alcohol content | `45% Alc./Vol. (90 Proof)` | `ABVPatternRule` |
 | Net contents | `750 mL` | `NetContentsRule` |
-| Government warning | Canonical TTB text | `WarningExactRule` + [`app/src/domain/constants.py`](app/src/domain/constants.py) |
-| Bottler/producer address | `Old Tom Distillery, Louisville, KY 40202` | `AddressRule` |
-| Country of origin | (imports) | `CountryOfOriginRule`; fixture [`import_france`](app/fixtures/applications/import_france.json) |
+| Government warning | Canonical TTB text | `WarningExactRule` + [`constants.py`](app/src/domain/constants.py) |
+| Bottler/producer address | Louisville, KY | `AddressContainsRule` |
+| Country of origin | France, Scotland, Japan, Mexico (imports) | `CountryExactRule` |
 
-**Additional test labels** (client-encouraged):
+**Fixture catalog (30 golden evals):**
 
-| Fixture stem | Label image | Application JSON | Demonstrates |
-|--------------|-------------|------------------|--------------|
-| `old_tom_match` | [`app/fixtures/labels/old_tom_match.png`](app/fixtures/labels/old_tom_match.png) | [`app/fixtures/applications/old_tom_match.json`](app/fixtures/applications/old_tom_match.json) | Happy path — client sample |
-| `old_tom_abv_mismatch` | [`app/fixtures/labels/old_tom_abv_mismatch.png`](app/fixtures/labels/old_tom_abv_mismatch.png) | [`app/fixtures/applications/old_tom_abv_mismatch.json`](app/fixtures/applications/old_tom_abv_mismatch.json) | ABV mismatch |
-| `warning_title_case` | [`app/fixtures/labels/warning_title_case.png`](app/fixtures/labels/warning_title_case.png) | [`app/fixtures/applications/warning_title_case.json`](app/fixtures/applications/warning_title_case.json) | Rejects title-case warning (Jenny Park) |
-| `stones_throw_brand` | [`app/fixtures/labels/stones_throw_brand.png`](app/fixtures/labels/stones_throw_brand.png) | [`app/fixtures/applications/stones_throw_brand.json`](app/fixtures/applications/stones_throw_brand.json) | Brand casing nuance (Dave Morrison) |
-| `import_france` | [`app/fixtures/labels/import_france.png`](app/fixtures/labels/import_france.png) | [`app/fixtures/applications/import_france.json`](app/fixtures/applications/import_france.json) | Country of origin |
-| `unreadable_blank` | [`app/fixtures/labels/unreadable_blank.png`](app/fixtures/labels/unreadable_blank.png) | [`app/fixtures/applications/unreadable_blank.json`](app/fixtures/applications/unreadable_blank.json) | Unreadable upload handling |
+| Category | Fixture IDs |
+|----------|-------------|
+| Happy path | `old_tom_match`, `vodka_match`, `gin_match`, `rum_match`, `tequila_match`, `scotch_import_match`, `japan_import_match`, `mexico_tequila_import`, `import_france`, `class_type_lowercase_match`, `abv_format_variant_match`, `domestic_no_address_match` |
+| Sarah — mismatches | `old_tom_abv_mismatch`, `net_contents_mismatch`, `net_contents_floz_mismatch`, `class_type_mismatch`, `proof_mismatch`, `brand_hard_mismatch`, `address_mismatch` |
+| Jenny — warnings | `warning_title_case`, `warning_wording_change`, `warning_truncated`, `warning_missing` |
+| Dave — brand nuance | `stones_throw_brand`, `brand_casing_nuance`, `brand_apostrophe_nuance`, `brand_substring_nuance` |
+| Imports — failures | `import_country_mismatch`, `scotch_country_mismatch` |
+| Error handling | `unreadable_blank` |
 
-Regenerate all fixtures: `cd app && python scripts/generate_fixtures.py` ([`app/scripts/generate_fixtures.py`](app/scripts/generate_fixtures.py))
+Canonical manifest: [`app/evals/datasets/golden_labels.jsonl`](app/evals/datasets/golden_labels.jsonl)
+
+Regenerate:
+
+```bash
+cd app
+python scripts/generate_fixtures.py
+python scripts/generate_eval_datasets.py
+```
 
 ### 2.3 Performance (~5 seconds per label)
 
 | Evidence | Value | Source |
 |----------|-------|--------|
-| `elapsed_ms` in API response | Returned on every `/verify` call | [`app/src/verify/pipeline.py`](app/src/verify/pipeline.py) |
-| UI displays latency | Summary line shows ms | [`app/ui/src/App.tsx`](app/ui/src/App.tsx) |
-| Eval P95 (golden suite, local, 6 fixtures) | **7.8 ms** P95 | `python evals/runners/run_eval_suite.py` — [`app/evals/metrics/latency_p95.py`](app/evals/metrics/latency_p95.py) |
-| Documented target | ≤ ~5 s user-perceived | [`app/README.md`](app/README.md) § Performance |
-
-> **Note:** Eval P95 uses synthetic fixtures with sidecar OCR on developer hardware. Production P95 depends on instance size and cold start; document test conditions when reporting live numbers.
+| Client target | ≤ ~5 s user-perceived | Sarah Chen requirement |
+| Production sample | ~3 s on Render Starter | `elapsed_ms` from live `/verify` |
+| Local golden eval P95 | **~18 ms** (30 fixtures, sidecar OCR path) | `python evals/runners/run_eval_suite.py` |
+| Instrumentation | `elapsed_ms` on every response | [`app/src/verify/pipeline.py`](app/src/verify/pipeline.py) |
 
 ### 2.4 Batch processing (200–300 scale)
 
 | Evidence | Location |
 |----------|----------|
-| Async batch API | `POST /batch/verify`, `GET /batch/{batch_id}` — [`app/src/api/main.py`](app/src/api/main.py) |
-| CSV batch path | `POST /batch/verify-csv` |
-| Concurrency cap (protects latency) | `BATCH_CONCURRENCY` default 6 — [`app/src/config.py`](app/src/config.py) |
-| Progress + summary (passed/failed/needs review) | [`app/src/verify/batch_service.py`](app/src/verify/batch_service.py), batch tab in [`app/ui/src/App.tsx`](app/ui/src/App.tsx) |
-| Sample manifest | [`app/fixtures/applications/batch_manifest.json`](app/fixtures/applications/batch_manifest.json) |
+| Async batch API | `POST /batch/verify`, `GET /batch/{batch_id}` |
+| CSV batch | `POST /batch/verify-csv` |
+| Concurrency cap | `BATCH_CONCURRENCY=6` |
+| Progress UI | Batch tab in [`app/ui/src/App.tsx`](app/ui/src/App.tsx) |
+| Sample manifest | [`app/fixtures/applications/batch_manifest.json`](app/fixtures/applications/batch_manifest.json) — 30 entries |
+| Factory graph parity | [`app/src/verify/batch_service.py`](app/src/verify/batch_service.py) uses LangGraph when `USE_FACTORY_GRAPH=true` |
 
-Architecture supports 200–300 items per session via async processing; test at scale locally or on deployed URL before submission.
-
-### 2.5 User experience
+### 2.5 UX & error handling
 
 | Requirement | Proof |
 |-------------|-------|
-| Clean, obvious UI | Two top-level tabs: **Single Label** / **Batch** — [`app/ui/src/App.tsx`](app/ui/src/App.tsx) |
-| Side-by-side application vs label | Verdict table columns: Application, Label, Verdict |
-| No hidden critical actions | Primary buttons: "Verify Label", "Start Batch Verification" |
-| Standalone disclaimer | UI footer: no COLA integration |
-
-### 2.6 Error handling
-
-| Scenario | Proof |
-|----------|-------|
-| Bad upload / unreadable image | [`app/src/ingest/validator.py`](app/src/ingest/validator.py); fixture `unreadable_blank` |
-| Invalid JSON | API 400 + UI error message |
-| Low-confidence extraction | `unable_to_verify` verdicts; rules check `extraction_confidence` |
-| Government warning title case | Unit test `test_warning_title_case_rejected` — [`app/tests/test_rules.py`](app/tests/test_rules.py) |
+| Obvious UI — two tabs | Single Label / Batch Verify |
+| Side-by-side mismatch view | Verdict table: Application, Label, Verdict |
+| Actionable errors | [`app/src/ingest/validator.py`](app/src/ingest/validator.py); `unreadable_blank` fixture |
+| Warning title-case rejection | `test_warning_title_case_rejected` in [`app/tests/test_rules.py`](app/tests/test_rules.py) |
 
 ---
 
 ## 3. Constraints proof
 
-| Constraint | Client source | Proof |
-|------------|---------------|-------|
-| Standalone — no COLA | Marcus Williams | No COLA imports or API calls; documented in [`app/README.md`](app/README.md) |
-| No sensitive data | Marcus Williams | Synthetic fixtures only in [`app/fixtures/`](app/fixtures/) |
-| Prototype security | Marcus Williams | [`.env.example`](app/.env.example) — no secrets committed; `.gitignore` in [`app/.gitignore`](app/.gitignore) |
-| Firewall / egress | Marcus Williams | Tesseract default (`OCR_PROVIDER=tesseract`); optional Azure with fallback — [`app/src/adapters/ocr/factory.py`](app/src/adapters/ocr/factory.py) |
-| Working core over ambition | Evaluation criteria | P1 pipeline ships; P2+ factory/graph/RAG behind env flags |
+| Constraint | Proof |
+|------------|-------|
+| Standalone — no COLA | No COLA imports; documented in README |
+| No sensitive data | Synthetic fixtures only |
+| Prototype security | `.env.example` only; no secrets in git |
+| Firewall / egress | Tesseract default; Azure optional with fallback |
+| Working core over ambition | P1 ships by default; P2+ behind env flags |
 
 ---
 
-## 4. Automated proof (run locally)
+## 4. Automated proof (local + CI)
 
 ```bash
 cd app
 pip install -e ".[dev]"
 python scripts/generate_fixtures.py
-pytest tests/ -v                    # 4 passed (2026-06-09)
+python scripts/generate_eval_datasets.py
+pytest tests/ -v
 python evals/runners/run_eval_suite.py
 ```
 
-**Eval suite output (2026-06-09):**
+**CI pipeline** ([`app/.github/workflows/ci.yml`](app/.github/workflows/ci.yml)):
+
+1. `generate_fixtures.py`
+2. `generate_eval_datasets.py`
+3. `pytest tests/ -v`
+4. `run_eval_suite.py` — **fails build on regression**
+
+**Eval suite (2026-06-09, 30 golden):**
 
 ```json
 {
   "golden": {
-    "golden_count": 6,
+    "golden_count": 30,
     "field_accuracy_avg": 1.0,
-    "latency_p95_ms": 7.8,
-    "latency_samples": 6
+    "summary_accuracy": 1.0,
+    "latency_p95_ms": 17.9,
+    "latency_samples": 30
   },
   "adversarial": {
-    "warning_recall": 1.0
+    "warning_recall": 1.0,
+    "false_pass_rate": 0.0
+  },
+  "rag": {
+    "rag_hit_rate_avg": 1.0,
+    "rag_query_count": 5
   }
 }
 ```
 
 ---
 
-## 5. API reference (proof endpoints)
+## 5. API reference
 
-| Method | Path | Purpose | Defined in |
-|--------|------|---------|------------|
-| `GET` | `/health` | Liveness + config | [`app/src/api/main.py`](app/src/api/main.py) |
-| `POST` | `/verify` | Single-label verification | same |
-| `POST` | `/batch/verify` | Batch (JSON manifest + images) | same |
-| `POST` | `/batch/verify-csv` | Batch (CSV manifest) | same |
-| `GET` | `/batch/{batch_id}` | Poll batch progress | same |
+| Method | Path | Purpose |
+|--------|------|---------|
+| `GET` | `/health` | Liveness + config |
+| `POST` | `/verify` | Single-label verification |
+| `POST` | `/batch/verify` | Batch (JSON manifest + images) |
+| `POST` | `/batch/verify-csv` | Batch (CSV manifest) |
+| `GET` | `/batch/{batch_id}` | Poll batch progress |
 
----
-
-## 6. Submission readiness snapshot
-
-| Item | Ready? | Action if not |
-|------|--------|---------------|
-| GitHub repo with full source | **Yes** | — |
-| README + approach docs | **Yes** | — |
-| Fixtures + tests | **Yes** | — |
-| Render Blueprint + Docker | **Yes** | — |
-| Live HTTPS URL responding | **No** | Resume or redeploy [labelforge on Render](https://labelforge.onrender.com); update [`app/README.md`](app/README.md) Demo URL when live |
+Defined in [`app/src/api/main.py`](app/src/api/main.py).
 
 ---
 
-## 7. Document map (this repository)
+## 6. Submission readiness
+
+| Item | Ready? |
+|------|--------|
+| GitHub repo with full source | **Yes** |
+| README + approach docs | **Yes** |
+| 30 fixtures + tests + evals | **Yes** |
+| CI regression gate | **Yes** |
+| Render Blueprint + Docker | **Yes** |
+| Live HTTPS URL responding | **Yes** — [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) |
+| Single + batch on production | **Yes** |
+
+---
+
+## 7. Document map
 
 | Document | Role |
 |----------|------|
-| [ClientRequirement.md](ClientRequirement.md) | **Source of truth** — two deliverables only |
-| **This file** | Proof index — file paths + URLs |
-| [DELIVERABLES.md](DELIVERABLES.md) | Submission checklist |
+| [ClientRequirement.md](ClientRequirement.md) | Source of truth — two deliverables |
+| **This file** | Proof index for reviewers |
+| [README.md](README.md) | Reviewer entry — client vs interview paths |
+| [DELIVERABLES.md](DELIVERABLES.md) | Checklist |
 | [PRD.md](PRD.md) | Product requirements |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Phased factory design (P2+ in codebase) |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Agent factory design |
 | [app/README.md](app/README.md) | Runnable app docs |
 
 ---
 
-*Maintained by Monica Peters (MoniGarr) — Gauntlet AI GFA Cohort 5 Fellowship, 2026*
+*Monica Peters (MoniGarr) — Gauntlet AI GFA Cohort 5 Fellowship, 2026*

@@ -22,13 +22,15 @@ jobs:
       - name: Generate fixtures
         working-directory: app
         run: python scripts/generate_fixtures.py
+      - name: Generate eval datasets
+        working-directory: app
+        run: python scripts/generate_eval_datasets.py
       - name: Unit tests
         working-directory: app
         run: pytest tests/ -v
       - name: Eval suite
         working-directory: app
         run: python evals/runners/run_eval_suite.py
-        continue-on-error: true
 
   ui:
     runs-on: ubuntu-latest

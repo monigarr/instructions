@@ -30,7 +30,7 @@ app.add_middleware(
 
 _factory = LabelForgeFactory()
 _pipeline = _factory.create_pipeline()
-_batch_service = BatchVerificationService(_pipeline)
+_batch_service = BatchVerificationService(pipeline=_pipeline, factory=_factory)
 
 
 def _parse_application(data: str, label_id: str = "single") -> ApplicationRecord:

@@ -5,7 +5,7 @@
 **Primary source:** [ClientRequirement.md](ClientRequirement.md)  
 **Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md)  
 **Deliverables:** [DELIVERABLES.md](DELIVERABLES.md)  
-**Status:** Implemented (P1 + P2+ in `app/`); production URL pending reactivation  
+**Status:** Implemented (P1 + P2+ in `app/`); **production live** at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com)  
 **Author:** Monica Peters (MoniGarr) | Gauntlet AI GFA Cohort 5 Fellowship, 2026  
 **Last updated:** 2026-06-09
 
@@ -390,7 +390,7 @@ All production code files must use [CODE_COMMENT_HEADER_TEMPLATE.md](CODE_COMMEN
 **Proof with file paths and URLs:** [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md).
 
 **Current repository:** [github.com/monigarr/instructions](https://github.com/monigarr/instructions) — application in [`app/`](app/).  
-**Deployed URL:** [labelforge.onrender.com](https://labelforge.onrender.com) (Render service suspended as of 2026-06-09; reactivate before submission).
+**Deployed URL:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) — Render Starter, Blueprint-managed ([`render.yaml`](render.yaml)). Proof: [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md).
 
 Only **two submissions** are mandatory. LabelForge factory work (§7) is **phased engineering depth** — prove it in **code + README approach**, not as extra doc deliverables.
 
@@ -470,12 +470,14 @@ Omitting P2+ folders does **not** fail submission if §10.1–10.2 are met. Docu
 
 ### Interview evaluators (AI-native depth)
 
-7. **Agent factory pattern** — composable agents with clear boundaries
-8. **Graph orchestration** — stateful workflow, fallbacks, observability
-9. **RAG discipline** — grounded retrieval; rules own verdicts
-10. **Eval culture** — golden datasets, CI gates, adversarial cases
-11. **S.O.L.I.D. evidence** — interfaces, dependency injection, extensibility
-12. **Pragmatic shipping** — working core over vaporware; documented trade-offs
+Evidence map: [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §1.1 · Live demo: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com)
+
+7. **Agent factory pattern** — composable agents with clear boundaries → [`app/src/factory/`](app/src/factory/)
+8. **Graph orchestration** — stateful workflow, fallbacks → [`app/src/graph/`](app/src/graph/)
+9. **RAG discipline** — grounded retrieval; rules own verdicts → [`app/src/rag/`](app/src/rag/)
+10. **Eval culture** — golden datasets, CI gates, adversarial cases → [`app/evals/`](app/evals/)
+11. **S.O.L.I.D. evidence** — interfaces, DI, OCR adapters → [`app/src/domain/interfaces.py`](app/src/domain/interfaces.py)
+12. **Pragmatic shipping** — P1 live on Render; P2+ behind flags → [`render.yaml`](render.yaml), [`app/README.md`](app/README.md)
 
 **Guidance:** **P1 satisfies ClientRequirement.md.** P2–P4 add interview craft; never block URL submission on eval CI or full graph.
 

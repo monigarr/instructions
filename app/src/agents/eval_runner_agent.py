@@ -17,8 +17,9 @@ class EvalRunnerAgent:
         from evals.runners import run_eval_suite
 
         golden = await run_eval_suite.run_golden()
-        adversarial = run_eval_suite.run_adversarial_warning()
-        return {"golden": golden, "adversarial": adversarial}
+        adversarial = run_eval_suite.run_adversarial()
+        rag = await run_eval_suite.run_rag()
+        return {"golden": golden, "adversarial": adversarial, "rag": rag}
 
     async def run_and_print(self) -> int:
         report = await self.run()

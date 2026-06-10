@@ -4,25 +4,43 @@ from __future__ import annotations
 
 import asyncio
 import uuid
+from collections.abc import Awaitable, Callable
 from typing import TYPE_CHECKING
 
 from src.config import settings
 from src.domain.interfaces import IBatchSupervisor
-from src.domain.models import ApplicationRecord, BatchItemResult, BatchProgress, LabelSummary
+from src.domain.models import ApplicationRecord, BatchItemResult, BatchProgress, LabelSummary, VerificationResult
 from src.verify.pipeline import VerificationPipeline
 
 if TYPE_CHECKING:
-    pass
+    from src.factory.labelforge_factory import LabelForgeFactory
+
+VerifyFn = Callable[[bytes, ApplicationRecord, str | None], Awaitable[VerificationResult]]
 
 
 class BatchVerificationService(IBatchSupervisor):
-    def __init__(self, pipeline: VerificationPipeline | None = None) -> None:
+    def __init__(
+        self,
+        pipeline: VerificationPipeline | None = None,
+        factory: LabelForgeFactory | None = None,
+        verify_fn: VerifyFn | None = None,
+    ) -> None:
+        self._factory = factory
         self._pipeline = pipeline or VerificationPipeline()
+        self._verify_fn = verify_fn
         self._batches: dict[str, BatchProgress] = {}
         self._lock = asyncio.Lock()
 
     def get_progress(self, batch_id: str) -> BatchProgress | None:
         return self._batches.get(batch_id)
+
+    async def _verify(self, image: bytes, app: ApplicationRecord, content_type: str | None) -> VerificationResult:
+        if self._verify_fn is not None:
+            return await self._verify_fn(image, app, content_type)
+        if settings.use_factory_graph and self._factory is not None:
+            runner = self._factory.create_graph_runner()
+            return await runner.run(image, app, trace_id=app.label_id)
+        return await self._pipeline.verify(image, app, content_type)
 
     async def run_batch(
         self,
@@ -46,7 +64,7 @@ class BatchVerificationService(IBatchSupervisor):
         async def _process(label_id: str, image: bytes, app: ApplicationRecord, ctype: str | None):
             async with sem:
                 try:
-                    result = await self._pipeline.verify(image, app, ctype)
+                    result = await self._verify(image, app, ctype)
                     if result.errors and not result.verdicts:
                         item = BatchItemResult(label_id=label_id, status=LabelSummary.FAILED, error="; ".join(result.errors))
                         progress.errors += 1
@@ -91,7 +109,7 @@ class BatchVerificationService(IBatchSupervisor):
             async def _process(label_id: str, image: bytes, app: ApplicationRecord, ctype: str | None):
                 async with sem:
                     try:
-                        result = await self._pipeline.verify(image, app, ctype)
+                        result = await self._verify(image, app, ctype)
                         if result.errors and not result.verdicts:
                             item = BatchItemResult(
                                 label_id=label_id, status=LabelSummary.FAILED, error="; ".join(result.errors)

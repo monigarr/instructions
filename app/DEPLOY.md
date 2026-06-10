@@ -1,9 +1,9 @@
 # Deployment Guide
 
-**Production URL:** https://labelforge.onrender.com (Render Blueprint in [`render.yaml`](../render.yaml))  
-**Proof index:** [DELIVERABLES_PROOF.md](../DELIVERABLES_PROOF.md)
+**Production URL:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com)  
+**Blueprint:** [`render.yaml`](../render.yaml) · **Proof index:** [DELIVERABLES_PROOF.md](../DELIVERABLES_PROOF.md)
 
-> As of 2026-06-09 the Render service is **owner-suspended**. Resume it in the Render dashboard or redeploy via Blueprint before interview submission.
+Live on Render Starter (always-on). Tesseract OCR runs in-container; no API keys required for the default demo path.
 
 ## Docker (recommended)
 
@@ -81,8 +81,8 @@ Optional Azure OCR keys from `.env.example` only if you want cloud OCR instead o
 ## Smoke test after deploy
 
 ```bash
-curl https://YOUR_URL/health
-curl -X POST https://YOUR_URL/verify \
+curl https://labelforge-w32d.onrender.com/health
+curl -X POST https://labelforge-w32d.onrender.com/verify \
   -F "image=@fixtures/labels/old_tom_match.png" \
   -F "application=$(cat fixtures/applications/old_tom_match.json)"
 ```

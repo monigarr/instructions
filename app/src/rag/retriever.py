@@ -31,6 +31,35 @@ def _load_corpus_chunks() -> list[dict]:
     return chunks
 
 
+def _query_overlap_score(query: str, excerpt: str) -> float:
+    tokens = [t for t in query.lower().replace("—", " ").replace("?", " ").split() if len(t) > 2]
+    if not tokens:
+        return 0.0
+    excerpt_lower = excerpt.lower()
+    return sum(1 for token in tokens if token in excerpt_lower) / len(tokens)
+
+
+def _fallback_chunks(field: str, query: str, top_k: int) -> list[RAGChunk]:
+    ranked: list[tuple[float, dict]] = []
+    for chunk in _load_corpus_chunks():
+        if chunk["field"] != field:
+            continue
+        score = _query_overlap_score(query, chunk["excerpt"])
+        ranked.append((score, chunk))
+    ranked.sort(key=lambda item: item[0], reverse=True)
+    chunks: list[RAGChunk] = []
+    for score, chunk in ranked[:top_k]:
+        chunks.append(
+            RAGChunk(
+                chunk_id=chunk["chunk_id"],
+                field=chunk["field"],
+                excerpt=chunk["excerpt"],
+                score=max(score, 0.1),
+            )
+        )
+    return chunks
+
+
 def _get_index():
     global _INDEX
     if _INDEX is not None:
@@ -66,10 +95,7 @@ class ChromaRAGRetriever(IRAGRetriever):
         index = _get_index()
         chunks: list[RAGChunk] = []
         if isinstance(index, dict) and "fallback" in index:
-            for c in index["fallback"]:
-                if field.replace("_", "") in c["field"].replace("_", "") or field in c["excerpt"].lower():
-                    chunks.append(RAGChunk(chunk_id=c["chunk_id"], field=c["field"], excerpt=c["excerpt"], score=0.5))
-            return RAGContext(field=field, chunks=chunks[:top_k])
+            return RAGContext(field=field, chunks=_fallback_chunks(field, query, top_k))
         try:
             results = index.query(query_texts=[query], n_results=top_k, where={"field": field})
             ids = results["ids"][0] if results["ids"] else []
@@ -79,7 +105,5 @@ class ChromaRAGRetriever(IRAGRetriever):
                 score = max(0.0, 1.0 - float(dist))
                 chunks.append(RAGChunk(chunk_id=cid, field=field, excerpt=doc, score=score))
         except Exception:
-            for c in _load_corpus_chunks():
-                if field in c["field"]:
-                    chunks.append(RAGChunk(chunk_id=c["chunk_id"], field=c["field"], excerpt=c["excerpt"], score=0.4))
+            chunks = _fallback_chunks(field, query, top_k)
         return RAGContext(field=field, chunks=chunks[:top_k])

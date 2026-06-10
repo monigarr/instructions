@@ -1,1 +1,4 @@
-{"label_id": "warning_title_case", "issue": "title_case_warning_header", "expected_warning_status": "mismatch"}
+{"label_id": "warning_title_case", "issue": "title_case_warning_header", "rule": "government_warning", "expected_status": "mismatch"}
+{"label_id": "warning_wording_change", "issue": "paraphrased_warning_body", "rule": "government_warning", "expected_status": "mismatch"}
+{"label_id": "warning_missing", "issue": "missing_warning", "rule": "government_warning", "expected_status": "unable_to_verify"}
+{"label_id": "low_confidence_blank", "issue": "false_pass_bait", "rule": "false_pass", "expected_status": "no_auto_pass"}

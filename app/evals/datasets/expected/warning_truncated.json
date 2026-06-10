@@ -1,0 +1,30 @@
+[
+  {
+    "field": "brand_name",
+    "status": "match"
+  },
+  {
+    "field": "class_type",
+    "status": "match"
+  },
+  {
+    "field": "alcohol_content",
+    "status": "match"
+  },
+  {
+    "field": "net_contents",
+    "status": "match"
+  },
+  {
+    "field": "government_warning",
+    "status": "mismatch"
+  },
+  {
+    "field": "bottler_producer_address",
+    "status": "match"
+  },
+  {
+    "field": "country_of_origin",
+    "status": "match"
+  }
+]

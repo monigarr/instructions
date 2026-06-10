@@ -2,6 +2,30 @@
 
 Standalone proof-of-concept for TTB compliance agents: upload label artwork, compare extracted fields to application data, and review match/mismatch results — single label or batch.
 
+**Live demo:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) · **Proof index:** [DELIVERABLES_PROOF.md](../DELIVERABLES_PROOF.md)
+
+---
+
+## For code reviewers
+
+**Client reviewers** ([ClientRequirement.md](../ClientRequirement.md)): live URL → P1 pipeline → [fixture catalog](#fixtures) below. That is the submission.
+
+**Interview reviewers:** eval harness, graph flags, RAG — see [repo README](../README.md) § Interview reviewers.
+
+| If you want to see… | Start here |
+|---------------------|------------|
+| End-to-end P1 pipeline (default deploy) | [`src/verify/pipeline.py`](src/verify/pipeline.py) |
+| Deterministic compliance rules | [`src/rules/field_rules.py`](src/rules/field_rules.py) |
+| Agent factory + LangGraph (optional) | [`src/factory/labelforge_factory.py`](src/factory/labelforge_factory.py), [`src/graph/verification_graph.py`](src/graph/verification_graph.py) |
+| Eval gates — 30 golden + adversarial + RAG | [`evals/runners/run_eval_suite.py`](evals/runners/run_eval_suite.py) |
+| RAG corpus + agent (optional) | [`src/rag/corpus/`](src/rag/corpus/), [`src/agents/compliance_rag_agent.py`](src/agents/compliance_rag_agent.py) |
+| UI (single + batch) | [`ui/src/App.tsx`](ui/src/App.tsx) |
+| API surface | [`src/api/main.py`](src/api/main.py) |
+
+**Design principle:** rules own verdict bits; AI assists extraction and nuance (`needs_review`), not legal auto-approve. P2+ depth is toggled via `USE_FACTORY_GRAPH` / `RAG_ENABLED` — default deploy stays fast and auditable. Single **and batch** verify use the factory graph when `USE_FACTORY_GRAPH=true`.
+
+---
+
 ## Quick start
 
 ### Prerequisites
@@ -88,7 +112,8 @@ Document your test conditions when reporting P95 in production.
 
 - Supports **200–300** labels per session via async batch API with progress polling
 - Partial failures do not fail the entire batch
-- Test with `fixtures/applications/batch_manifest.json` + matching label images
+- Test with `fixtures/applications/batch_manifest.json` + matching label images (30 entries)
+- When `USE_FACTORY_GRAPH=true`, batch items run through the same LangGraph path as single verify
 
 ### Assumptions & trade-offs
 
@@ -112,7 +137,7 @@ Index RAG corpus (optional): `python scripts/index_rag_corpus.py` (requires `pip
 | P1 | Linear pipeline: ingest → OCR → structure → rules → UI |
 | P2 | LabelForgeFactory, LangGraph agents, conditional OCR fallback, NuanceAgent |
 | P2 | RAG corpus + ComplianceRAGAgent (Chroma optional) |
-| P3 | `evals/` golden + adversarial suites, GitHub Actions CI |
+| P3 | 30 golden evals + adversarial + RAG queries; CI fails on regression |
 | P4 | Image pre-processing, HITL batch resume stub, RAG-grounded ExplanationAgent |
 
 ## Environment variables
@@ -127,6 +152,17 @@ pytest tests/ -v
 python evals/runners/run_eval_suite.py
 ```
 
+## Regenerate eval data
+
+Synthetic fixtures and eval manifests are derived from use cases in [ClientRequirement.md](../ClientRequirement.md) (Sarah routine matching, Jenny warning exactness, Dave brand nuance, import labels, unreadable uploads).
+
+```bash
+cd app
+python scripts/generate_fixtures.py      # PNG labels + application JSON + batch manifest
+python scripts/generate_eval_datasets.py # golden_labels.jsonl, expected/*.json, adversarial + RAG queries
+python evals/runners/run_eval_suite.py   # field accuracy, summary, warning recall, RAG hit rate, P95 latency
+```
+
 ## Deployment
 
 ```bash
@@ -139,16 +175,18 @@ Set environment variables on the platform. Build UI first: `cd ui && npm run bui
 
 ## Fixtures
 
-| Label | Purpose |
-|-------|---------|
-| `old_tom_match` | Happy path — distilled spirits example |
-| `old_tom_abv_mismatch` | ABV mismatch |
-| `warning_title_case` | Rejects title-case warning header |
-| `stones_throw_brand` | Brand casing nuance |
-| `import_france` | Country of origin |
-| `unreadable_blank` | Unreadable upload handling |
+**30 synthetic golden labels** mapped to [ClientRequirement.md](../ClientRequirement.md) stakeholder stories. Full list in [`evals/datasets/golden_labels.jsonl`](evals/datasets/golden_labels.jsonl).
 
-Regenerate: `python scripts/generate_fixtures.py`
+| Category | Examples |
+|----------|----------|
+| Happy path | `old_tom_match`, `vodka_match`, `gin_match`, `scotch_import_match` |
+| Sarah — routine mismatches | `old_tom_abv_mismatch`, `net_contents_mismatch`, `class_type_mismatch`, `proof_mismatch` |
+| Jenny — warning exactness | `warning_title_case`, `warning_wording_change`, `warning_truncated`, `warning_missing` |
+| Dave — brand nuance | `stones_throw_brand`, `brand_casing_nuance`, `brand_apostrophe_nuance`, `brand_substring_nuance` |
+| Imports | `import_france`, `japan_import_match`, `mexico_tequila_import`, `import_country_mismatch`, `scotch_country_mismatch` |
+| Error handling | `unreadable_blank`, `brand_hard_mismatch`, `address_mismatch` |
+
+Regenerate fixtures and eval manifests: see **Regenerate eval data** above.
 
 ## License
 

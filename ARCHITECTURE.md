@@ -6,9 +6,7 @@
 | File Header Standard | [CODE_COMMENT_HEADER_TEMPLATE.md](CODE_COMMENT_HEADER_TEMPLATE.md) |
 | Template | [ARCHITECTURE_TEMPLATE_MOM_MILE.md](ARCHITECTURE_TEMPLATE_MOM_MILE.md) |
 
-> **Upstream source:** [ClientRequirement.md](ClientRequirement.md) is the **only** normative "must" list.  
-> **Submission checklist:** [DELIVERABLES.md](DELIVERABLES.md) + [PRD.md](PRD.md) §10.  
-> **This document:** Phased target-state design for the LabelForge factory (P2+). It is **not** a third client deliverable.
+> **Code reviewers:** [README.md](README.md) → [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) → this doc §1–2 for factory pattern. Live demo: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com).
 
 ---
 
@@ -32,7 +30,7 @@
 # Project Name: LabelForge — TTB Alcohol Label Verification Agent Factory
 # Repository: github.com/monigarr/instructions (application in app/)
 # Version: 0.3.0
-# Status: P1 shipped; P2+ factory/graph/RAG/evals implemented in app/ (see DELIVERABLES_PROOF.md)
+# Status: P1 shipped; P2+ factory/graph/RAG/evals in `app/` — **live** at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com)
 # Classification: Internal
 # Author: Monica Peters (MoniGarr)
 # Organization: MoniGarr.com LLC | Gauntlet AI GFA Cohort 5 Fellowship, 2026

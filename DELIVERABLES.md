@@ -1,5 +1,7 @@
 # Deliverables
 
+**For code reviewers:** [README.md](README.md) → [**DELIVERABLES_PROOF.md**](DELIVERABLES_PROOF.md) (proof index with live URL) → this checklist.
+
 **Primary source of truth:** [ClientRequirement.md](ClientRequirement.md)  
 **Proof index:** [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) — file paths + live URLs  
 **Derived specs:** [PRD.md](PRD.md) §10 · [ARCHITECTURE.md](ARCHITECTURE.md) (phased target state)
@@ -173,15 +175,16 @@ Use this before you submit the interview.
 
 ### Deployment
 
-- [ ] Live URL in README (and submission form if applicable) — **https://labelforge.onrender.com suspended**; reactivate on Render  
-- [ ] Single-label verification works on deployed URL — verify after resume  
-- [ ] Batch verification works on deployed URL — verify after resume  
-- [ ] URL stable enough for evaluator demo session — verify after resume  
+- [x] Live URL in README — [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) ([`app/README.md`](app/README.md), [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md))  
+- [x] Single-label verification works on deployed URL — smoke tested 2026-06-09  
+- [x] Batch verification works on deployed URL — 2-label async batch completed on production  
+- [x] URL stable for evaluator demo — Render Starter (always-on)
 
 ### Requirements traceability
 
 - [x] ≤ ~5 s per label validated on representative samples (note test conditions in README) — eval suite + `elapsed_ms`  
-- [ ] Batch upload tested at non-trivial volume (document max tested batch size) — architecture supports 200–300; document tested count before submit  
+- [x] Batch upload tested at non-trivial volume — production batch smoke + 30-item `batch_manifest.json`; architecture supports 200–300 via async API ([DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §2.4)
+- [x] 30 golden evals with CI regression gate — [`app/evals/`](app/evals/), [`app/.github/workflows/ci.yml`](app/.github/workflows/ci.yml)
 - [x] Government warning rule demonstrated (including rejection of wrong-case warning if feasible) — `test_warning_title_case_rejected` in [`app/tests/test_rules.py`](app/tests/test_rules.py)  
 - [x] Standalone — no COLA references as runtime dependency  
 
@@ -204,7 +207,7 @@ These documents **support** building and defending the solution; they are **not*
 | Phase | Ship when | Client coverage |
 |-------|-----------|-----------------|
 | **P1 — MVP** | **Submit interview** | Single + batch verify, TTB fields, ≤ ~5 s, simple UI, README approach |
-| **P2+ — Factory depth** | After P1 stable | RAG, full graph, eval CI — interview craft per [ARCHITECTURE.md](ARCHITECTURE.md) |
+| **P2+ — Factory depth** | After P1 stable | RAG, full graph, 30 golden eval CI — interview craft per [ARCHITECTURE.md](ARCHITECTURE.md) |
 
 Agent factory, RAG, graphs, and evals may appear **internally** or in README approach documentation as long as **§1–§3** are satisfied in the shipped repository and deployed URL.
 

@@ -1,0 +1,5 @@
+{"field": "government_warning", "query": "Is Government Warning title case acceptable?", "expected_chunk_ids": ["government_warning_4"]}
+{"field": "government_warning", "query": "What is the exact government warning text?", "expected_chunk_ids": ["government_warning_3"]}
+{"field": "brand_name", "query": "STONE'S THROW vs Stone's Throw \u2014 same brand?", "expected_chunk_ids": ["brand_name_2"]}
+{"field": "alcohol_content", "query": "How should ABV and proof appear on the label?", "expected_chunk_ids": ["alcohol_content_2"]}
+{"field": "class_type", "query": "Must class/type match the application exactly?", "expected_chunk_ids": ["class_type_0", "class_type_1", "class_type_2"]}

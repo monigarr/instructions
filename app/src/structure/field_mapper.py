@@ -24,16 +24,20 @@ def structure_fields(ocr: OCRResult) -> ExtractedLabelRecord:
     text = ocr.full_text
     upper = text.upper()
 
-    brand = _find_after_label(text, [r"^([A-Z0-9][A-Z0-9\s&'\-\.]{2,40})\s*$"])
-    if not brand:
-        lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
-        brand = lines[0] if lines else None
+    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+    brand = lines[0] if lines else None
+    brand_match = _find_after_label(text, [r"^([A-Z0-9][A-Z0-9 &'.\-]{2,40})\s*$"])
+    if brand_match and "\n" not in brand_match:
+        brand = brand_match
 
     class_type = None
     class_patterns = [
         r"(Kentucky Straight Bourbon Whiskey)",
         r"(Straight Bourbon Whiskey)",
         r"(Bourbon Whiskey)",
+        r"(Cognac)",
+        r"(Blended Scotch Whisky)",
+        r"(Scotch Whisky)",
         r"(Whiskey)",
         r"(Vodka)",
         r"(Gin)",
