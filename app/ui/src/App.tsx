@@ -3,6 +3,7 @@ import {
   BatchProgress,
   DEFAULT_APPLICATION,
   FIELD_LABELS,
+  SAMPLE_SCENARIOS,
   VerificationResult,
 } from "./types";
 
@@ -14,6 +15,11 @@ function statusClass(status: string): string {
   if (status === "match" || status === "passed") return "status-pass";
   if (status === "mismatch" || status === "failed") return "status-fail";
   return "status-review";
+}
+
+function formatElapsed(ms: number): string {
+  const seconds = ms / 1000;
+  return `${seconds.toFixed(1)} s (${ms.toFixed(0)} ms)`;
 }
 
 export default function App() {
@@ -31,6 +37,7 @@ export default function App() {
   const [batchManifest, setBatchManifest] = useState<File | null>(null);
   const [batchProgress, setBatchProgress] = useState<BatchProgress | null>(null);
   const [batchId, setBatchId] = useState<string | null>(null);
+  const [scenarioHint, setScenarioHint] = useState<string | null>(null);
 
   useEffect(() => {
     if (!image) {
@@ -134,6 +141,15 @@ export default function App() {
     }
   }, [batchImages, batchManifest, pollBatch]);
 
+  const loadScenario = useCallback((scenarioId: string) => {
+    const scenario = SAMPLE_SCENARIOS.find((s) => s.id === scenarioId);
+    if (!scenario) return;
+    setApplicationJson(JSON.stringify(scenario.application, null, 2));
+    setScenarioHint(`${scenario.imageHint}. ${scenario.expectedHint}.`);
+    setResult(null);
+    setError(null);
+  }, []);
+
   return (
     <div className="app">
       <header className="header">
@@ -182,6 +198,23 @@ export default function App() {
                 )}
               </label>
 
+              <div className="sample-scenarios">
+                <p className="sample-label">Quick-start samples (prefill JSON — upload matching PNG from repo):</p>
+                <div className="sample-buttons">
+                  {SAMPLE_SCENARIOS.map((scenario) => (
+                    <button
+                      key={scenario.id}
+                      type="button"
+                      className="btn-sample"
+                      onClick={() => loadScenario(scenario.id)}
+                    >
+                      {scenario.buttonLabel}
+                    </button>
+                  ))}
+                </div>
+                {scenarioHint && <p className="scenario-hint">{scenarioHint}</p>}
+              </div>
+
               <h2>2. Application data</h2>
               <textarea
                 className="json-input"
@@ -206,7 +239,7 @@ export default function App() {
                 <div className="results">
                   <div className={`summary ${statusClass(result.summary)}`}>
                     <strong>Summary:</strong> {result.summary.replace("_", " ")} —{" "}
-                    {result.elapsed_ms.toFixed(0)} ms
+                    {formatElapsed(result.elapsed_ms)}
                   </div>
                   {result.errors?.length > 0 && (
                     <ul className="errors-list">
@@ -263,6 +296,11 @@ export default function App() {
           </label>
 
           <h2>2. Optional manifest (JSON or CSV)</h2>
+          <p className="batch-helper">
+            Sample batch: upload{" "}
+            <code>fixtures/applications/batch_manifest.json</code> plus matching PNGs from{" "}
+            <code>fixtures/labels/</code> in the repo (30 entries).
+          </p>
           <label className="upload-zone small">
             <input
               type="file"

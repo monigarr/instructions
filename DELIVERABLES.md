@@ -1,6 +1,6 @@
 # Deliverables
 
-**For code reviewers:** [README.md](README.md) → [**DELIVERABLES_PROOF.md**](DELIVERABLES_PROOF.md) (proof index with live URL) → this checklist.
+**For code reviewers:** [README.md](README.md) → [**REVIEWER_GUIDE.md**](REVIEWER_GUIDE.md) → [**DELIVERABLES_PROOF.md**](DELIVERABLES_PROOF.md) (proof index with live URL) → this checklist.
 
 **Primary source of truth:** [ClientRequirement.md](ClientRequirement.md)  
 **Proof index:** [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) — file paths + live URLs  

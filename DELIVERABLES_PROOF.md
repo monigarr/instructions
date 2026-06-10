@@ -1,14 +1,15 @@
 # Deliverables Proof — LabelForge
 
-**For code reviewers:** start with §0, then follow the path that matches your role.
+**For code reviewers:** start with [REVIEWER_GUIDE.md](REVIEWER_GUIDE.md) or §0 below, then follow the path that matches your role.
 
 | Link | Purpose |
 |------|---------|
+| [**REVIEWER_GUIDE.md**](REVIEWER_GUIDE.md) | 3-minute hands-on demo script |
 | [ClientRequirement.md](ClientRequirement.md) | Authoritative client requirements |
 | [DELIVERABLES.md](DELIVERABLES.md) | Submission checklist |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Agent factory design (implemented in `app/`) |
 
-**Last verified:** 2026-06-10 — 30 golden evals, CI green on push, **9** pytest tests, production `/verify` passes `old_tom_match`
+**Last verified:** 2026-06-09 — 30 golden evals, CI green on push, **9** pytest tests, production `/verify` passes `old_tom_match`
 
 ---
 
@@ -173,12 +174,14 @@ python scripts/generate_eval_datasets.py
 
 ### 2.3 Performance (~5 seconds per label)
 
-| Evidence | Value | Source |
-|----------|-------|--------|
-| Client target | ≤ ~5 s user-perceived | Sarah Chen requirement |
-| Production sample | **~3.7 s** on Render Starter (`old_tom_match`, Tesseract, `summary: passed`) | `elapsed_ms: 3683` on 2026-06-10 live `/verify` smoke |
-| Local golden eval P95 | **~11.6 ms** (30 fixtures, sidecar OCR path) | `python evals/runners/run_eval_suite.py` |
-| Instrumentation | `elapsed_ms` on every response | [`app/src/verify/pipeline.py`](app/src/verify/pipeline.py) |
+| Measurement | OCR path | Value | What it proves |
+|-------------|----------|-------|----------------|
+| **Client target** | — | ≤ ~5 s user-perceived | Sarah Chen adoption threshold |
+| **Production `/verify`** | Tesseract | **~3.7 s** on Render Starter (`old_tom_match`, `summary: passed`) | Real end-to-end latency — `elapsed_ms: 3683` on 2026-06-09 live smoke |
+| **Golden eval P95** | Sidecar text (`.txt` fixtures) | **~11.6 ms** (30 fixtures) | Rule/structure **correctness regression** at CI speed — **not** production latency |
+| **Instrumentation** | — | `elapsed_ms` on every response | [`app/src/verify/pipeline.py`](app/src/verify/pipeline.py) |
+
+The eval suite intentionally uses [`SidecarByStemOCRProvider`](app/src/adapters/ocr/sidecar_provider.py) so CI validates verdict logic without Tesseract variance. Production and manual demos use Tesseract for honest latency proof.
 
 ### 2.4 Batch processing (200–300 scale)
 
@@ -222,7 +225,7 @@ pip install -e ".[dev]"
 python scripts/generate_fixtures.py
 python scripts/generate_eval_datasets.py
 pytest tests/ -v          # 9 tests: 4 rules + 5 eval metric helpers
-python evals/runners/run_eval_suite.py
+python evals/runners/run_eval_suite.py --output eval-report.json
 ```
 
 **CI pipeline** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)):
@@ -230,7 +233,7 @@ python evals/runners/run_eval_suite.py
 1. `generate_fixtures.py`
 2. `generate_eval_datasets.py`
 3. `pytest tests/ -v` — **9** tests ([`test_rules.py`](app/tests/test_rules.py), [`test_eval_metrics.py`](app/tests/test_eval_metrics.py))
-4. `run_eval_suite.py` — **fails build on regression** (per-field golden accuracy, summary accuracy, warning recall, false-pass rate)
+4. `run_eval_suite.py --output eval-report.json` — **fails build on regression**; JSON uploaded as **eval-report** CI artifact
 5. UI build job — `npm run build` in `app/ui/`
 
 **Eval suite (2026-06-09, 30 golden):**
@@ -279,6 +282,7 @@ python evals/runners/run_eval_suite.py
 | Method | Path | Purpose |
 |--------|------|---------|
 | `GET` | `/health` | Liveness + config |
+| `GET` | `/docs` | OpenAPI interactive docs ([live](https://labelforge-w32d.onrender.com/docs)) |
 | `POST` | `/verify` | Single-label verification |
 | `POST` | `/batch/verify` | Batch (JSON manifest + images) |
 | `POST` | `/batch/verify-csv` | Batch (CSV manifest) |
@@ -307,6 +311,7 @@ Defined in [`app/src/api/main.py`](app/src/api/main.py).
 | Document | Role |
 |----------|------|
 | [ClientRequirement.md](ClientRequirement.md) | Source of truth — two deliverables |
+| [REVIEWER_GUIDE.md](REVIEWER_GUIDE.md) | 3-minute demo script |
 | **This file** | Proof index for reviewers |
 | [README.md](README.md) | Reviewer entry — client vs interview paths |
 | [DELIVERABLES.md](DELIVERABLES.md) | Checklist |

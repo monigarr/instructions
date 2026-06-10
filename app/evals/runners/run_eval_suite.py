@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import asyncio
 import json
 import sys
@@ -173,11 +174,24 @@ def _check_golden_field_accuracy(golden: dict) -> bool:
 
 
 async def main() -> int:
+    parser = argparse.ArgumentParser(description="Run LabelForge offline eval suite")
+    parser.add_argument(
+        "--output",
+        type=Path,
+        help="Write JSON report to this path (stdout still prints the report)",
+    )
+    args = parser.parse_args()
+
     golden = await run_golden()
     adversarial = run_adversarial()
     rag = await run_rag()
     report = {"golden": golden, "adversarial": adversarial, "rag": rag}
-    print(json.dumps(report, indent=2))
+    report_json = json.dumps(report, indent=2)
+    print(report_json)
+
+    if args.output:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(report_json + "\n", encoding="utf-8")
 
     ok = True
     if golden["latency_p95_ms"] > 5000:

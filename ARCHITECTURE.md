@@ -6,7 +6,17 @@
 | File Header Standard | [CODE_COMMENT_HEADER_TEMPLATE.md](CODE_COMMENT_HEADER_TEMPLATE.md) |
 | Template | [ARCHITECTURE_TEMPLATE_MOM_MILE.md](ARCHITECTURE_TEMPLATE_MOM_MILE.md) |
 
-> **Code reviewers:** [README.md](README.md) → [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) → this doc §1–2 for factory pattern. Live demo: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com).
+> **Code reviewers:** [README.md](README.md) → [REVIEWER_GUIDE.md](REVIEWER_GUIDE.md) → [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) → this doc §1–2 for factory pattern. Live demo: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com).
+
+---
+
+## Reading guide
+
+| Audience | Read | Time |
+|----------|------|------|
+| **Client reviewers** | Skip this doc — use [REVIEWER_GUIDE.md](REVIEWER_GUIDE.md) + [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) | 3 min |
+| **Interview reviewers** | §1 Executive Summary, §3A Client Mandatory, §6 Graph orchestration | ~15 min |
+| **Deep dive** | Full factory, RAG, evals, HITL stubs | ~45 min |
 
 ---
 

@@ -2,7 +2,7 @@
 
 Standalone proof-of-concept for TTB compliance agents: upload label artwork, compare extracted fields to application data, and review match/mismatch results — single label or batch.
 
-**Live demo:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) · **Proof index:** [DELIVERABLES_PROOF.md](../DELIVERABLES_PROOF.md)
+**Live demo:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) · **Proof index:** [DELIVERABLES_PROOF.md](../DELIVERABLES_PROOF.md) · **3-min demo:** [REVIEWER_GUIDE.md](../REVIEWER_GUIDE.md)
 
 ---
 
@@ -102,11 +102,16 @@ Deploy via [DEPLOY.md](DEPLOY.md) and [render.yaml](../render.yaml). Tesseract O
 
 Target: **≤ ~5 seconds** user-perceived per label (Sarah Chen requirement).
 
-- Typical Tesseract path on synthetic fixtures: **~1–3 s** locally (depends on image size and CPU)
-- Batch processing uses a concurrency cap (`BATCH_CONCURRENCY`, default 6) to protect latency under load
-- `elapsed_ms` is returned in every verification response for benchmarking
+| Measurement | OCR path | Typical value | Purpose |
+|-------------|----------|---------------|---------|
+| **Production / manual demo** | Tesseract | **~1–5 s** (depends on CPU; ~3.7 s on Render Starter) | Honest end-to-end latency |
+| **Golden eval P95** | Sidecar text (`.txt` fixtures) | **~10–15 ms** locally | CI correctness regression — not production latency |
+| **Batch** | Tesseract | Concurrency cap `BATCH_CONCURRENCY=6` | Protect latency under 200–300 load |
 
-Document your test conditions when reporting P95 in production.
+- `elapsed_ms` is returned in every verification response for benchmarking
+- Document your test conditions when reporting P95 in production
+
+The eval suite uses [`SidecarByStemOCRProvider`](src/adapters/ocr/sidecar_provider.py) so CI validates verdict logic without Tesseract variance. Use production URL or local Tesseract for Sarah’s speed requirement.
 
 ### Batch processing
 
@@ -129,6 +134,12 @@ Document your test conditions when reporting P95 in production.
 Set `USE_FACTORY_GRAPH=true` and optionally `RAG_ENABLED=true` in `.env` to use LangGraph orchestration with RAG enrichment. Client-visible outcomes remain the same; rules still own verdict bits.
 
 Index RAG corpus (optional): `python scripts/index_rag_corpus.py` (requires `pip install -e ".[rag]"`).
+
+### Design decisions
+
+1. **Rules, not LLM, for verdicts** — Reproducible match/mismatch/needs_review; government warning exactness (Jenny Park) is auditable in code.
+2. **LangGraph for orchestration** — Conditional OCR fallback, brand nuance branch, per-node timings; same outcomes as P1 pipeline.
+3. **RAG is optional grounding** — TTB field corpus enriches agent context; never overrides `WarningExactRule` or other deterministic rules.
 
 ### Architecture evolution (P1 → P4)
 
@@ -192,4 +203,4 @@ Regenerate fixtures and eval manifests: see **Regenerate eval data** above.
 
 ## License
 
-TBD
+Evaluation prototype for Gauntlet AI GFA Cohort 5 take-home — not licensed for production use.

@@ -13,4 +13,5 @@ ui/dist/
 uploads/
 data/chroma/
 *.log
+eval-report.json
 .DS_Store

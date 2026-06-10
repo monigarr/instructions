@@ -1,9 +1,31 @@
 # LabelForge — TTB Alcohol Label Verification
 
+[![CI](https://github.com/monigarr/instructions/actions/workflows/ci.yml/badge.svg)](https://github.com/monigarr/instructions/actions/workflows/ci.yml)
+
 Gauntlet AI GFA Cohort 5 take-home: **AI-powered alcohol label verification** for the TTB Compliance Division.
 
+> **Take-home submission:** runnable application code lives in [`app/`](app/). Docs at repo root map to [ClientRequirement.md](ClientRequirement.md). **Start here:** [REVIEWER_GUIDE.md](REVIEWER_GUIDE.md) (3-minute demo) or [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) (proof index).
+
 **Repository:** [github.com/monigarr/instructions](https://github.com/monigarr/instructions)  
-**Live demo:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com)
+**Live demo:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) · **API docs:** [/docs](https://labelforge-w32d.onrender.com/docs)
+
+---
+
+## Architecture at a glance
+
+Production (default) runs the **P1 linear pipeline**; interview depth toggles the **LangGraph factory** without changing verdict logic.
+
+```mermaid
+flowchart LR
+  subgraph P1["P1 Production default"]
+    A[Upload] --> B[Ingest] --> C[OCR Tesseract] --> D[Structure] --> E[Rules Engine] --> F[Verdicts]
+  end
+  subgraph P2["P2+ Factory optional"]
+    G[LangGraph] --> H[Agents] --> I[RAG optional] --> E
+  end
+```
+
+**Principle:** orchestration is pluggable; **deterministic rules own compliance verdicts**.
 
 ---
 
@@ -11,12 +33,12 @@ Gauntlet AI GFA Cohort 5 take-home: **AI-powered alcohol label verification** fo
 
 ### Client reviewers (ClientRequirement.md)
 
-[ClientRequirement.md](ClientRequirement.md) defines exactly **two submissions**. Start here — no graph/RAG/eval depth required.
+[ClientRequirement.md](ClientRequirement.md) defines exactly **two submissions**. Start with **[REVIEWER_GUIDE.md](REVIEWER_GUIDE.md)** — no graph/RAG/eval depth required.
 
 | Step | What to do | What it proves |
 |------|------------|----------------|
-| **1. Try the product** | [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) → upload `fixtures/labels/old_tom_match.png` + paste `fixtures/applications/old_tom_match.json` → **Verify Label** | Deployed URL works; P1 path is live |
-| **2. Spot-check batch** | Batch tab → upload `batch_manifest.json` + all label PNGs | Peak-load batch flow (Sarah/Janet) |
+| **1. Try the product** | [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) → **Load sample: Old Tom (pass)** → upload `app/fixtures/labels/old_tom_match.png` → **Verify Label** | Deployed URL works; P1 path is live |
+| **2. Spot-check batch** | Batch tab → upload `batch_manifest.json` + label PNGs | Peak-load batch flow (Sarah/Janet) |
 | **3. Skim fixture catalog** | 30 synthetic labels in [`app/fixtures/`](app/fixtures/) — see [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §2.2 | TTB fields, warning exactness, brand nuance, imports |
 | **4. Read proof index** | [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) | Every client requirement → file path + smoke test |
 
@@ -26,6 +48,15 @@ Gauntlet AI GFA Cohort 5 take-home: **AI-powered alcohol label verification** fo
 |---|-------------|-------|
 | 1 | Source code repository | [`app/`](app/) + [`app/README.md`](app/README.md) |
 | 2 | Deployed application URL | [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) |
+
+### Stakeholder traceability
+
+| Stakeholder | Requirement | Proof |
+|-------------|-------------|-------|
+| **Sarah Chen** | ≤ ~5 s per label; batch 200–300 | `elapsed_ms` in API/UI; Batch tab + `batch_manifest.json` |
+| **Jenny Park** | Government warning exactness | `warning_title_case`, `warning_wording_change` fixtures |
+| **Dave Morrison** | Brand nuance; simple workflow | `stones_throw_brand` → `needs_review`; two-tab UI |
+| **Marcus Williams** | Standalone, offline OCR, no COLA | Tesseract default; no COLA integration |
 
 ### Interview reviewers (engineering depth)
 
@@ -62,7 +93,7 @@ Batch verify routes through the factory graph when `USE_FACTORY_GRAPH=true` (sin
 | **Application** | FastAPI v0.1.0 + React, single + batch verify, 30 synthetic fixtures, 30 golden evals |
 | **Production** | Live on Render — [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (`USE_FACTORY_GRAPH=false`, `RAG_ENABLED=false`) |
 | **CI** | 9 pytest tests + fixture/eval dataset generation + eval suite (per-field regression gate) + UI build |
-| **Documentation** | Client requirements, proof index, PRD, architecture |
+| **Documentation** | [REVIEWER_GUIDE.md](REVIEWER_GUIDE.md), proof index, PRD, architecture |
 
 ---
 
@@ -70,7 +101,8 @@ Batch verify routes through the factory graph when `USE_FACTORY_GRAPH=true` (sin
 
 | Document | Audience | Purpose |
 |----------|----------|---------|
-| [**DELIVERABLES_PROOF.md**](DELIVERABLES_PROOF.md) | **Client reviewers first** | Proof index — URLs, paths, smoke tests |
+| [**REVIEWER_GUIDE.md**](REVIEWER_GUIDE.md) | **Everyone first** | 3-minute demo + stakeholder map |
+| [**DELIVERABLES_PROOF.md**](DELIVERABLES_PROOF.md) | **Client reviewers** | Proof index — URLs, paths, smoke tests |
 | [ClientRequirement.md](ClientRequirement.md) | Normative | Authoritative client requirements (do not edit for proof) |
 | [DELIVERABLES.md](DELIVERABLES.md) | Submission | Client checklist |
 | [PRD.md](PRD.md) | Product | Requirements + phased delivery |

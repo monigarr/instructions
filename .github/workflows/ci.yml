@@ -30,7 +30,14 @@ jobs:
         run: pytest tests/ -v
       - name: Eval suite
         working-directory: app
-        run: python evals/runners/run_eval_suite.py
+        run: python evals/runners/run_eval_suite.py --output eval-report.json
+      - name: Upload eval report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-report
+          path: app/eval-report.json
+          retention-days: 30
 
   ui:
     runs-on: ubuntu-latest
