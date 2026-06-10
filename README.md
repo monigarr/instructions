@@ -59,9 +59,9 @@ Batch verify routes through the factory graph when `USE_FACTORY_GRAPH=true` (sin
 
 | Layer | Status |
 |-------|--------|
-| **Application** | FastAPI + React, single + batch verify, 30 synthetic fixtures, 30 golden evals |
-| **Production** | Live on Render — [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) |
-| **CI** | pytest + `generate_eval_datasets.py` + eval suite (fail on regression) |
+| **Application** | FastAPI v0.1.0 + React, single + batch verify, 30 synthetic fixtures, 30 golden evals |
+| **Production** | Live on Render — [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (`USE_FACTORY_GRAPH=false`, `RAG_ENABLED=false`) |
+| **CI** | 9 pytest tests + fixture/eval dataset generation + eval suite (per-field regression gate) + UI build |
 | **Documentation** | Client requirements, proof index, PRD, architecture |
 
 ---

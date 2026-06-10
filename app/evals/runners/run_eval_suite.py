@@ -11,12 +11,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from evals.metrics.field_accuracy import field_accuracy
+from evals.metrics.field_accuracy import field_accuracy, field_accuracy_by_field
 from evals.metrics.latency_p95 import latency_p95
-from evals.metrics.rag_precision import rag_hit_rate
+from evals.metrics.rag_precision import rag_hit_rate, rag_hit_rate_by_field
 from evals.metrics.warning_recall import warning_recall
 from scripts.generate_fixtures import WARNING_PARAPHRASED
-from src.domain.constants import GOVERNMENT_WARNING_CANONICAL
+from src.domain.constants import FIELD_NAMES, GOVERNMENT_WARNING_CANONICAL
 from src.domain.models import ApplicationRecord, ExtractedLabelRecord, VerdictStatus
 from src.rag.retriever import ChromaRAGRetriever
 from src.rules.engine import DeterministicRulesEngine
@@ -59,6 +59,7 @@ async def run_golden() -> dict:
     latencies: list[float] = []
     accuracies: list[float] = []
     summary_checks: list[bool] = []
+    field_rows: list[tuple[list[dict], list[dict]]] = []
 
     for row in _load_jsonl(DATASETS / "golden_labels.jsonl"):
         label_id = row["label_id"]
@@ -81,11 +82,15 @@ async def run_golden() -> dict:
             expected = json.loads(expected_path.read_text(encoding="utf-8"))
             if expected:
                 actual = [v.model_dump() for v in result.verdicts]
+                field_rows.append((expected, actual))
                 accuracies.append(field_accuracy(expected, actual))
+
+    per_field = field_accuracy_by_field(field_rows)
 
     return {
         "golden_count": len(latencies),
         "field_accuracy_avg": sum(accuracies) / len(accuracies) if accuracies else None,
+        "field_accuracy_by_field": per_field,
         "summary_accuracy": sum(summary_checks) / len(summary_checks) if summary_checks else None,
         "latency_p95_ms": latency_p95(latencies),
         "latency_samples": len(latencies),
@@ -135,16 +140,36 @@ def run_adversarial() -> dict:
 async def run_rag() -> dict:
     retriever = ChromaRAGRetriever()
     scores: list[float] = []
+    field_scores: list[tuple[str, float]] = []
 
     for row in _load_jsonl(DATASETS / "rag_queries.jsonl"):
         ctx = await retriever.retrieve_for_field(row["field"], row["query"], top_k=3)
         retrieved_ids = [c.chunk_id for c in ctx.chunks]
-        scores.append(rag_hit_rate(row.get("expected_chunk_ids", []), retrieved_ids))
+        score = rag_hit_rate(row.get("expected_chunk_ids", []), retrieved_ids)
+        scores.append(score)
+        field_scores.append((row["field"], score))
 
     return {
         "rag_hit_rate_avg": sum(scores) / len(scores) if scores else None,
+        "rag_hit_rate_by_field": rag_hit_rate_by_field(field_scores),
         "rag_query_count": len(scores),
     }
+
+
+def _check_golden_field_accuracy(golden: dict) -> bool:
+    ok = True
+    by_field = golden.get("field_accuracy_by_field") or {}
+    for field in FIELD_NAMES:
+        accuracy = by_field.get(field)
+        if accuracy is None:
+            continue
+        if accuracy < 1.0:
+            print(f"FAIL: golden field accuracy for {field} below 100% ({accuracy:.2%})", file=sys.stderr)
+            ok = False
+    if golden.get("field_accuracy_avg") is not None and golden["field_accuracy_avg"] < 1.0:
+        print("FAIL: golden field accuracy below 100%", file=sys.stderr)
+        ok = False
+    return ok
 
 
 async def main() -> int:
@@ -160,8 +185,7 @@ async def main() -> int:
     if golden.get("summary_accuracy") is not None and golden["summary_accuracy"] < 1.0:
         print("FAIL: golden summary accuracy below 100%", file=sys.stderr)
         ok = False
-    if golden.get("field_accuracy_avg") is not None and golden["field_accuracy_avg"] < 1.0:
-        print("FAIL: golden field accuracy below 100%", file=sys.stderr)
+    if not _check_golden_field_accuracy(golden):
         ok = False
     if adversarial["warning_recall"] < 1.0:
         print("FAIL: warning recall below 100%", file=sys.stderr)

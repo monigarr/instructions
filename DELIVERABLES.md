@@ -100,7 +100,7 @@ Handle labels with information like the client’s **distilled spirits example**
 
 ### 2.3 Performance (Sarah Chen — adoption threshold)
 
-- [x] **~5 seconds or less** per label for the core verification path (user-perceived) — `elapsed_ms` in API; eval P95 **7.8 ms** on golden fixtures locally ([DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §2.3)
+- [x] **~5 seconds or less** per label for the core verification path (user-perceived) — `elapsed_ms` in API; eval P95 **~11.6 ms** on golden fixtures locally (sidecar OCR path; [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §2.3)
 - [x] Prior vendor pilot failed at 30–40 s — speed is **non-negotiable** for credibility — documented in [`app/README.md`](app/README.md) § Performance
 
 ### 2.4 Batch processing (Sarah Chen / Janet Seattle office)
@@ -184,7 +184,7 @@ Use this before you submit the interview.
 
 - [x] ≤ ~5 s per label validated on representative samples (note test conditions in README) — eval suite + `elapsed_ms`  
 - [x] Batch upload tested at non-trivial volume — production batch smoke + 30-item `batch_manifest.json`; architecture supports 200–300 via async API ([DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §2.4)
-- [x] 30 golden evals with CI regression gate — [`app/evals/`](app/evals/), [`app/.github/workflows/ci.yml`](app/.github/workflows/ci.yml)
+- [x] 30 golden evals with CI regression gate — [`app/evals/`](app/evals/), [`app/.github/workflows/ci.yml`](app/.github/workflows/ci.yml); **9** pytest tests (4 rules + 5 eval metric helpers)
 - [x] Government warning rule demonstrated (including rejection of wrong-case warning if feasible) — `test_warning_title_case_rejected` in [`app/tests/test_rules.py`](app/tests/test_rules.py)  
 - [x] Standalone — no COLA references as runtime dependency  
 

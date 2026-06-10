@@ -29,7 +29,7 @@
 # ============================================================================
 # Project Name: LabelForge — TTB Alcohol Label Verification Agent Factory
 # Repository: github.com/monigarr/instructions (application in app/)
-# Version: 0.3.0
+# Version: 0.1.0
 # Status: P1 shipped; P2+ factory/graph/RAG/evals in `app/` — **live** at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com)
 # Classification: Internal
 # Author: Monica Peters (MoniGarr)
@@ -37,7 +37,7 @@
 # Architecture Method: M.O.M. + M.I.L.E. + Gauntlet AI-Native Factory Pattern
 # Primary Maintainers: MoniGarr
 # Created: 2026-06-09
-# Last Updated: 2026-06-09 (repo state aligned with DELIVERABLES_PROOF.md)
+# Last Updated: 2026-06-09 (aligned with `app/` — 30 golden evals, 9 pytest tests, CI regression gate)
 # License: TBD
 # ============================================================================
 #
@@ -401,17 +401,17 @@ stateDiagram-v2
 │                     EVAL HARNESS (EvalRunnerAgent)               │
 │  datasets/          metrics/           runners/                  │
 │  golden_labels ──▶  field_accuracy ──▶ run_eval_suite.py        │
-│  adversarial     warning_recall       │                          │
-│  rag_queries     latency_p95          ▼                          │
-│                                      CI Gate (GitHub Actions)    │
-│                                      - block on regression       │
-│                                      - upload EvalReport artifact│
+│  adversarial     warning_recall       │  per-field breakdowns    │
+│  rag_queries     rag_precision        ▼                          │
+│                  latency_p95     CI Gate (GitHub Actions)       │
+│                                  - block on regression           │
+│                                  - upload EvalReport artifact    │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
 | Eval Type | Phase | CI Policy |
 |-----------|-------|-----------|
-| **Unit (rules)** | P1 recommended | Local/PR; optional CI |
+| **Unit (rules + metrics)** | P1 recommended | **9** pytest tests in CI; block on failure |
 | **Graph E2E**    | P2+            | Warn then block in P3 |
 | **Adversarial**  | P3             | Block merge when adopted |
 | **Performance**  | P1             | Document in README; warn in CI |
@@ -834,19 +834,3 @@ LabelForge **target state** (P2+) is designed as a **Gauntlet AI-native Autonomo
 | Interview craft (not client gate) | ARCHITECTURE.md mandate | §1, §3B, §4 X3 |
 
 *Last updated: 2026-06-09*
-```
-
----
-
-## What Changed & Why
-
-| Polish Area | Improvement | Interview Impact |
-|-------------|-------------|------------------|
-| **Traceability Matrix** | Added §21 mapping every client requirement to an architecture section | Evaluators see you don't miss constraints |
-| **Decision Log (§19)** | Explicit architectural decisions with stakeholder attribution | Shows senior judgment, not just pattern-matching |
-| **Performance Budget Table** | Node-level P95 budgets in milliseconds | Proves you can reason about latency under constraint |
-| **SOLID by Example** | Concrete class names (`WineABVExceptionRule`, `AzureDocIntelProvider`) | Demonstrates you think in code, not just diagrams |
-| **P1 vs P2+ Boundaries** | Sharper separation in every section; "Cardinal rule" in §1 | Prevents scope creep; shows shipping discipline |
-| **Failure Modes** | Added RAG index missing, eval regression, LLM timeout | Shows production awareness even in a prototype |
-| **Anti-Patterns Implicit** | "No auto-approve," "LLM alone issuing pass/fail forbidden" | Shows you know what *not* to do |
-| **File Header Example** | Echelon standard with PURPOSE, SECURITY, PERFORMANCE, OPERATIONAL | Signals enterprise code hygiene |

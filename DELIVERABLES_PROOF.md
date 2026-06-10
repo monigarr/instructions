@@ -8,7 +8,7 @@
 | [DELIVERABLES.md](DELIVERABLES.md) | Submission checklist |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Agent factory design (implemented in `app/`) |
 
-**Last verified:** 2026-06-09 — 30 golden evals, CI regression gate, pytest green
+**Last verified:** 2026-06-09 — 30 golden evals, CI regression gate, **9** pytest tests green, production `/health` OK
 
 ---
 
@@ -42,9 +42,17 @@ Production defaults: `use_factory_graph: false`, `rag_enabled: false`.
 | Check | Result |
 |-------|--------|
 | `GET /health` | `200` — `ocr_provider: tesseract` |
-| `POST /verify` | `200` — 7 field verdicts, ~3 s elapsed on Render Starter |
+| `POST /verify` | `200` — 7 field verdicts, **`elapsed_ms: 3902`** (~3.9 s) on Render Starter (`old_tom_match` + Tesseract OCR) |
 | `POST /batch/verify` | `200` — async batch completed |
 | `GET /` (UI) | `200` — LabelForge React app |
+
+Production `/verify` smoke (repeatable from `app/`):
+
+```bash
+python -c "from pathlib import Path; import httpx; r=httpx.post('https://labelforge-w32d.onrender.com/verify', files={'image': ('old_tom_match.png', Path('fixtures/labels/old_tom_match.png').read_bytes(), 'image/png')}, data={'application': Path('fixtures/applications/old_tom_match.json').read_text(encoding='utf-8')}, timeout=120); d=r.json(); print(r.status_code, d['summary'], len(d['verdicts']), round(d['elapsed_ms'],1))"
+```
+
+Observed on 2026-06-09: `200 failed 7 3902.4` — API healthy; `government_warning` may read `mismatch` under production Tesseract on the synthetic PNG (OCR variance), while other fields match.
 
 ---
 
@@ -63,7 +71,7 @@ Production defaults: `use_factory_graph: false`, `rag_enabled: false`.
 
 | Client asks for | Where it lives | How to verify |
 |-----------------|----------------|---------------|
-| All source code | [`app/`](app/) — FastAPI, React UI, rules, OCR, batch, fixtures, evals, agents, graph | `cd app && pip install -e ".[dev]" && pytest tests/ -v` |
+| All source code | [`app/`](app/) — FastAPI v0.1.0, React UI, rules, OCR, batch, fixtures, evals, agents, graph | `cd app && pip install -e ".[dev]" && pytest tests/ -v` (**9** tests) |
 | README with setup and run instructions | [`app/README.md`](app/README.md) | Quick start + Docker path |
 | Brief approach documentation | [`app/README.md`](app/README.md) § Approach | Stack, verification flow, assumptions, trade-offs |
 | Repo overview | [`README.md`](README.md) | Client vs interview reviewer paths |
@@ -167,8 +175,8 @@ python scripts/generate_eval_datasets.py
 | Evidence | Value | Source |
 |----------|-------|--------|
 | Client target | ≤ ~5 s user-perceived | Sarah Chen requirement |
-| Production sample | ~3 s on Render Starter | `elapsed_ms` from live `/verify` |
-| Local golden eval P95 | **~18 ms** (30 fixtures, sidecar OCR path) | `python evals/runners/run_eval_suite.py` |
+| Production sample | **~3.2–3.9 s** on Render Starter (`old_tom_match`, Tesseract) | `elapsed_ms: 3190` and `3902` on 2026-06-09 live `/verify` smoke |
+| Local golden eval P95 | **~11.6 ms** (30 fixtures, sidecar OCR path) | `python evals/runners/run_eval_suite.py` |
 | Instrumentation | `elapsed_ms` on every response | [`app/src/verify/pipeline.py`](app/src/verify/pipeline.py) |
 
 ### 2.4 Batch processing (200–300 scale)
@@ -212,7 +220,7 @@ cd app
 pip install -e ".[dev]"
 python scripts/generate_fixtures.py
 python scripts/generate_eval_datasets.py
-pytest tests/ -v
+pytest tests/ -v          # 9 tests: 4 rules + 5 eval metric helpers
 python evals/runners/run_eval_suite.py
 ```
 
@@ -220,8 +228,9 @@ python evals/runners/run_eval_suite.py
 
 1. `generate_fixtures.py`
 2. `generate_eval_datasets.py`
-3. `pytest tests/ -v`
-4. `run_eval_suite.py` — **fails build on regression**
+3. `pytest tests/ -v` — **9** tests ([`test_rules.py`](app/tests/test_rules.py), [`test_eval_metrics.py`](app/tests/test_eval_metrics.py))
+4. `run_eval_suite.py` — **fails build on regression** (per-field golden accuracy, summary accuracy, warning recall, false-pass rate)
+5. UI build job — `npm run build` in `app/ui/`
 
 **Eval suite (2026-06-09, 30 golden):**
 
@@ -230,16 +239,33 @@ python evals/runners/run_eval_suite.py
   "golden": {
     "golden_count": 30,
     "field_accuracy_avg": 1.0,
+    "field_accuracy_by_field": {
+      "brand_name": 1.0,
+      "class_type": 1.0,
+      "alcohol_content": 1.0,
+      "net_contents": 1.0,
+      "government_warning": 1.0,
+      "bottler_producer_address": 1.0,
+      "country_of_origin": 1.0
+    },
     "summary_accuracy": 1.0,
-    "latency_p95_ms": 17.9,
+    "latency_p95_ms": 11.6,
     "latency_samples": 30
   },
   "adversarial": {
     "warning_recall": 1.0,
-    "false_pass_rate": 0.0
+    "false_pass_rate": 0.0,
+    "false_pass_caught": 1,
+    "false_pass_total": 1
   },
   "rag": {
     "rag_hit_rate_avg": 1.0,
+    "rag_hit_rate_by_field": {
+      "government_warning": 1.0,
+      "brand_name": 1.0,
+      "alcohol_content": 1.0,
+      "class_type": 1.0
+    },
     "rag_query_count": 5
   }
 }

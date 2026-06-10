@@ -225,7 +225,6 @@ P2+: ingest → extract → structure → [rag_enrich] → rules → [nuance] �
 - Reject or flag unreadable images with re-upload guidance.
 - Never silent false-pass on low confidence.
 - Document fuzzy brand behavior in README assumptions.
-- Document fuzzy brand behavior in README assumptions.
 - P2+: graph retry — 1 retry on transient OCR failure → local fallback → `unable_to_verify`.
 
 ---
@@ -315,9 +314,10 @@ evals/
     adversarial_labels.jsonl
     rag_queries.jsonl        # query + expected chunk ids
   metrics/
-    field_accuracy.py
+    field_accuracy.py      # per-field + aggregate accuracy
     warning_recall.py
     latency_p95.py
+    rag_precision.py       # per-field RAG hit rate
   runners/
     run_eval_suite.py        # invoked in GitHub Actions
 ```
@@ -475,7 +475,7 @@ Evidence map: [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §1.1 · Live demo:
 7. **Agent factory pattern** — composable agents with clear boundaries → [`app/src/factory/`](app/src/factory/)
 8. **Graph orchestration** — stateful workflow, fallbacks → [`app/src/graph/`](app/src/graph/)
 9. **RAG discipline** — grounded retrieval; rules own verdicts → [`app/src/rag/`](app/src/rag/)
-10. **Eval culture** — golden datasets, CI gates, adversarial cases → [`app/evals/`](app/evals/)
+10. **Eval culture** — golden datasets, per-field CI gates, adversarial cases → [`app/evals/`](app/evals/), [`app/tests/test_eval_metrics.py`](app/tests/test_eval_metrics.py)
 11. **S.O.L.I.D. evidence** — interfaces, DI, OCR adapters → [`app/src/domain/interfaces.py`](app/src/domain/interfaces.py)
 12. **Pragmatic shipping** — P1 live on Render; P2+ behind flags → [`render.yaml`](render.yaml), [`app/README.md`](app/README.md)
 

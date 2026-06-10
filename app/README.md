@@ -137,7 +137,7 @@ Index RAG corpus (optional): `python scripts/index_rag_corpus.py` (requires `pip
 | P1 | Linear pipeline: ingest → OCR → structure → rules → UI |
 | P2 | LabelForgeFactory, LangGraph agents, conditional OCR fallback, NuanceAgent |
 | P2 | RAG corpus + ComplianceRAGAgent (Chroma optional) |
-| P3 | 30 golden evals + adversarial + RAG queries; CI fails on regression |
+| P3 | 30 golden evals + adversarial + RAG queries; per-field CI regression gate; 9 pytest tests |
 | P4 | Image pre-processing, HITL batch resume stub, RAG-grounded ExplanationAgent |
 
 ## Environment variables
@@ -148,9 +148,11 @@ See `.env.example`. Never commit secrets.
 
 ```bash
 cd app
-pytest tests/ -v
+pytest tests/ -v          # 9 tests: test_rules.py (4) + test_eval_metrics.py (5)
 python evals/runners/run_eval_suite.py
 ```
+
+The eval suite reports aggregate and **per-field** golden accuracy (`field_accuracy_by_field`), summary accuracy, adversarial warning recall, false-pass rate, RAG hit rate (`rag_hit_rate_by_field`), and P95 latency. CI fails on golden/summary/adversarial regression ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
 
 ## Regenerate eval data
 

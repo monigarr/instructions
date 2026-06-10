@@ -1,11 +1,11 @@
 # ARCHITECTURE.md — Template
 
-| Primary Source | [ClientRequirements.pdf](ClientRequirements.pdf) |
+| Primary Source | [ClientRequirement.md](ClientRequirement.md) |
 | Derived Spec | [PRD.md](PRD.md) — project instance only |
 
-> **Project instance**: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (KARONHIA:KE — filled from PRD Sections 5 and 11)
+> **Project instance**: [ARCHITECTURE.md](ARCHITECTURE.md) (LabelForge — TTB Alcohol Label Verification)
 >
-> **Upstream source**: [ClientRequirements.pdf](ClientRequirements.pdf) (primary). Project instance derives from [PRD.md](PRD.md).
+> **Upstream source**: [ClientRequirement.md](ClientRequirement.md) (primary). Project instance derives from [PRD.md](PRD.md).
 
 ## MoniGarr Operating Model (M.O.M.) + M.I.L.E.
 

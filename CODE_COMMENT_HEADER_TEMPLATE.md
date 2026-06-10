@@ -1,19 +1,51 @@
 # File Header Template
 
-| Primary Source | [ClientRequirements.pdf](ClientRequirements.pdf) |
-| Derived Spec | [PRD.md](PRD.md) |
-| Client Deliverable | GitHub Repository (code quality despite unfamiliar stack) |
+| Primary Source | [ClientRequirement.md](ClientRequirement.md) |
+| Derived Spec | [PRD.md](PRD.md) · [ARCHITECTURE.md](ARCHITECTURE.md) |
+| Client Deliverable | GitHub repository (code quality and organization) |
 
-Use this header on every production script per [ClientRequirements.pdf](ClientRequirements.pdf) Deliverables, PRD, ARCHITECTURE and M.O.M. file standards.
+Use this header on production modules per [ARCHITECTURE.md](ARCHITECTURE.md) §15 and M.O.M. file standards.
 
+## Python (LabelForge `app/`)
+
+```python
+"""
+===============================================================================
+FILE: example_module.py
+AUTHOR: MoniGarr (Monica Peters)
+CREATED: 2026-06-09
+UPDATED: 2026-06-09
+CLASSIFICATION: Internal
+
+PURPOSE:
+One-line description of module responsibility.
+
+DEPENDENCIES:
+  - domain.interfaces — abstractions this module implements or consumes
+
+SECURITY:
+  - No logging of full label/application text in production mode
+
+PERFORMANCE:
+  - Target budget and hot-path notes
+
+OPERATIONAL:
+  - Feature flags or rollback notes
+===============================================================================
+"""
+```
+
+## C# / general (Echelon template)
+
+```
 // =============================================================================
 // FILE: FileName.cs
 // NAMESPACE: FileName.Gameplay.Conjugation
 // ASSEMBLY: FileName.Gameplay
 // AUTHOR: MoniGarr (Monica Peters)
-// CREATED: 
-// UPDATED: 
-// LICENSE: 
+// CREATED:
+// UPDATED:
+// LICENSE:
 // CLASSIFICATION: Internal | Public (select one)
 //
 // PURPOSE:
@@ -42,8 +74,9 @@ Use this header on every production script per [ClientRequirements.pdf](ClientRe
 
 | Label | Use When |
 |-------|----------|
-| **Internal** |  |
-| **Public** | |
+| **Internal** | Prototype and interview codebase; not for public distribution |
+| **Public** | Open-source modules intended for external reuse |
 
-## Minimal Header 
+## Minimal Header
 
+For small helpers or tests, a single-line module docstring with PURPOSE is acceptable. Production agents, rules, graph nodes, and API entrypoints should use the full block.
