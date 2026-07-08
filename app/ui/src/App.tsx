@@ -295,7 +295,6 @@ export default function App() {
         </a>
 
         <header className="header">
-          <p className="header-eyebrow">U.S. Department of the Treasury · TTB compliance prototype</p>
           <h1>LabelForge</h1>
           <p className="subtitle">TTB alcohol label verification — upload a label, compare to application data</p>
         <p className="credit-note">
