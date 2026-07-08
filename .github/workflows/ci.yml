@@ -22,12 +22,19 @@ jobs:
       - name: Generate fixtures
         working-directory: app
         run: python scripts/generate_fixtures.py
+      - name: Generate scale fixtures
+        working-directory: app
+        run: python scripts/generate_scale_fixtures.py
       - name: Generate eval datasets
         working-directory: app
         run: python scripts/generate_eval_datasets.py
       - name: Unit tests
         working-directory: app
         run: pytest tests/ -v
+      - name: Latency benchmark
+        working-directory: app
+        run: python evals/runners/run_latency_benchmark.py --output latency-report.json
+        continue-on-error: true
       - name: Eval suite
         working-directory: app
         run: python evals/runners/run_eval_suite.py --output eval-report.json

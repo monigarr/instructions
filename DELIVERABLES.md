@@ -1,6 +1,6 @@
 # Deliverables
 
-**For code reviewers:** [README.md](README.md) → [**REVIEWER_GUIDE.md**](REVIEWER_GUIDE.md) → [**DELIVERABLES_PROOF.md**](DELIVERABLES_PROOF.md) (proof index with live URL) → this checklist.
+**For code reviewers:** [README.md](README.md) → [**ONBOARDING.md**](ONBOARDING.md) (engineers) · [**REVIEWER_GUIDE.md**](REVIEWER_GUIDE.md) (3-min demo) → [**DELIVERABLES_PROOF.md**](DELIVERABLES_PROOF.md) (proof index) → this checklist.
 
 **Primary source of truth:** [ClientRequirement.md](ClientRequirement.md)  
 **Proof index:** [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) — file paths + live URLs  
@@ -183,8 +183,8 @@ Use this before you submit the interview.
 ### Requirements traceability
 
 - [x] ≤ ~5 s per label validated on representative samples (note test conditions in README) — eval suite + `elapsed_ms`  
-- [x] Batch upload tested at non-trivial volume — production batch smoke + 30-item `batch_manifest.json`; architecture supports 200–300 via async API ([DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §2.4)
-- [x] 30 golden evals with CI regression gate — [`app/evals/`](app/evals/), [`.github/workflows/ci.yml`](.github/workflows/ci.yml); **9** pytest tests (4 rules + 5 eval metric helpers)
+- [x] Batch upload tested at non-trivial volume — **34**-entry demo manifest + **300** scale fixtures; UI quick-starts for 200/300; load script ([DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §2.4)
+- [x] 30 golden evals with CI regression gate — [`app/evals/`](app/evals/), [`.github/workflows/ci.yml`](.github/workflows/ci.yml); **28** pytest tests across 6 modules
 - [x] Government warning rule demonstrated (including rejection of wrong-case warning if feasible) — `test_warning_title_case_rejected` in [`app/tests/test_rules.py`](app/tests/test_rules.py)  
 - [x] Standalone — no COLA references as runtime dependency  
 
@@ -200,6 +200,7 @@ These documents **support** building and defending the solution; they are **not*
 | [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) | Proof index — file paths, endpoints, live URLs |
 | [PRD.md](PRD.md) | Product requirements and acceptance criteria |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | System design, AI factory pattern, trade-offs |
+| [app/DEPLOY.md](app/DEPLOY.md) | Deployment guide (Docker, Render, Railway) |
 | [CODE_COMMENT_HEADER_TEMPLATE.md](CODE_COMMENT_HEADER_TEMPLATE.md) | Code file header standard for application repo |
 
 **Phased implementation (not client-required):**
@@ -218,4 +219,4 @@ Agent factory, RAG, graphs, and evals may appear **internally** or in README app
 - [ClientRequirement.md](ClientRequirement.md) — **authoritative** deliverables, constraints, evaluation criteria  
 - [TTB label guidance](https://www.ttb.gov) — regulatory context for label elements  
 
-*Last updated: 2026-06-09*
+*Last updated: 2026-07-08*

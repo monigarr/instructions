@@ -1,0 +1,2002 @@
+[
+  {
+    "brand_name": "OLD TOM DISTILLERY",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_001"
+  },
+  {
+    "brand_name": "STONE'S THROW",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_002"
+  },
+  {
+    "brand_name": "HIGHLAND MIST",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_003"
+  },
+  {
+    "brand_name": "CHATEAU NORD",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_004"
+  },
+  {
+    "brand_name": "PACIFIC VODKA CO",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_005"
+  },
+  {
+    "brand_name": "COPPER STILL WORKS",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_006"
+  },
+  {
+    "brand_name": "BLUE RIDGE SPIRITS",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_007"
+  },
+  {
+    "brand_name": "GOLDEN GRAIN DISTILLERY",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_008"
+  },
+  {
+    "brand_name": "SILVER CREEK BRAND",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_009"
+  },
+  {
+    "brand_name": "IRON HORSE WHISKEY",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_010"
+  },
+  {
+    "brand_name": "MAPLE GROVE DISTILLERY",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_011"
+  },
+  {
+    "brand_name": "RIDGE LINE BOURBON",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_012"
+  },
+  {
+    "brand_name": "HARBOR LIGHT RUM",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_013"
+  },
+  {
+    "brand_name": "DESERT SUN TEQUILA",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_014"
+  },
+  {
+    "brand_name": "NORTHERN STAR GIN",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_015"
+  },
+  {
+    "brand_name": "VALLEY VIEW VODKA",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_016"
+  },
+  {
+    "brand_name": "COASTAL BREEZE RUM",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_017"
+  },
+  {
+    "brand_name": "MOUNTAIN PEAK SCOTCH",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_018"
+  },
+  {
+    "brand_name": "RIVER RUN WHISKEY",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_019"
+  },
+  {
+    "brand_name": "SUNSET DISTILLING",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_020"
+  },
+  {
+    "brand_name": "EMBER OAK BOURBON",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_021"
+  },
+  {
+    "brand_name": "FROST LINE VODKA",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_022"
+  },
+  {
+    "brand_name": "CANYON CREST TEQUILA",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_023"
+  },
+  {
+    "brand_name": "MEADOW LARK GIN",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_024"
+  },
+  {
+    "brand_name": "THUNDER BAY RUM",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_025"
+  },
+  {
+    "brand_name": "OLD TOM DISTILLERY",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_026"
+  },
+  {
+    "brand_name": "STONE'S THROW",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_027"
+  },
+  {
+    "brand_name": "HIGHLAND MIST",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_028"
+  },
+  {
+    "brand_name": "CHATEAU NORD",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_029"
+  },
+  {
+    "brand_name": "PACIFIC VODKA CO",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_030"
+  },
+  {
+    "brand_name": "COPPER STILL WORKS",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_031"
+  },
+  {
+    "brand_name": "BLUE RIDGE SPIRITS",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_032"
+  },
+  {
+    "brand_name": "GOLDEN GRAIN DISTILLERY",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_033"
+  },
+  {
+    "brand_name": "SILVER CREEK BRAND",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_034"
+  },
+  {
+    "brand_name": "IRON HORSE WHISKEY",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_035"
+  },
+  {
+    "brand_name": "MAPLE GROVE DISTILLERY",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_036"
+  },
+  {
+    "brand_name": "RIDGE LINE BOURBON",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_037"
+  },
+  {
+    "brand_name": "HARBOR LIGHT RUM",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_038"
+  },
+  {
+    "brand_name": "DESERT SUN TEQUILA",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_039"
+  },
+  {
+    "brand_name": "NORTHERN STAR GIN",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_040"
+  },
+  {
+    "brand_name": "VALLEY VIEW VODKA",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_041"
+  },
+  {
+    "brand_name": "COASTAL BREEZE RUM",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_042"
+  },
+  {
+    "brand_name": "MOUNTAIN PEAK SCOTCH",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_043"
+  },
+  {
+    "brand_name": "RIVER RUN WHISKEY",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_044"
+  },
+  {
+    "brand_name": "SUNSET DISTILLING",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_045"
+  },
+  {
+    "brand_name": "EMBER OAK BOURBON",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_046"
+  },
+  {
+    "brand_name": "FROST LINE VODKA",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_047"
+  },
+  {
+    "brand_name": "CANYON CREST TEQUILA",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_048"
+  },
+  {
+    "brand_name": "MEADOW LARK GIN",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_049"
+  },
+  {
+    "brand_name": "THUNDER BAY RUM",
+    "class_type": "Straight Bourbon Whiskey",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_050"
+  },
+  {
+    "brand_name": "OLD TOM DISTILLERY",
+    "class_type": "Vodka",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_051"
+  },
+  {
+    "brand_name": "STONE'S THROW",
+    "class_type": "Vodka",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_052"
+  },
+  {
+    "brand_name": "HIGHLAND MIST",
+    "class_type": "Vodka",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_053"
+  },
+  {
+    "brand_name": "CHATEAU NORD",
+    "class_type": "Vodka",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_054"
+  },
+  {
+    "brand_name": "PACIFIC VODKA CO",
+    "class_type": "Vodka",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_055"
+  },
+  {
+    "brand_name": "COPPER STILL WORKS",
+    "class_type": "Vodka",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_056"
+  },
+  {
+    "brand_name": "BLUE RIDGE SPIRITS",
+    "class_type": "Vodka",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_057"
+  },
+  {
+    "brand_name": "GOLDEN GRAIN DISTILLERY",
+    "class_type": "Vodka",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_058"
+  },
+  {
+    "brand_name": "SILVER CREEK BRAND",
+    "class_type": "Vodka",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_059"
+  },
+  {
+    "brand_name": "IRON HORSE WHISKEY",
+    "class_type": "Vodka",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_060"
+  },
+  {
+    "brand_name": "MAPLE GROVE DISTILLERY",
+    "class_type": "Vodka",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_061"
+  },
+  {
+    "brand_name": "RIDGE LINE BOURBON",
+    "class_type": "Vodka",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_062"
+  },
+  {
+    "brand_name": "HARBOR LIGHT RUM",
+    "class_type": "Vodka",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_063"
+  },
+  {
+    "brand_name": "DESERT SUN TEQUILA",
+    "class_type": "Vodka",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_064"
+  },
+  {
+    "brand_name": "NORTHERN STAR GIN",
+    "class_type": "Vodka",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_065"
+  },
+  {
+    "brand_name": "VALLEY VIEW VODKA",
+    "class_type": "Vodka",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_066"
+  },
+  {
+    "brand_name": "COASTAL BREEZE RUM",
+    "class_type": "Vodka",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_067"
+  },
+  {
+    "brand_name": "MOUNTAIN PEAK SCOTCH",
+    "class_type": "Vodka",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_068"
+  },
+  {
+    "brand_name": "RIVER RUN WHISKEY",
+    "class_type": "Vodka",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_069"
+  },
+  {
+    "brand_name": "SUNSET DISTILLING",
+    "class_type": "Vodka",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_070"
+  },
+  {
+    "brand_name": "EMBER OAK BOURBON",
+    "class_type": "Vodka",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_071"
+  },
+  {
+    "brand_name": "FROST LINE VODKA",
+    "class_type": "Vodka",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_072"
+  },
+  {
+    "brand_name": "CANYON CREST TEQUILA",
+    "class_type": "Vodka",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_073"
+  },
+  {
+    "brand_name": "MEADOW LARK GIN",
+    "class_type": "Vodka",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_074"
+  },
+  {
+    "brand_name": "THUNDER BAY RUM",
+    "class_type": "Vodka",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_075"
+  },
+  {
+    "brand_name": "OLD TOM DISTILLERY",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_076"
+  },
+  {
+    "brand_name": "STONE'S THROW",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_077"
+  },
+  {
+    "brand_name": "HIGHLAND MIST",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_078"
+  },
+  {
+    "brand_name": "CHATEAU NORD",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_079"
+  },
+  {
+    "brand_name": "PACIFIC VODKA CO",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_080"
+  },
+  {
+    "brand_name": "COPPER STILL WORKS",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_081"
+  },
+  {
+    "brand_name": "BLUE RIDGE SPIRITS",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_082"
+  },
+  {
+    "brand_name": "GOLDEN GRAIN DISTILLERY",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_083"
+  },
+  {
+    "brand_name": "SILVER CREEK BRAND",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_084"
+  },
+  {
+    "brand_name": "IRON HORSE WHISKEY",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_085"
+  },
+  {
+    "brand_name": "MAPLE GROVE DISTILLERY",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_086"
+  },
+  {
+    "brand_name": "RIDGE LINE BOURBON",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_087"
+  },
+  {
+    "brand_name": "Harbor Light Rum",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_088"
+  },
+  {
+    "brand_name": "Desert Sun Tequila",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_089"
+  },
+  {
+    "brand_name": "Northern Star Gin",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_090"
+  },
+  {
+    "brand_name": "Valley View Vodka",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_091"
+  },
+  {
+    "brand_name": "Coastal Breeze Rum",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_092"
+  },
+  {
+    "brand_name": "Mountain Peak Scotch",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_093"
+  },
+  {
+    "brand_name": "River Run Whiskey",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_094"
+  },
+  {
+    "brand_name": "Sunset Distilling",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_095"
+  },
+  {
+    "label_id": "scale_096",
+    "brand_name": "EMBER OAK BOURBON",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "",
+    "country_of_origin": "France"
+  },
+  {
+    "label_id": "scale_097",
+    "brand_name": "FROST LINE VODKA",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "",
+    "country_of_origin": "Scotland"
+  },
+  {
+    "label_id": "scale_098",
+    "brand_name": "CANYON CREST TEQUILA",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "",
+    "country_of_origin": "Japan"
+  },
+  {
+    "label_id": "scale_099",
+    "brand_name": "MEADOW LARK GIN",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "",
+    "country_of_origin": "Mexico"
+  },
+  {
+    "label_id": "scale_100",
+    "brand_name": "THUNDER BAY RUM",
+    "class_type": "London Dry Gin",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "",
+    "country_of_origin": "Ireland"
+  },
+  {
+    "label_id": "scale_101",
+    "brand_name": "OLD TOM DISTILLERY",
+    "class_type": "Aged Rum",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "",
+    "country_of_origin": "France"
+  },
+  {
+    "label_id": "scale_102",
+    "brand_name": "STONE'S THROW",
+    "class_type": "Aged Rum",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "",
+    "country_of_origin": "Japan"
+  },
+  {
+    "label_id": "scale_103",
+    "brand_name": "HIGHLAND MIST",
+    "class_type": "Aged Rum",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "",
+    "country_of_origin": "Mexico"
+  },
+  {
+    "label_id": "scale_104",
+    "brand_name": "CHATEAU NORD",
+    "class_type": "Aged Rum",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "",
+    "country_of_origin": "Ireland"
+  },
+  {
+    "label_id": "scale_105",
+    "brand_name": "PACIFIC VODKA CO",
+    "class_type": "Aged Rum",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "",
+    "country_of_origin": "France"
+  },
+  {
+    "brand_name": "COPPER STILL WORKS",
+    "class_type": "Aged Rum",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_106"
+  },
+  {
+    "brand_name": "BLUE RIDGE SPIRITS",
+    "class_type": "Aged Rum",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_107"
+  },
+  {
+    "brand_name": "GOLDEN GRAIN DISTILLERY",
+    "class_type": "Aged Rum",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_108"
+  },
+  {
+    "brand_name": "SILVER CREEK BRAND",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_109"
+  },
+  {
+    "brand_name": "IRON HORSE WHISKEY",
+    "class_type": "Kentucky Straight Bourbon Whiskey",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_110"
+  },
+  {
+    "brand_name": "MAPLE GROVE DISTILLERY",
+    "class_type": "Aged Rum",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_111"
+  },
+  {
+    "brand_name": "RIDGE LINE BOURBON",
+    "class_type": "Aged Rum",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_112"
+  },
+  {
+    "brand_name": "HARBOR LIGHT RUM",
+    "class_type": "Aged Rum",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_113"
+  },
+  {
+    "brand_name": "DESERT SUN TEQUILA",
+    "class_type": "Aged Rum",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_114"
+  },
+  {
+    "brand_name": "NORTHERN STAR GIN",
+    "class_type": "Aged Rum",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_115"
+  },
+  {
+    "brand_name": "VALLEY VIEW VODKA",
+    "class_type": "Aged Rum",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_116"
+  },
+  {
+    "brand_name": "COASTAL BREEZE RUM",
+    "class_type": "Aged Rum",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_117"
+  },
+  {
+    "brand_name": "MOUNTAIN PEAK SCOTCH",
+    "class_type": "Aged Rum",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_118"
+  },
+  {
+    "brand_name": "RIVER RUN WHISKEY",
+    "class_type": "Aged Rum",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_119"
+  },
+  {
+    "brand_name": "SUNSET DISTILLING",
+    "class_type": "Aged Rum",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_120"
+  },
+  {
+    "brand_name": "EMBER OAK BOURBON",
+    "class_type": "Aged Rum",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_121"
+  },
+  {
+    "brand_name": "FROST LINE VODKA",
+    "class_type": "Aged Rum",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_122"
+  },
+  {
+    "brand_name": "CANYON CREST TEQUILA",
+    "class_type": "Aged Rum",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_123"
+  },
+  {
+    "brand_name": "MEADOW LARK GIN",
+    "class_type": "Aged Rum",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_124"
+  },
+  {
+    "brand_name": "THUNDER BAY RUM",
+    "class_type": "Aged Rum",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_125"
+  },
+  {
+    "brand_name": "OLD TOM DISTILLERY",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_126"
+  },
+  {
+    "brand_name": "STONE'S THROW",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_127"
+  },
+  {
+    "brand_name": "HIGHLAND MIST",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_128"
+  },
+  {
+    "brand_name": "CHATEAU NORD",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_129"
+  },
+  {
+    "brand_name": "PACIFIC VODKA CO",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_130"
+  },
+  {
+    "brand_name": "COPPER STILL WORKS",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_131"
+  },
+  {
+    "brand_name": "BLUE RIDGE SPIRITS",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_132"
+  },
+  {
+    "brand_name": "GOLDEN GRAIN DISTILLERY",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_133"
+  },
+  {
+    "brand_name": "SILVER CREEK BRAND",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_134"
+  },
+  {
+    "brand_name": "IRON HORSE WHISKEY",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_135"
+  },
+  {
+    "brand_name": "MAPLE GROVE DISTILLERY",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_136"
+  },
+  {
+    "brand_name": "RIDGE LINE BOURBON",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_137"
+  },
+  {
+    "brand_name": "HARBOR LIGHT RUM",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_138"
+  },
+  {
+    "brand_name": "DESERT SUN TEQUILA",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_139"
+  },
+  {
+    "brand_name": "NORTHERN STAR GIN",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_140"
+  },
+  {
+    "brand_name": "VALLEY VIEW VODKA",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_141"
+  },
+  {
+    "brand_name": "COASTAL BREEZE RUM",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_142"
+  },
+  {
+    "brand_name": "MOUNTAIN PEAK SCOTCH",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_143"
+  },
+  {
+    "brand_name": "RIVER RUN WHISKEY",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_144"
+  },
+  {
+    "brand_name": "SUNSET DISTILLING",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_145"
+  },
+  {
+    "brand_name": "EMBER OAK BOURBON",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_146"
+  },
+  {
+    "brand_name": "FROST LINE VODKA",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_147"
+  },
+  {
+    "brand_name": "CANYON CREST TEQUILA",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_148"
+  },
+  {
+    "brand_name": "MEADOW LARK GIN",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_149"
+  },
+  {
+    "brand_name": "THUNDER BAY RUM",
+    "class_type": "Blanco Tequila",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_150"
+  },
+  {
+    "brand_name": "OLD TOM DISTILLERY",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_151"
+  },
+  {
+    "brand_name": "STONE'S THROW",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_152"
+  },
+  {
+    "brand_name": "HIGHLAND MIST",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_153"
+  },
+  {
+    "brand_name": "CHATEAU NORD",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_154"
+  },
+  {
+    "brand_name": "PACIFIC VODKA CO",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_155"
+  },
+  {
+    "brand_name": "COPPER STILL WORKS",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_156"
+  },
+  {
+    "brand_name": "BLUE RIDGE SPIRITS",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_157"
+  },
+  {
+    "brand_name": "GOLDEN GRAIN DISTILLERY",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_158"
+  },
+  {
+    "brand_name": "SILVER CREEK BRAND",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_159"
+  },
+  {
+    "brand_name": "IRON HORSE WHISKEY",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_160"
+  },
+  {
+    "brand_name": "MAPLE GROVE DISTILLERY",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_161"
+  },
+  {
+    "brand_name": "RIDGE LINE BOURBON",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_162"
+  },
+  {
+    "brand_name": "HARBOR LIGHT RUM",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_163"
+  },
+  {
+    "brand_name": "DESERT SUN TEQUILA",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_164"
+  },
+  {
+    "brand_name": "NORTHERN STAR GIN",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_165"
+  },
+  {
+    "brand_name": "VALLEY VIEW VODKA",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_166"
+  },
+  {
+    "brand_name": "COASTAL BREEZE RUM",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_167"
+  },
+  {
+    "brand_name": "MOUNTAIN PEAK SCOTCH",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_168"
+  },
+  {
+    "brand_name": "RIVER RUN WHISKEY",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_169"
+  },
+  {
+    "brand_name": "SUNSET DISTILLING",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_170"
+  },
+  {
+    "brand_name": "EMBER OAK BOURBON",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_171"
+  },
+  {
+    "brand_name": "FROST LINE VODKA",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_172"
+  },
+  {
+    "brand_name": "CANYON CREST TEQUILA",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_173"
+  },
+  {
+    "brand_name": "MEADOW LARK GIN",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_174"
+  },
+  {
+    "brand_name": "THUNDER BAY RUM",
+    "class_type": "Blended Scotch Whisky",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_175"
+  },
+  {
+    "brand_name": "OLD TOM DISTILLERY",
+    "class_type": "Cognac",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_176"
+  },
+  {
+    "brand_name": "STONE'S THROW",
+    "class_type": "Cognac",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_177"
+  },
+  {
+    "brand_name": "HIGHLAND MIST",
+    "class_type": "Cognac",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_178"
+  },
+  {
+    "brand_name": "CHATEAU NORD",
+    "class_type": "Cognac",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_179"
+  },
+  {
+    "brand_name": "PACIFIC VODKA CO",
+    "class_type": "Cognac",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_180"
+  },
+  {
+    "brand_name": "COPPER STILL WORKS",
+    "class_type": "Cognac",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_181"
+  },
+  {
+    "brand_name": "BLUE RIDGE SPIRITS",
+    "class_type": "Cognac",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_182"
+  },
+  {
+    "brand_name": "GOLDEN GRAIN DISTILLERY",
+    "class_type": "Cognac",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_183"
+  },
+  {
+    "brand_name": "SILVER CREEK BRAND",
+    "class_type": "Cognac",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_184"
+  },
+  {
+    "brand_name": "IRON HORSE WHISKEY",
+    "class_type": "Cognac",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_185"
+  },
+  {
+    "brand_name": "MAPLE GROVE DISTILLERY",
+    "class_type": "Cognac",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_186"
+  },
+  {
+    "brand_name": "RIDGE LINE BOURBON",
+    "class_type": "Cognac",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_187"
+  },
+  {
+    "brand_name": "HARBOR LIGHT RUM",
+    "class_type": "Cognac",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_188"
+  },
+  {
+    "brand_name": "DESERT SUN TEQUILA",
+    "class_type": "Cognac",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_189"
+  },
+  {
+    "brand_name": "NORTHERN STAR GIN",
+    "class_type": "Cognac",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_190"
+  },
+  {
+    "brand_name": "VALLEY VIEW VODKA",
+    "class_type": "Cognac",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_191"
+  },
+  {
+    "brand_name": "COASTAL BREEZE RUM",
+    "class_type": "Cognac",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_192"
+  },
+  {
+    "brand_name": "MOUNTAIN PEAK SCOTCH",
+    "class_type": "Cognac",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_193"
+  },
+  {
+    "brand_name": "RIVER RUN WHISKEY",
+    "class_type": "Cognac",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_194"
+  },
+  {
+    "brand_name": "SUNSET DISTILLING",
+    "class_type": "Cognac",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_195"
+  },
+  {
+    "brand_name": "EMBER OAK BOURBON",
+    "class_type": "Cognac",
+    "alcohol_content": "40% Alc./Vol. (80 Proof)",
+    "net_contents": "750 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Old Tom Distillery, Louisville, KY 40202",
+    "country_of_origin": "",
+    "label_id": "scale_196"
+  },
+  {
+    "brand_name": "FROST LINE VODKA",
+    "class_type": "Cognac",
+    "alcohol_content": "43% Alc./Vol. (86 Proof)",
+    "net_contents": "700 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Copper Still Works, Nashville, TN 37201",
+    "country_of_origin": "",
+    "label_id": "scale_197"
+  },
+  {
+    "brand_name": "Canyon Crest Tequila",
+    "class_type": "Cognac",
+    "alcohol_content": "45% Alc./Vol. (90 Proof)",
+    "net_contents": "1 L",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Blue Ridge Spirits, Asheville, NC 28801",
+    "country_of_origin": "",
+    "label_id": "scale_198"
+  },
+  {
+    "brand_name": "Meadow Lark Gin",
+    "class_type": "Cognac",
+    "alcohol_content": "46% Alc./Vol. (92 Proof)",
+    "net_contents": "375 mL",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Golden Grain Distillery, Denver, CO 80202",
+    "country_of_origin": "",
+    "label_id": "scale_199"
+  },
+  {
+    "brand_name": "Thunder Bay Rum",
+    "class_type": "Cognac",
+    "alcohol_content": "50% Alc./Vol. (100 Proof)",
+    "net_contents": "25.4 fl oz",
+    "government_warning": "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
+    "bottler_producer_address": "Pacific Vodka Co, Portland, OR 97201",
+    "country_of_origin": "",
+    "label_id": "scale_200"
+  }
+]

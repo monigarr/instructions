@@ -1,0 +1,12 @@
+{
+  "total_fixtures": 300,
+  "expected_summary": {
+    "passed": 153,
+    "failed": 127,
+    "needs_review": 20
+  },
+  "manifest_sizes": {
+    "200": 200,
+    "300": 300
+  }
+}

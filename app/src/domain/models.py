@@ -36,6 +36,8 @@ class OCRBlock(BaseModel):
     text: str
     confidence: float = 1.0
     is_bold: bool = False
+    bbox: tuple[int, int, int, int] | None = None
+    bold_confidence: float | None = None
 
 
 class OCRResult(BaseModel):
@@ -52,6 +54,8 @@ class ExtractedLabelRecord(BaseModel):
     net_contents: str | None = None
     government_warning: str | None = None
     government_warning_header_bold: bool | None = None
+    government_warning_bold_confidence: float | None = None
+    government_warning_header_bbox: tuple[int, int, int, int] | None = None
     bottler_producer_address: str | None = None
     country_of_origin: str | None = None
     raw_text: str = ""
@@ -74,6 +78,7 @@ class VerificationResult(BaseModel):
     elapsed_ms: float
     trace_id: str | None = None
     errors: list[str] = Field(default_factory=list)
+    latency_warning: bool = False
 
 
 class BatchItemResult(BaseModel):

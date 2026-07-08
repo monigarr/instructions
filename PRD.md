@@ -3,11 +3,12 @@
 **Product:** AI-Powered Alcohol Label Verification App — *LabelForge Agent Factory*  
 **Document type:** Prototype / proof-of-concept PRD (technical interview showcase)  
 **Primary source:** [ClientRequirement.md](ClientRequirement.md)  
+**Onboarding:** [ONBOARDING.md](ONBOARDING.md)  
 **Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md)  
 **Deliverables:** [DELIVERABLES.md](DELIVERABLES.md)  
 **Status:** Implemented (P1 + P2+ in `app/`); **production live** at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com)  
 **Author:** Monica Peters (MoniGarr) | Gauntlet AI GFA Cohort 5 Fellowship, 2026  
-**Last updated:** 2026-06-09
+**Last updated:** 2026-07-08
 
 ---
 
@@ -15,6 +16,7 @@
 
 | Layer | Authority | Role |
 |-------|-----------|------|
+| **Onboarding** | [ONBOARDING.md](ONBOARDING.md) | Engineer & architect runbook — repo map, config, quality gates |
 | **Client truth** | [ClientRequirement.md](ClientRequirement.md) | Normative requirements and **two deliverables only** |
 | **Proof** | [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) | File paths + live URLs proving §10 deliverables |
 | **Submission** | [DELIVERABLES.md](DELIVERABLES.md) + **§10 below** | Checklist for repo + URL + client constraints |
@@ -89,7 +91,7 @@ This is **not** a COLA integration project.
 | Metric | Target |
 |--------|--------|
 | Single-label processing time | **≤ ~5 seconds** (user-perceived; Sarah Chen) |
-| Batch upload | **200+ labels** in one session |
+| Batch upload | **200–300 labels** in one session |
 | Core field coverage | All fields in §6.1 |
 | Deployability | Publicly testable deployed URL |
 | Repository completeness | Runnable locally from README |
@@ -135,7 +137,7 @@ This is **not** a COLA integration project.
 - Agent Software Factory composition root
 - LangGraph (or equivalent) workflow with fallbacks
 - RAG over TTB regulatory corpus
-- Offline eval harness + optional CI gates
+- Offline eval harness + CI regression gate (enforced in GitHub Actions; production deploy unaffected)
 - S.O.L.I.D. ports/adapters for OCR, rules, retrieval
 - Structured logging / optional LangSmith traces
 
@@ -216,7 +218,9 @@ P2+: ingest → extract → structure → [rag_enrich] → rules → [nuance] �
 ### 6.4 User interface (client-first)
 
 - **Clean, obvious layout** — benchmark: Sarah Chen’s “my mother could figure out” standard.
+- **USWDS 3.0–aligned styling** — Public Sans typography and federal design tokens ([U.S. Web Design System](https://designsystem.digital.gov/)) in custom CSS; two-tab workflow (Verify One Label / Batch Verify).
 - **Must show:** label image, extracted values, application values, field-level diffs for mismatches.
+- **Batch quick-starts:** demo catalog batch (34), 200-label and 300-label scale tests (Sarah/Janet peak-load requirement).
 - **Must not:** hide complexity behind opaque scores; require training to find primary actions (Dave Morrison).
 - **Optional (P2+ / logs / README):** pipeline stage names, `trace_id`, graph node provenance — keep out of default agent UI unless minimal.
 
@@ -243,7 +247,7 @@ The **LabelForge Factory** is the composition root that:
 | Tool injection | Inject OCR, RAG retriever, rules engine, clock, logger via interfaces |
 | Graph compilation | Build verification graph from declarative config (YAML/code) |
 | Run lifecycle | Create `run_id`, persist state snapshots (in-memory PoC; pluggable store) |
-| Policy enforcement | Block auto-approve paths; optional eval thresholds in CI (P3) |
+| Policy enforcement | Block auto-approve paths; eval regression thresholds in CI (P3) |
 | Batch mode | Spawn parallel graph runs under concurrency budget |
 
 **Specialized agents (minimum roster):**
@@ -442,7 +446,7 @@ Omitting P2+ folders does **not** fail submission if §10.1–10.2 are met. Docu
 |----------|---------|
 | `fixtures/` + test labels | Client-encouraged sample labels; demo and regression |
 | Verification source (any structure) | OCR/extraction, rules, batch — e.g. `src/` with factory/graph/agents/rag/rules |
-| `evals/` (optional) | Quality gates; supports “correctness” and “creative problem-solving” |
+| `evals/` | Quality gates with CI regression enforcement; supports “correctness” and “creative problem-solving” |
 | `.env.example` | Document OCR/API config without secrets |
 
 ### 10.5 Supporting documentation (this instructions repo — not submitted as deliverables)
@@ -490,7 +494,7 @@ Evidence map: [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §1.1 · Live demo:
 | **P0 — Foundation** | Interfaces, project skeleton, README draft | Compiles locally |
 | **P1 — MVP (SUBMIT)** | Ingest → extract → structure → rules → UI; single + batch; fixtures | **Repo + URL live**; §10.2 met; P95 ≤ ~5 s documented |
 | **P2 — Graph + RAG** | Factory, LangGraph, ComplianceRAGAgent, NuanceAgent | Interview craft; README approach updated |
-| **P3 — Eval hardening** | Golden/adversarial suites; optional CI gates | Engineering quality; not submission blocker |
+| **P3 — Eval hardening** | Golden/adversarial suites; **28** pytest tests; CI regression gate enforced | Engineering quality; production deploy unaffected |
 | **P4 — Stretch** | HITL node, explanations, image pre-processing | Jenny Park stretch; document if cut |
 
 ---
@@ -507,8 +511,19 @@ Evidence map: [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §1.1 · Live demo:
 
 ### Open questions
 
-- Preferred batch manifest format (CSV schema vs. JSON)?
-- Evaluator network restrictions for cloud OCR/LLM at demo time?
+- Evaluator network restrictions for cloud OCR/LLM at demo time? (Documented: Tesseract default; Azure optional with fallback per Marcus Williams)
+
+**Resolved:**
+
+- Batch manifest format: **JSON** (`POST /batch/verify`) and **CSV** (`POST /batch/verify-csv`) — see [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §5
+
+### Achieved metrics (beyond aspirational targets)
+
+| Metric | PRD target | Achieved (see proof index) |
+|--------|------------|----------------------------|
+| Golden summary accuracy | ≥ 95% | **100%** (30 golden cases) |
+| Adversarial warning recall | 100% | **100%** |
+| Production `/verify` latency | ≤ ~5 s | **~3.7 s** on Render Starter |
 
 ---
 

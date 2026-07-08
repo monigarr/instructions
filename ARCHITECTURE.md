@@ -6,7 +6,7 @@
 | File Header Standard | [CODE_COMMENT_HEADER_TEMPLATE.md](CODE_COMMENT_HEADER_TEMPLATE.md) |
 | Template | [ARCHITECTURE_TEMPLATE_MOM_MILE.md](ARCHITECTURE_TEMPLATE_MOM_MILE.md) |
 
-> **Code reviewers:** [README.md](README.md) → [REVIEWER_GUIDE.md](REVIEWER_GUIDE.md) → [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) → this doc §1–2 for factory pattern. Live demo: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com).
+> **Engineers & architects:** [ONBOARDING.md](ONBOARDING.md) · **Code reviewers:** [README.md](README.md) → [REVIEWER_GUIDE.md](REVIEWER_GUIDE.md) → [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) → this doc §1–2 for factory pattern. Live demo: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com).
 
 ---
 
@@ -14,6 +14,7 @@
 
 | Audience | Read | Time |
 |----------|------|------|
+| **Engineers & architects** | [ONBOARDING.md](ONBOARDING.md) | ~30 min |
 | **Client reviewers** | Skip this doc — use [REVIEWER_GUIDE.md](REVIEWER_GUIDE.md) + [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) | 3 min |
 | **Interview reviewers** | §1 Executive Summary, §3A Client Mandatory, §6 Graph orchestration | ~15 min |
 | **Deep dive** | Full factory, RAG, evals, HITL stubs | ~45 min |
@@ -47,7 +48,7 @@
 # Architecture Method: M.O.M. + M.I.L.E. + Gauntlet AI-Native Factory Pattern
 # Primary Maintainers: MoniGarr
 # Created: 2026-06-09
-# Last Updated: 2026-06-09 (aligned with `app/` — 30 golden evals, 9 pytest tests, CI regression gate)
+# Last Updated: 2026-07-08 (aligned with `app/` — 30 golden evals, 34 catalog + 300 scale fixtures, 28 pytest tests, CI regression gate)
 # License: TBD
 # ============================================================================
 #
@@ -117,7 +118,7 @@ The **RulesEngineAgent** emits verdict guidance; the **human compliance agent** 
 
 Even P1 enforces: clear module boundaries, secrets via env, README trade-offs, test labels in repo.
 
-P2+ adds: trace IDs, interface contracts, optional eval CI, modular layout (`factory/`, `graph/`, `rag/`, `rules/`, `evals/`).
+P2+ adds: trace IDs, interface contracts, eval CI regression gate, modular layout (`factory/`, `graph/`, `rag/`, `rules/`, `evals/`).
 
 ## 2.4 Documentation as Infrastructure
 
@@ -153,7 +154,7 @@ A new engineer must be able to: run eval suite → read graph diagram → swap `
 | LangGraph orchestration | P2 | Conditional routing, OCR fallback nodes |
 | RAG (TTB corpus) | P2 | Grounding; rules still own verdicts |
 | NuanceAgent | P2 | Brand equivalence suggestions |
-| Eval harness + CI gates | P3 | Recommended; **must not block URL submission** |
+| Eval harness + CI gates | P3 | **Enforced in CI** for regression; does not block production URL at runtime |
 | SOLID port/adapters | P1→P2 | Start interfaces in P1 even if monolith layout |
 | HITL graph checkpoints | P4 | Stretch |
 
@@ -173,7 +174,7 @@ A new engineer must be able to: run eval suite → read graph diagram → swap `
 |-------|----------|------------|
 | **P1 — MVP** | `upload → validate → extract → structure → rules → results` | **Submit repo + URL** when §3A complete |
 | **P2 — Factory** | + factory, LangGraph, RAG, NuanceAgent | Interview craft in code + README |
-| **P3 — Evals** | + golden/adversarial suites, optional CI block on merge | Quality discipline; not client gate |
+| **P3 — Evals** | + golden/adversarial suites, CI block on merge | Quality discipline; not client submission gate |
 | **P4 — Stretch** | + HITL, explanations, glare handling | Document if cut |
 
 ```text
@@ -267,7 +268,7 @@ The **LabelForge Factory** is the autonomous composition root:
 | **Wire adapters** | Inject `IOCRProvider`, `IRAGRetriever`, `IRulesEngine`, loggers |
 | **Compile graph** | Build LangGraph from `graph/verification_graph.py` + config |
 | **Execute runs** | Assign `run_id` / `trace_id`; stream state updates |
-| **Enforce policy** | No auto-approve; optional eval thresholds in CI (P3) |
+| **Enforce policy** | No auto-approve; eval regression thresholds in CI (P3) |
 | **Scale batch** | Concurrency pool with backpressure |
 
 ## 6.2 Specialized Agent Roster
@@ -280,7 +281,7 @@ The **LabelForge Factory** is the autonomous composition root:
 | **ComplianceRAGAgent** | Retrieve TTB context | field keys → `RAGContext[]` |
 | **RulesEngineAgent** | Deterministic verdict bits | extracted + application + RAG → `FieldVerdict[]` |
 | **NuanceAgent** | Brand fuzzy equivalence | brand pair → `NuanceSuggestion` |
-| **BatchSupervisorAgent** | Fan-out/fan-in batch jobs | manifest → `BatchResult` |
+| **BatchSupervisorAgent** | Fan-out/fan-in batch jobs | manifest → `BatchResult` (implemented as [`BatchVerificationService`](app/src/verify/batch_service.py) / `IBatchSupervisor`) |
 | **EvalRunnerAgent** | Offline quality gates | dataset → `EvalReport` |
 
 **Autonomy boundary:** Agents are **autonomous within their node** but **orchestrated by the graph**—no agent directly invokes another; the factory/graph controls all transitions (Gauntlet best practice).
@@ -421,7 +422,7 @@ stateDiagram-v2
 
 | Eval Type | Phase | CI Policy |
 |-----------|-------|-----------|
-| **Unit (rules + metrics)** | P1 recommended | **9** pytest tests in CI; block on failure |
+| **Unit (rules + metrics + batch + scale)** | P1 recommended | **28** pytest tests in CI; block on failure |
 | **Graph E2E**    | P2+            | Warn then block in P3 |
 | **Adversarial**  | P3             | Block merge when adopted |
 | **Performance**  | P1             | Document in README; warn in CI |
@@ -507,7 +508,7 @@ stateDiagram-v2
 | `IOCRProvider` | `AzureDocIntelProvider`, `TesseractProvider` | Vision extraction |
 | `IRAGRetriever` | `ChromaRetriever`, `AzureSearchRetriever` | Top-k regulatory context |
 | `IEmbeddingProvider` | `OpenAIEmbeddings`, `LocalEmbeddings` | Vector indexing |
-| `IFieldRule` | `BrandRule`, `WarningExactRule`, `ABVRule`, … | Single field verdict |
+| `IFieldRule` | `BrandFuzzyRule`, `WarningExactRule`, `ABVPatternRule`, … | Single field verdict |
 | `IRulesEngine` | `DeterministicRulesEngine` | Composes `IFieldRule[]` |
 | `IAgentNode` | Each agent class | One graph node execution |
 | `IGraphRunner` | `LangGraphRunner` | Stateful orchestration |
@@ -537,10 +538,10 @@ app/
 └── (optional) tests/      # rules unit tests recommended
 ```
 
-### P2+ Target Layout (Factory Evolution — Not Submission-Required)
+### P2+ Target Layout (Factory Evolution — Implemented in `app/`)
 
 ```text
-label-forge/
+app/
 ├── README.md
 ├── pyproject.toml / package.json
 ├── .env.example
@@ -558,8 +559,12 @@ label-forge/
 │   ├── datasets/
 │   ├── metrics/
 │   └── runners/
-├── fixtures/              # Sample labels + JSON
-└── .github/workflows/     # test + eval + deploy
+├── fixtures/              # Catalog + scale labels + JSON manifests
+├── scripts/               # generate_fixtures, generate_scale_fixtures, load tests
+└── tests/                 # Pytest unit tests
+
+.github/workflows/         # CI at repo root (pytest, eval suite, UI build)
+render.yaml                # Render Blueprint
 ```
 
 ---
@@ -735,16 +740,16 @@ OPERATIONAL:
 # 16. Deployment Architecture
 
 ```text
-GitHub → Actions(lint, unit, build) → PaaS/Azure → HTTPS URL
+GitHub → Actions(pytest, eval suite, UI build) → PaaS/Azure → HTTPS URL
                               │
-                              └─ optional P3: eval_suite before merge (not before first URL)
+                              └─ eval_suite fails build on regression (production URL ships independently)
 ```
 
 | Environment | Behavior |
 |-------------|----------|
 | Local | P1 path; local OCR fallback if configured |
-| **Demo URL (client deliverable)** | Ship when P1 §3A works — do not wait for factory/RAG/eval CI |
-| CI | P1: lint + unit tests; P3: add eval regression optionally |
+| **Demo URL (client deliverable)** | P1 §3A — factory/RAG off by default |
+| CI | pytest + eval regression gate + UI build; latency benchmark non-blocking |
 
 ---
 
@@ -843,4 +848,4 @@ LabelForge **target state** (P2+) is designed as a **Gauntlet AI-native Autonomo
 | SOLID | Evaluation criteria | §7 |
 | Interview craft (not client gate) | ARCHITECTURE.md mandate | §1, §3B, §4 X3 |
 
-*Last updated: 2026-06-09*
+*Last updated: 2026-07-08*

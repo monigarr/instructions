@@ -4,7 +4,7 @@
 | Derived Spec | [PRD.md](PRD.md) · [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Client Deliverable | GitHub repository (code quality and organization) |
 
-Use this header on production modules per [ARCHITECTURE.md](ARCHITECTURE.md) §15 and M.O.M. file standards.
+Use this header on production modules per [ARCHITECTURE.md](ARCHITECTURE.md) §15 and M.O.M. file standards. Test modules may use minimal headers.
 
 ## Python (LabelForge `app/`)
 

@@ -8,6 +8,7 @@ import uuid
 
 from src.adapters.ocr.factory import create_fallback_provider, create_ocr_provider
 from src.config import settings
+from src.domain.fixture_stem import resolve_fixture_stem
 from src.domain.interfaces import IOCRProvider, IRulesEngine
 from src.domain.models import ApplicationRecord, LabelSummary, OCRResult, VerificationResult, VerdictStatus
 from src.ingest.validator import UploadValidationError, validate_image_upload
@@ -37,10 +38,11 @@ class VerificationPipeline:
         errors: list[str] = []
         from src.adapters.ocr.sidecar_provider import SidecarByStemOCRProvider
 
-        if isinstance(self._primary, SidecarByStemOCRProvider) and label_id:
-            self._primary.set_stem_hint(label_id)
-        if isinstance(self._fallback, SidecarByStemOCRProvider) and label_id:
-            self._fallback.set_stem_hint(label_id)
+        stem = resolve_fixture_stem(label_id) if label_id else None
+        if isinstance(self._primary, SidecarByStemOCRProvider) and stem:
+            self._primary.set_stem_hint(stem)
+        if isinstance(self._fallback, SidecarByStemOCRProvider) and stem:
+            self._fallback.set_stem_hint(stem)
         providers = [self._primary]
         if self._fallback.name != self._primary.name:
             providers.append(self._fallback)
@@ -107,4 +109,5 @@ class VerificationPipeline:
             elapsed_ms=elapsed,
             trace_id=trace_id,
             errors=errors,
+            latency_warning=settings.latency_gate_enabled and elapsed > settings.latency_warn_ms,
         )

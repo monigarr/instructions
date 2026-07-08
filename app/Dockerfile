@@ -17,6 +17,7 @@ COPY fixtures/ ./fixtures/
 COPY --from=ui-build /ui/dist ./ui/dist
 RUN pip install --no-cache-dir -e .
 RUN python scripts/generate_fixtures.py || true
+RUN python scripts/generate_scale_fixtures.py || true
 ENV API_HOST=0.0.0.0
 ENV API_PORT=8000
 EXPOSE 10000

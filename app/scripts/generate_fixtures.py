@@ -25,11 +25,14 @@ BASE_APP = {
 }
 
 
-def _font(size: int):
-    try:
-        return ImageFont.truetype("arial.ttf", size)
-    except OSError:
-        return ImageFont.load_default()
+def _font(size: int, bold: bool = False):
+    names = ["arialbd.ttf", "Arial Bold.ttf"] if bold else ["arial.ttf", "Arial.ttf"]
+    for name in names:
+        try:
+            return ImageFont.truetype(name, size)
+        except OSError:
+            continue
+    return ImageFont.load_default()
 
 
 def _wrap_line(line: str, font: ImageFont.FreeTypeFont | ImageFont.ImageFont, draw: ImageDraw.ImageDraw, max_width: int) -> list[str]:
@@ -69,6 +72,59 @@ def draw_label(lines: list[str], path: Path, width: int = 800, height: int = 120
     img.save(path, format="PNG")
 
 
+def draw_label_bold_header(lines: list[str], path: Path, *, header_bold: bool = True, width: int = 800, height: int = 1200) -> None:
+    """Render label with optional bold vs regular government warning header."""
+    img = Image.new("RGB", (width, height), color=(250, 245, 235))
+    draw = ImageDraw.Draw(img)
+    margin = 40
+    max_text_width = width - (margin * 2)
+    y = margin
+    for i, line in enumerate(lines):
+        size = 28 if i == 0 else 18
+        use_bold = False
+        if line.startswith("GOVERNMENT WARNING"):
+            size = 16
+            use_bold = header_bold
+        font = _font(size, bold=use_bold)
+        for wrapped in _wrap_line(line, font, draw, max_text_width):
+            draw.text((margin, y), wrapped, fill=(20, 20, 20), font=font)
+            y += size + 10
+        y += 4
+    path.parent.mkdir(parents=True, exist_ok=True)
+    img.save(path, format="PNG")
+
+
+def draw_label_rotated(lines: list[str], path: Path, angle: float = -3.0) -> None:
+    tmp = path.with_suffix(".tmp.png")
+    draw_label(lines, tmp)
+    with Image.open(tmp) as img:
+        rotated = img.rotate(angle, expand=True, fillcolor=(250, 245, 235))
+        rotated.save(path, format="PNG")
+    tmp.unlink(missing_ok=True)
+
+
+def draw_label_low_contrast(lines: list[str], path: Path) -> None:
+    draw_label(lines, path)
+    with Image.open(path) as img:
+        from PIL import ImageEnhance
+
+        faded = ImageEnhance.Brightness(img).enhance(1.15)
+        faded = ImageEnhance.Contrast(faded).enhance(0.55)
+        faded.save(path, format="PNG")
+
+
+def draw_label_glare(lines: list[str], path: Path) -> None:
+    draw_label(lines, path)
+    with Image.open(path) as img:
+        draw = ImageDraw.Draw(img)
+        w, h = img.size
+        for i in range(w):
+            alpha = int(180 * (1 - abs(i - w * 0.65) / (w * 0.35)))
+            alpha = max(0, min(180, alpha))
+            draw.line([(i, 0), (i, h // 2)], fill=(255, 255, 255, alpha))
+        img.save(path, format="PNG")
+
+
 WARNING_PARAPHRASED = (
     "GOVERNMENT WARNING: (1) Per the Surgeon General, women must not consume alcohol "
     "during pregnancy due to birth defect risk. (2) Drinking impairs driving and machine "
@@ -88,8 +144,18 @@ def _label_fixture(
     app: dict,
     *,
     blank: bool = False,
+    render: str = "default",
+    header_bold: bool = True,
 ) -> dict:
-    return {"id": label_id, "expected_summary": expected_summary, "lines": lines, "app": app, "blank": blank}
+    return {
+        "id": label_id,
+        "expected_summary": expected_summary,
+        "lines": lines,
+        "app": app,
+        "blank": blank,
+        "render": render,
+        "header_bold": header_bold,
+    }
 
 
 def _domestic_lines(
@@ -152,6 +218,13 @@ def fixture_catalog() -> list[dict]:
             ],
             "app": {**BASE_APP, "label_id": "warning_title_case"},
         },
+        _label_fixture(
+            "warning_not_bold",
+            "needs_review",
+            _domestic_lines("OLD TOM DISTILLERY", "Kentucky Straight Bourbon Whiskey"),
+            {**BASE_APP, "label_id": "warning_not_bold"},
+            header_bold=False,
+        ),
         {
             "id": "stones_throw_brand",
             "expected_summary": "needs_review",
@@ -211,6 +284,27 @@ def fixture_catalog() -> list[dict]:
             ],
             "app": {**BASE_APP, "label_id": "net_contents_mismatch"},
         },
+        _label_fixture(
+            "label_slight_rotation",
+            "passed",
+            _domestic_lines("OLD TOM DISTILLERY", "Kentucky Straight Bourbon Whiskey"),
+            {**BASE_APP, "label_id": "label_slight_rotation"},
+            render="rotated",
+        ),
+        _label_fixture(
+            "label_low_contrast",
+            "passed",
+            _domestic_lines("OLD TOM DISTILLERY", "Kentucky Straight Bourbon Whiskey"),
+            {**BASE_APP, "label_id": "label_low_contrast"},
+            render="low_contrast",
+        ),
+        _label_fixture(
+            "label_glare_band",
+            "passed",
+            _domestic_lines("OLD TOM DISTILLERY", "Kentucky Straight Bourbon Whiskey"),
+            {**BASE_APP, "label_id": "label_glare_band"},
+            render="glare",
+        ),
         {
             "id": "class_type_mismatch",
             "expected_summary": "failed",
@@ -533,9 +627,21 @@ def main() -> None:
         if fx.get("blank"):
             Image.new("RGB", (100, 100), (128, 128, 128)).save(label_path)
         else:
-            draw_label(fx["lines"], label_path)
+            render = fx.get("render", "default")
+            header_bold = fx.get("header_bold", True)
+            lines = fx["lines"]
+            if render == "rotated":
+                draw_label_rotated(lines, label_path)
+            elif render == "low_contrast":
+                draw_label_low_contrast(lines, label_path)
+            elif render == "glare":
+                draw_label_glare(lines, label_path)
+            elif header_bold is False:
+                draw_label_bold_header(lines, label_path, header_bold=False)
+            else:
+                draw_label(lines, label_path)
             sidecar = LABELS_DIR / f"{fx['id']}.txt"
-            sidecar.write_text("\n".join(fx["lines"]), encoding="utf-8")
+            sidecar.write_text("\n".join(lines), encoding="utf-8")
         app_path = APPS_DIR / f"{fx['id']}.json"
         app_path.write_text(json.dumps(fx["app"], indent=2), encoding="utf-8")
         manifest.append(fx["app"])

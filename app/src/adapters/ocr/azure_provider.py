@@ -35,7 +35,11 @@ class AzureOCRProvider(IOCRProvider):
         except ImportError as exc:
             raise RuntimeError("azure-ai-documentintelligence not installed") from exc
 
-        processed = preprocess_for_ocr(image_bytes)
+        processed = preprocess_for_ocr(
+            image_bytes,
+            deskew=settings.preprocess_imperfect,
+            enhance_imperfect=settings.preprocess_imperfect,
+        )
 
         def _call() -> OCRResult:
             client = DocumentIntelligenceClient(

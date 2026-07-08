@@ -16,6 +16,11 @@ class Settings(BaseSettings):
     ocr_timeout_seconds: float = 4.0
     max_upload_bytes: int = 10_485_760
     batch_concurrency: int = 6
+    batch_persist: bool = False
+    batch_persist_dir: str = "./data/batches"
+    latency_warn_ms: float = 5000.0
+    latency_gate_enabled: bool = False
+    preprocess_imperfect: bool = False
     api_host: str = "0.0.0.0"
     api_port: int = 8000
     cors_origins: str = "http://localhost:5173,http://localhost:3000"

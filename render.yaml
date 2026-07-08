@@ -16,3 +16,7 @@ services:
         value: "true"
       - key: BATCH_CONCURRENCY
         value: "6"
+      - key: BATCH_PERSIST
+        value: "true"
+      - key: LATENCY_GATE_ENABLED
+        value: "true"

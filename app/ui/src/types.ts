@@ -16,6 +16,7 @@ export interface VerificationResult {
   elapsed_ms: number;
   trace_id?: string;
   errors: string[];
+  latency_warning?: boolean;
 }
 
 export interface BatchProgress {
@@ -35,6 +36,23 @@ export interface BatchProgress {
   }>;
 }
 
+export interface SampleScenario {
+  id: string;
+  title: string;
+  description: string;
+  expected_summary: string;
+  category: string;
+  thumbnail_url: string;
+  application_url: string;
+}
+
+export interface FixtureLabel {
+  id: string;
+  image_url: string;
+  application_url: string;
+  expected_summary?: string;
+}
+
 export const DEFAULT_APPLICATION = {
   label_id: "single",
   brand_name: "OLD TOM DISTILLERY",
@@ -47,58 +65,6 @@ export const DEFAULT_APPLICATION = {
   country_of_origin: "",
 };
 
-export interface SampleScenario {
-  id: string;
-  buttonLabel: string;
-  imageHint: string;
-  expectedHint: string;
-  application: typeof DEFAULT_APPLICATION;
-}
-
-export const SAMPLE_SCENARIOS: SampleScenario[] = [
-  {
-    id: "old_tom_match",
-    buttonLabel: "Load sample: Old Tom (pass)",
-    imageHint: "Upload fixtures/labels/old_tom_match.png",
-    expectedHint: "Expect: passed — all fields match",
-    application: { ...DEFAULT_APPLICATION, label_id: "old_tom_match" },
-  },
-  {
-    id: "warning_title_case",
-    buttonLabel: "Load sample: Warning fail",
-    imageHint: "Upload fixtures/labels/warning_title_case.png",
-    expectedHint: "Expect: failed — government warning mismatch (Jenny Park)",
-    application: {
-      label_id: "warning_title_case",
-      brand_name: "OLD TOM DISTILLERY",
-      class_type: "Kentucky Straight Bourbon Whiskey",
-      alcohol_content: "45% Alc./Vol. (90 Proof)",
-      net_contents: "750 mL",
-      government_warning:
-        "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
-      bottler_producer_address: "Old Tom Distillery, Louisville, KY 40202",
-      country_of_origin: "",
-    },
-  },
-  {
-    id: "stones_throw_brand",
-    buttonLabel: "Load sample: Brand nuance",
-    imageHint: "Upload fixtures/labels/stones_throw_brand.png",
-    expectedHint: "Expect: needs review — brand casing nuance (Dave Morrison)",
-    application: {
-      label_id: "stones_throw_brand",
-      brand_name: "Stone's Throw",
-      class_type: "Kentucky Straight Bourbon Whiskey",
-      alcohol_content: "45% Alc./Vol. (90 Proof)",
-      net_contents: "750 mL",
-      government_warning:
-        "GOVERNMENT WARNING: (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects. (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.",
-      bottler_producer_address: "Old Tom Distillery, Louisville, KY 40202",
-      country_of_origin: "",
-    },
-  },
-];
-
 export const FIELD_LABELS: Record<string, string> = {
   brand_name: "Brand Name",
   class_type: "Class / Type",
@@ -108,3 +74,27 @@ export const FIELD_LABELS: Record<string, string> = {
   bottler_producer_address: "Bottler / Producer Address",
   country_of_origin: "Country of Origin",
 };
+
+export function formatElapsed(ms: number): string {
+  const seconds = ms / 1000;
+  return `${seconds.toFixed(1)} s (${ms.toFixed(0)} ms)`;
+}
+
+export function statusClass(status: string): string {
+  if (status === "match" || status === "passed") return "status-pass";
+  if (status === "mismatch" || status === "failed") return "status-fail";
+  return "status-review";
+}
+
+export function expectedSummaryClass(summary: string): string {
+  if (summary === "passed") return "chip-pass";
+  if (summary === "failed") return "chip-fail";
+  return "chip-review";
+}
+
+export function computeP95(values: number[]): number {
+  if (!values.length) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  const idx = Math.floor(0.95 * (sorted.length - 1));
+  return sorted[idx];
+}

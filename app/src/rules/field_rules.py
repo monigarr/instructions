@@ -188,6 +188,18 @@ class WarningExactRule(IFieldRule):
                 "Warning header may not be bold — verify visually (bold detection is heuristic).",
                 confidence=0.7,
             )
+        bold_conf = extracted.government_warning_bold_confidence
+        if extracted.government_warning_header_bold is None or (
+            bold_conf is not None and bold_conf < 0.5
+        ):
+            return _verdict(
+                self.field_name,
+                VerdictStatus.NEEDS_REVIEW,
+                app_val,
+                label_val,
+                "Bold weight uncertain — verify visually.",
+                confidence=0.6,
+            )
         return _verdict(self.field_name, VerdictStatus.MATCH, app_val, label_val, "Government warning matches exactly.")
 
 

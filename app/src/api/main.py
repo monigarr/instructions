@@ -2,17 +2,29 @@
 
 from __future__ import annotations
 
-import json
 import csv
 import io
+import json
+from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-from pathlib import Path
 
+from src.api.samples_catalog import (
+    demo_batch_manifest,
+    fixture_application_path,
+    fixture_image_path,
+    list_fixture_labels,
+    list_samples,
+    sample_application_path,
+    sample_image_path,
+    scale_batch_manifest,
+)
 from src.config import settings
+from src.domain.fixture_stem import resolve_fixture_stem
 from src.domain.models import ApplicationRecord
 from src.factory.labelforge_factory import LabelForgeFactory
 from src.verify.batch_service import BatchVerificationService
@@ -49,6 +61,73 @@ async def health():
         "ocr_provider": settings.ocr_provider,
         "use_factory_graph": settings.use_factory_graph,
         "rag_enabled": settings.rag_enabled,
+        "batch_persist": settings.batch_persist,
+        "latency_gate_enabled": settings.latency_gate_enabled,
+    }
+
+
+@app.get("/samples")
+async def get_samples():
+    return {"samples": list_samples()}
+
+
+@app.get("/labels")
+async def get_labels():
+    return {"labels": list_fixture_labels()}
+
+
+@app.get("/labels/{label_id}/image")
+async def get_label_image(label_id: str):
+    path = fixture_image_path(label_id)
+    if path is None:
+        raise HTTPException(status_code=404, detail="Label image not found.")
+    return FileResponse(path, media_type="image/png")
+
+
+@app.get("/labels/{label_id}/application")
+async def get_label_application(label_id: str):
+    path = fixture_application_path(label_id)
+    if path is None:
+        raise HTTPException(status_code=404, detail="Label application data not found.")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+@app.get("/samples/{sample_id}/image")
+async def get_sample_image(sample_id: str):
+    path = sample_image_path(sample_id)
+    if path is None:
+        raise HTTPException(status_code=404, detail="Sample image not found.")
+    return FileResponse(path, media_type="image/png")
+
+
+@app.get("/samples/{sample_id}/application")
+async def get_sample_application(sample_id: str):
+    path = sample_application_path(sample_id)
+    if path is None:
+        raise HTTPException(status_code=404, detail="Sample application not found.")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+@app.get("/samples/batch/demo")
+async def get_demo_batch():
+    manifest = demo_batch_manifest()
+    return {
+        "total": len(manifest),
+        "manifest": manifest,
+        "image_ids": sorted({entry["label_id"] for entry in manifest}),
+    }
+
+
+@app.get("/samples/batch/scale/{size}")
+async def get_scale_batch(size: int):
+    if size not in (200, 300):
+        raise HTTPException(status_code=400, detail="Size must be 200 or 300.")
+    manifest = scale_batch_manifest(size)
+    base_ids = sorted({resolve_fixture_stem(entry["label_id"]) for entry in manifest})
+    return {
+        "total": len(manifest),
+        "manifest": manifest,
+        "image_ids": base_ids,
     }
 
 
@@ -63,7 +142,10 @@ async def verify_label(
         result = await _factory.create_graph_runner().run(content, app_record, trace_id=app_record.label_id)
     else:
         result = await _pipeline.verify(content, app_record, image.content_type)
-    return result.model_dump()
+    payload = result.model_dump()
+    if settings.latency_gate_enabled:
+        payload["latency_warning"] = result.elapsed_ms > settings.latency_warn_ms
+    return payload
 
 
 @app.post("/batch/verify")
@@ -148,8 +230,8 @@ async def batch_verify_csv(
 
 
 @app.get("/batch/{batch_id}")
-async def get_batch(batch_id: str):
-    progress = _batch_service.get_progress(batch_id)
+async def get_batch(batch_id: str, summary_only: bool = Query(default=False)):
+    progress = _batch_service.get_progress(batch_id, summary_only=summary_only)
     if not progress:
         raise HTTPException(status_code=404, detail="Batch not found.")
     return progress.model_dump()

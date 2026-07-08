@@ -67,6 +67,8 @@ def structure_fields(ocr: OCRResult) -> ExtractedLabelRecord:
 
     warning = None
     warning_header_bold = None
+    warning_bold_confidence = None
+    warning_header_bbox = None
     warn_m = re.search(
         r"(GOVERNMENT WARNING:[\s\S]*?(?:health problems\.|machinery[^\n]*\.))",
         text,
@@ -79,9 +81,30 @@ def structure_fields(ocr: OCRResult) -> ExtractedLabelRecord:
             warning = header + warning.split(":", 1)[1].strip()
             if not warning.startswith("GOVERNMENT WARNING:"):
                 warning = "GOVERNMENT WARNING: " + warning.split(":", 1)[-1].strip()
-        warning_header_bold = any(
-            b.is_bold and "GOVERNMENT" in b.text.upper() for b in ocr.blocks
-        ) or ("GOVERNMENT WARNING:" in text and "government warning:" not in text)
+        gov_blocks = [b for b in ocr.blocks if "GOVERNMENT" in b.text.upper()]
+        pixel_confidences = [b.bold_confidence for b in gov_blocks if b.bold_confidence is not None]
+        has_pixel_analysis = len(pixel_confidences) > 0
+        avg_bold_confidence = sum(pixel_confidences) / len(pixel_confidences) if pixel_confidences else None
+
+        if gov_blocks:
+            bboxes = [b.bbox for b in gov_blocks if b.bbox]
+            if bboxes:
+                left = min(b[0] for b in bboxes)
+                top = min(b[1] for b in bboxes)
+                right = max(b[0] + b[2] for b in bboxes)
+                bottom = max(b[1] + b[3] for b in bboxes)
+                warning_header_bbox = (left, top, right - left, bottom - top)
+
+        heuristic_bold = any(b.is_bold and "GOVERNMENT" in b.text.upper() for b in ocr.blocks)
+        caps_fallback = "GOVERNMENT WARNING:" in text and "government warning:" not in text
+
+        if has_pixel_analysis:
+            warning_header_bold = heuristic_bold and avg_bold_confidence is not None and avg_bold_confidence >= 0.3
+            if avg_bold_confidence is not None and avg_bold_confidence < 0.5:
+                warning_header_bold = False if avg_bold_confidence < 0.3 else warning_header_bold
+            warning_bold_confidence = avg_bold_confidence
+        else:
+            warning_header_bold = heuristic_bold or caps_fallback
 
     address = None
     addr_m = re.search(
@@ -117,6 +140,8 @@ def structure_fields(ocr: OCRResult) -> ExtractedLabelRecord:
         net_contents=net,
         government_warning=warning or (GOVERNMENT_WARNING_CANONICAL if "SURGEON GENERAL" in upper else None),
         government_warning_header_bold=warning_header_bold,
+        government_warning_bold_confidence=warning_bold_confidence,
+        government_warning_header_bbox=warning_header_bbox,
         bottler_producer_address=address,
         country_of_origin=country,
         raw_text=text,

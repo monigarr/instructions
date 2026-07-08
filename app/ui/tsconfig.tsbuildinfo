@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/main.tsx","./src/types.ts","./src/vite-env.d.ts"],"version":"5.9.3"}
+{"root":["./src/app.tsx","./src/labelpickercard.tsx","./src/latencybadge.tsx","./src/samplegallery.tsx","./src/verdicttable.tsx","./src/main.tsx","./src/scroll.ts","./src/types.ts","./src/vite-env.d.ts"],"version":"5.9.3"}
