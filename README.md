@@ -43,7 +43,7 @@ Use these counts consistently across docs (verified against repo on **2026-07-08
 | **Curated gallery samples** | **10** | [`SAMPLE_CATALOG`](app/src/api/samples_catalog.py) — one-click demo cards |
 | **Non-golden stretch fixtures** | **4** | `warning_not_bold`, `label_slight_rotation`, `label_low_contrast`, `label_glare_band` — in catalog/gallery, excluded from golden CI (OCR/visual variance) |
 | **Pytest unit tests** | **28** | `pytest tests/ --collect-only` across 6 modules |
-| **Extra label PNGs** | varies | Label picker only (e.g. `DonPapa.png`); not in catalog or scale manifests |
+| **Extra label PNGs** | varies | Label picker only (synthetic fictional-brand labels, e.g. `DonPapa.png`); not in catalog or scale manifests |
 
 ---
 

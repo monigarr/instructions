@@ -1,0 +1,15 @@
+# Root-level ignores (app-level rules live in app/.gitignore)
+data/
+*.tsbuildinfo
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+node_modules/
+*.log
+eval-report.json
+latency-report.json
+.DS_Store
+Thumbs.db

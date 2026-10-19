@@ -1,0 +1,25 @@
+# Dependabot: keep Python, npm, and Actions dependencies current.
+# Security updates land fast; majors are triaged against the upgrade
+# register in APPROACH.md (deferred majors are documented, not silent).
+
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/app"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels: ["dependencies", "python"]
+
+  - package-ecosystem: "npm"
+    directory: "/app/ui"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels: ["dependencies", "javascript"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels: ["dependencies", "ci"]
