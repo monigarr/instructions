@@ -14,14 +14,20 @@ class BoldAnalysis:
     bold_confidence: float
 
 
+def _pixels(image: Image.Image) -> list[int]:
+    """Pixel iterator that works on Pillow <13 and >=13 (getdata is deprecated in 13, removed in 14)."""
+    getter = getattr(image, "get_flattened_data", None) or image.getdata
+    return list(getter())
+
+
 def _region_metrics(region: Image.Image) -> tuple[float, float]:
     gray = region.convert("L")
     edges = gray.filter(ImageFilter.FIND_EDGES)
-    edge_pixels = list(edges.getdata())
+    edge_pixels = _pixels(edges)
     edge_density = sum(p / 255.0 for p in edge_pixels) / len(edge_pixels) if edge_pixels else 0.0
 
     binary = gray.point(lambda p: 0 if p < 140 else 255)
-    ink_pixels = list(binary.getdata())
+    ink_pixels = _pixels(binary)
     ink_fill = sum(1 for p in ink_pixels if p < 128) / len(ink_pixels) if ink_pixels else 0.0
     return edge_density, ink_fill
 
