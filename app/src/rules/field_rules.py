@@ -5,7 +5,12 @@ from __future__ import annotations
 from src.domain.constants import GOVERNMENT_WARNING_CANONICAL
 from src.domain.interfaces import IFieldRule
 from src.domain.models import ApplicationRecord, ExtractedLabelRecord, FieldVerdict, VerdictStatus
-from src.rules.normalize import extract_abv_numbers, normalize_brand, normalize_text, normalize_units
+from src.rules.normalize import (
+    extract_abv_numbers,
+    normalize_brand,
+    normalize_text,
+    normalize_units,
+)
 
 
 def _verdict(

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import time
-from typing import Any, Literal
+from typing import Literal
 
 from langgraph.graph import END, StateGraph
 
@@ -21,13 +21,13 @@ def build_verification_graph(
     rules_engine: IRulesEngine,
     rag_enabled: bool,
 ):
-    from src.agents.ingestion_agent import IngestionAgent
-    from src.agents.vision_extraction_agent import VisionExtractionAgent
-    from src.agents.field_structuring_agent import FieldStructuringAgent
-    from src.agents.compliance_rag_agent import ComplianceRAGAgent
-    from src.agents.rules_engine_agent import RulesEngineAgent
-    from src.agents.nuance_agent import NuanceAgent
     from src.adapters.ocr.tesseract_provider import TesseractOCRProvider
+    from src.agents.compliance_rag_agent import ComplianceRAGAgent
+    from src.agents.field_structuring_agent import FieldStructuringAgent
+    from src.agents.ingestion_agent import IngestionAgent
+    from src.agents.nuance_agent import NuanceAgent
+    from src.agents.rules_engine_agent import RulesEngineAgent
+    from src.agents.vision_extraction_agent import VisionExtractionAgent
 
     ingest = IngestionAgent()
     extract = VisionExtractionAgent(ocr_provider)
@@ -73,9 +73,7 @@ def build_verification_graph(
     async def n_aggregate(state: dict) -> dict:
         verdicts = state.get("verdicts") or []
         status = "complete"
-        if any(v.status == VerdictStatus.MISMATCH for v in verdicts):
-            status = "needs_human_review"
-        elif any(v.status in (VerdictStatus.UNABLE_TO_VERIFY, VerdictStatus.NEEDS_REVIEW) for v in verdicts):
+        if any(v.status == VerdictStatus.MISMATCH for v in verdicts) or any(v.status in (VerdictStatus.UNABLE_TO_VERIFY, VerdictStatus.NEEDS_REVIEW) for v in verdicts):
             status = "needs_human_review"
         return {**state, "status": status, "route": "aggregate"}
 

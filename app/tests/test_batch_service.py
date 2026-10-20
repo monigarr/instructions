@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-import asyncio
 from pathlib import Path
 
 import pytest
 
 from src.domain.models import ApplicationRecord, BatchProgress, LabelSummary, VerificationResult
 from src.verify.batch_service import BatchVerificationService
-from src.verify.batch_store import FileBatchStore, InMemoryBatchStore
+from src.verify.batch_store import FileBatchStore
 
 
 def _app(label_id: str) -> ApplicationRecord:

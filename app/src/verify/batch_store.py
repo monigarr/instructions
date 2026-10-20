@@ -5,8 +5,10 @@ from __future__ import annotations
 import json
 import os
 import tempfile
+from contextlib import suppress
 from pathlib import Path
 
+from src.domain.label_id import sanitize_label_id
 from src.domain.models import BatchProgress
 
 
@@ -32,12 +34,18 @@ class FileBatchStore:
         self.load_all()
 
     def _path(self, batch_id: str) -> Path:
-        return self._dir / f"{batch_id}.json"
+        safe_id = sanitize_label_id(batch_id)
+        if safe_id is None:
+            raise ValueError("invalid batch id")
+        return self._dir / f"{safe_id}.json"
 
     def get(self, batch_id: str) -> BatchProgress | None:
         if batch_id in self._cache:
             return self._cache[batch_id]
-        path = self._path(batch_id)
+        try:
+            path = self._path(batch_id)
+        except ValueError:
+            return None
         if not path.exists():
             return None
         data = json.loads(path.read_text(encoding="utf-8"))
@@ -55,10 +63,8 @@ class FileBatchStore:
                 json.dump(payload, fh)
             os.replace(tmp, path)
         except Exception:
-            try:
+            with suppress(OSError):
                 os.unlink(tmp)
-            except OSError:
-                pass
             raise
 
     def load_all(self) -> dict[str, BatchProgress]:

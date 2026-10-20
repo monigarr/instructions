@@ -11,34 +11,34 @@ from src.rules.field_rules import ABVPatternRule, BrandFuzzyRule, WarningExactRu
 
 
 def _app(**kwargs) -> ApplicationRecord:
-    base = dict(
-        label_id="test",
-        brand_name="OLD TOM DISTILLERY",
-        class_type="Kentucky Straight Bourbon Whiskey",
-        alcohol_content="45% Alc./Vol. (90 Proof)",
-        net_contents="750 mL",
-        government_warning=GOVERNMENT_WARNING_CANONICAL,
-        bottler_producer_address="Louisville, KY",
-        country_of_origin="",
-    )
+    base = {
+        "label_id": "test",
+        "brand_name": "OLD TOM DISTILLERY",
+        "class_type": "Kentucky Straight Bourbon Whiskey",
+        "alcohol_content": "45% Alc./Vol. (90 Proof)",
+        "net_contents": "750 mL",
+        "government_warning": GOVERNMENT_WARNING_CANONICAL,
+        "bottler_producer_address": "Louisville, KY",
+        "country_of_origin": "",
+    }
     base.update(kwargs)
     return ApplicationRecord(**base)
 
 
 def _extracted(**kwargs) -> ExtractedLabelRecord:
-    base = dict(
-        brand_name="OLD TOM DISTILLERY",
-        class_type="Kentucky Straight Bourbon Whiskey",
-        alcohol_content="45% Alc./Vol. (90 Proof)",
-        net_contents="750 mL",
-        government_warning=GOVERNMENT_WARNING_CANONICAL,
-        government_warning_header_bold=True,
-        government_warning_bold_confidence=0.8,
-        bottler_producer_address="Louisville, KY",
-        country_of_origin="",
-        raw_text="",
-        extraction_confidence=0.9,
-    )
+    base = {
+        "brand_name": "OLD TOM DISTILLERY",
+        "class_type": "Kentucky Straight Bourbon Whiskey",
+        "alcohol_content": "45% Alc./Vol. (90 Proof)",
+        "net_contents": "750 mL",
+        "government_warning": GOVERNMENT_WARNING_CANONICAL,
+        "government_warning_header_bold": True,
+        "government_warning_bold_confidence": 0.8,
+        "bottler_producer_address": "Louisville, KY",
+        "country_of_origin": "",
+        "raw_text": "",
+        "extraction_confidence": 0.9,
+    }
     base.update(kwargs)
     return ExtractedLabelRecord(**base)
 

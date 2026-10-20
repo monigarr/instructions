@@ -5,12 +5,14 @@ from __future__ import annotations
 import csv
 import io
 import json
+import logging
+import uuid
 from pathlib import Path
 from typing import Any
 
-from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from src.api.samples_catalog import (
@@ -28,17 +30,56 @@ from src.domain.fixture_stem import resolve_fixture_stem
 from src.domain.models import ApplicationRecord
 from src.factory.labelforge_factory import LabelForgeFactory
 from src.verify.batch_service import BatchVerificationService
-from src.verify.pipeline import VerificationPipeline
 
 app = FastAPI(title="LabelForge", description="TTB Alcohol Label Verification", version="0.1.0")
 
+logger = logging.getLogger("labelforge.api")
+
+# Same-origin UI + explicit dev origins only. Credentials stay off: the demo has
+# no auth and a wildcard-with-credentials combination is invalid and unsafe.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origin_list + ["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=settings.cors_origin_list,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type"],
 )
+
+SECURITY_HEADERS = {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "no-referrer",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+    "Cross-Origin-Opener-Policy": "same-origin",
+    "Content-Security-Policy": (
+        "default-src 'self'; img-src 'self' data: blob:; "
+        "style-src 'self' 'unsafe-inline'; script-src 'self'; "
+        "connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+    ),
+    "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+}
+
+
+@app.middleware("http")
+async def security_headers(request: Request, call_next):
+    content_length = request.headers.get("content-length")
+    if content_length and content_length.isdigit() and int(content_length) > settings.max_request_bytes:
+        return JSONResponse(status_code=413, content={"detail": "Request body too large."})
+    response = await call_next(request)
+    for name, value in SECURITY_HEADERS.items():
+        response.headers.setdefault(name, value)
+    return response
+
+
+@app.exception_handler(Exception)
+async def unhandled_exception(request: Request, exc: Exception) -> JSONResponse:
+    """Never leak stack traces or parser internals; correlate server-side by trace id."""
+    trace_id = str(uuid.uuid4())
+    logger.exception("Unhandled error trace_id=%s path=%s", trace_id, request.url.path)
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal server error.", "trace_id": trace_id},
+    )
 
 _factory = LabelForgeFactory()
 _pipeline = _factory.create_pipeline()
@@ -154,6 +195,13 @@ async def batch_verify(
     images: list[UploadFile] = File(...),
     async_mode: str = Form(default="true"),
 ):
+    if len(manifest.encode("utf-8")) > settings.max_batch_manifest_bytes:
+        raise HTTPException(status_code=413, detail="Manifest too large.")
+    if len(images) > settings.max_batch_files:
+        raise HTTPException(
+            status_code=413,
+            detail=f"Too many files in one batch (max {settings.max_batch_files}).",
+        )
     try:
         manifest_data = json.loads(manifest)
     except json.JSONDecodeError as exc:
@@ -205,6 +253,13 @@ async def batch_verify_csv(
     async_mode: str = Form(default="true"),
 ):
     raw = await manifest_csv.read()
+    if len(raw) > settings.max_batch_manifest_bytes:
+        raise HTTPException(status_code=413, detail="Manifest too large.")
+    if len(images) > settings.max_batch_files:
+        raise HTTPException(
+            status_code=413,
+            detail=f"Too many files in one batch (max {settings.max_batch_files}).",
+        )
     text = raw.decode("utf-8-sig")
     reader = csv.DictReader(io.StringIO(text))
     manifest_data = [dict(row) for row in reader]

@@ -13,11 +13,11 @@
   --theme-base-light: #a9aeb1;
   --theme-base-lighter: #dfe1e2;
   --theme-base-lightest: #f0f0f0;
-  --theme-success: #008817;
+  --theme-success: #006a14;
   --theme-success-lightest: #ecf3ec;
   --theme-error: #b50909;
   --theme-error-lightest: #f4e3db;
-  --theme-warning: #936f38;
+  --theme-warning: #765527;
   --theme-warning-lightest: #faf3d1;
   --theme-focus: #2491ff;
   --theme-white: #ffffff;
@@ -189,6 +189,7 @@ h3 {
 
 /* —— File upload —— */
 .upload-zone {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -211,8 +212,18 @@ h3 {
   background: var(--theme-primary-lightest);
 }
 
-.upload-zone input {
-  display: none;
+/* Visually hidden but keyboard-focusable (display:none would remove it from the
+   tab order and break Section 508 keyboard access). */
+.upload-zone input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .preview {

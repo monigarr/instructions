@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     ocr_confidence_threshold: float = 0.55
     ocr_timeout_seconds: float = 4.0
     max_upload_bytes: int = 10_485_760
+    max_request_bytes: int = 268_435_456
+    max_batch_files: int = 400
+    max_batch_manifest_bytes: int = 2_097_152
     batch_concurrency: int = 6
     batch_persist: bool = False
     batch_persist_dir: str = "./data/batches"

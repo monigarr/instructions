@@ -58,3 +58,108 @@ jobs:
         run: |
           npm ci
           npm run build
+      - name: Audit production dependencies
+        working-directory: app/ui
+        run: npm audit --omit=dev --audit-level=high
+
+  lint-and-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install lint tooling
+        working-directory: app
+        run: |
+          python -m pip install --upgrade pip
+          pip install "ruff>=0.17.1" "pip-audit>=2.9"
+      - name: Ruff
+        working-directory: app
+        run: ruff check src tests
+      - name: Dependency vulnerability audit (hash-pinned lock)
+        working-directory: app
+        run: pip-audit -r ../requirements.lock
+      - name: Secret scan (gitleaks)
+        run: |
+          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz | tar -xz gitleaks
+          ./gitleaks detect --source . --no-git --no-banner --redact --verbose
+
+  locked-install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install Tesseract
+        run: sudo apt-get update && sudo apt-get install -y tesseract-ocr
+      - name: Install from hash-pinned lockfile
+        working-directory: app
+        run: |
+          python -m pip install --upgrade pip
+          pip install --require-hashes -r ../requirements.lock
+          pip install --no-deps -e .
+      - name: Generate fixtures
+        working-directory: app
+        run: |
+          python scripts/generate_fixtures.py
+          python scripts/generate_scale_fixtures.py
+          python scripts/generate_eval_datasets.py
+      - name: Unit tests (locked environment)
+        working-directory: app
+        run: pytest tests/ -q
+      - name: Eval suite (locked environment)
+        working-directory: app
+        run: python evals/runners/run_eval_suite.py --output eval-report-locked.json
+
+  streamlit-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install Streamlit surface dependencies
+        run: pip install -r app/requirements.txt
+      - name: Headless AppTest smoke (single + chunked batch)
+        run: |
+          python - <<'PY'
+          from streamlit.testing.v1 import AppTest
+
+          at = AppTest.from_file("app/streamlit_app.py", default_timeout=180).run()
+          assert not at.exception, at.exception
+          assert [t.label for t in at.tabs] == ["Verify one label", "Batch verify", "About"]
+
+          at.button(key="verify_single").click().run()
+          assert not at.exception, at.exception
+          assert at.success, "single-label verification produced no result banner"
+
+          at.radio(key="batch_size").set_value(200)
+          at.button(key="batch_start").click().run()
+          assert not at.exception, at.exception
+          state = at.session_state["batch"]
+          assert state["finished"] and state["cursor"] == 200, state["cursor"]
+          assert len(state["results"]) == 200
+          print("streamlit smoke OK:", state["cursor"], "labels")
+          PY
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build image
+        run: docker build -t labelforge:ci app/
+      - name: Run container and check health
+        run: |
+          docker run -d --name labelforge-ci -p 8000:8000 labelforge:ci
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8000/health; then exit 0; fi
+            sleep 2
+          done
+          docker logs labelforge-ci
+          exit 1
+      - name: Container logs on failure
+        if: failure()
+        run: docker logs labelforge-ci || true
+

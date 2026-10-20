@@ -23,7 +23,7 @@ class VisionExtractionAgent:
                 self._provider.extract(image_bytes),
                 timeout=settings.ocr_timeout_seconds,
             )
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 — record the failure and route to fallback, never abort
             errors.append(f"OCR error ({self._provider.name}): {exc}")
             return {**state, "errors": errors, "route": "ocr_fallback" if not self._is_fallback else "failed"}
         return {**state, "ocr_result": ocr, "errors": errors, "route": self._provider.name}

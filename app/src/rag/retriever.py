@@ -17,7 +17,6 @@ def _load_corpus_chunks() -> list[dict]:
     chunks: list[dict] = []
     for path in sorted(_CORPUS_DIR.glob("*.md")):
         text = path.read_text(encoding="utf-8")
-        field = path.stem.replace("_", " ")
         for i, para in enumerate(text.split("\n\n")):
             para = para.strip()
             if para:
@@ -82,7 +81,7 @@ def _get_index():
                     metadatas=[{"field": c["field"]} for c in chunks],
                 )
         _INDEX = collection
-    except Exception:
+    except Exception:  # noqa: BLE001 — RAG index build failure falls back to the offline corpus
         _INDEX = {"fallback": _load_corpus_chunks()}
     return _INDEX
 
@@ -101,9 +100,9 @@ class ChromaRAGRetriever(IRAGRetriever):
             ids = results["ids"][0] if results["ids"] else []
             docs = results["documents"][0] if results["documents"] else []
             dists = results["distances"][0] if results["distances"] else []
-            for cid, doc, dist in zip(ids, docs, dists):
+            for cid, doc, dist in zip(ids, docs, dists, strict=False):
                 score = max(0.0, 1.0 - float(dist))
                 chunks.append(RAGChunk(chunk_id=cid, field=field, excerpt=doc, score=score))
-        except Exception:
+        except Exception:  # noqa: BLE001 — query failure falls back to lexical matching
             chunks = _fallback_chunks(field, query, top_k)
         return RAGContext(field=field, chunks=chunks[:top_k])

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import LabelPickerCard from "./LabelPickerCard";
 import LatencyBadge from "./LatencyBadge";
 import SampleGallery from "./SampleGallery";
@@ -20,6 +20,7 @@ const API_BASE = import.meta.env.VITE_API_URL || "";
 
 export default function App() {
   const [tab, setTab] = useState<Tab>("single");
+  const tabRefs = useRef<Record<Tab, HTMLButtonElement | null>>({ single: null, batch: null });
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [applicationJson, setApplicationJson] = useState(
@@ -312,24 +313,52 @@ export default function App() {
           </p>
         </header>
 
-      <nav className="tabs" aria-label="Verification mode">
+      <div className="tabs" role="tablist" aria-label="Verification mode">
         <button
           type="button"
+          role="tab"
+          id="tab-single"
+          aria-controls="panel-single"
+          tabIndex={tab === "single" ? 0 : -1}
+          ref={(node) => {
+            tabRefs.current.single = node;
+          }}
           className={tab === "single" ? "tab active" : "tab"}
           onClick={() => setTab("single")}
+          onKeyDown={(event) => {
+            if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+              event.preventDefault();
+              setTab("batch");
+              tabRefs.current.batch?.focus();
+            }
+          }}
           aria-selected={tab === "single"}
         >
           Verify One Label
         </button>
         <button
           type="button"
+          role="tab"
+          id="tab-batch"
+          aria-controls="panel-batch"
+          tabIndex={tab === "batch" ? 0 : -1}
+          ref={(node) => {
+            tabRefs.current.batch = node;
+          }}
           className={tab === "batch" ? "tab active" : "tab"}
           onClick={() => setTab("batch")}
+          onKeyDown={(event) => {
+            if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+              event.preventDefault();
+              setTab("single");
+              tabRefs.current.single?.focus();
+            }
+          }}
           aria-selected={tab === "batch"}
         >
           Batch Verify
         </button>
-      </nav>
+      </div>
 
       {error && (
         <div className="usa-alert usa-alert--error" role="alert">
@@ -341,7 +370,13 @@ export default function App() {
 
       <main id="main-content">
         {tab === "single" && (
-          <section className="panel">
+          <section
+            className="panel"
+            id="panel-single"
+            role="tabpanel"
+            aria-labelledby="tab-single"
+            tabIndex={0}
+          >
             <div id="verify-workspace" className="grid-2">
               <div>
                 <h2>1. Upload label image</h2>
@@ -358,7 +393,7 @@ export default function App() {
                   {preview ? (
                     <img src={preview} alt="Label preview" className="preview" />
                   ) : (
-                    <span>Click or drag a label photo (PNG / JPEG / WebP)</span>
+                    <span>Click to choose a label photo (PNG / JPEG / WebP)</span>
                   )}
                 </label>
 
@@ -425,7 +460,13 @@ export default function App() {
         )}
 
         {tab === "batch" && (
-          <section className="panel">
+          <section
+            className="panel"
+            id="panel-batch"
+            role="tabpanel"
+            aria-labelledby="tab-batch"
+            tabIndex={0}
+          >
             <h2>Quick-start batch runs</h2>
             <p className="batch-helper">
               Run pre-built manifests with one click — no manual file selection required.

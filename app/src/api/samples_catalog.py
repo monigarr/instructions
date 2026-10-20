@@ -6,8 +6,6 @@ import json
 import re
 from pathlib import Path
 
-from src.domain.fixture_stem import resolve_fixture_stem
-
 ROOT = Path(__file__).resolve().parents[2]
 FIXTURES = ROOT / "fixtures"
 LABELS = FIXTURES / "labels"

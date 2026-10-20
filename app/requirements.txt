@@ -1,0 +1,15 @@
+# Streamlit Community Cloud dependency manifest (entrypoint directory).
+# IMPORTANT: this file intentionally lives in app/ and is the dependency source
+# for streamlit.io. Do NOT place a uv.lock / Pipfile / environment.yml in app/:
+# Community Cloud prefers those over requirements.txt and would shadow this file.
+# FastAPI/React/Docker installs continue to use app/pyproject.toml.
+#
+# Pillow: Streamlit 1.66 pins pillow<13, so this surface uses 12.3.0 — the
+# patched 12.x line (OSV: 0 advisories) rather than 12.2.0 (26 advisories).
+# The API/Docker surface uses Pillow 13.0.0 via pyproject.toml. Re-check the
+# pin when Streamlit relaxes its constraint (see APPROACH.md upgrade register).
+streamlit==1.66.0
+pillow==12.3.0
+pytesseract==0.3.13
+pydantic==2.14.1
+pydantic-settings==2.16.0

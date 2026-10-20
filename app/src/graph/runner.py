@@ -6,7 +6,7 @@ import time
 import uuid
 
 from src.domain.interfaces import IOCRProvider, IRulesEngine
-from src.domain.models import ApplicationRecord, LabelSummary, VerificationResult, VerdictStatus
+from src.domain.models import ApplicationRecord, LabelSummary, VerdictStatus, VerificationResult
 from src.graph.verification_graph import build_verification_graph
 from src.ingest.validator import UploadValidationError, validate_image_upload
 

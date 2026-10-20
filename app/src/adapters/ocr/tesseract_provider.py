@@ -36,7 +36,7 @@ class TesseractOCRProvider(IOCRProvider):
     async def extract(self, image_bytes: bytes) -> OCRResult:
         try:
             return await asyncio.to_thread(self._extract_sync, image_bytes)
-        except Exception:
+        except Exception:  # noqa: BLE001 — OCR failure returns an empty result, never crashes the request
             return OCRResult(full_text="", blocks=[], confidence=0.0, provider=self.name)
 
     def _extract_sync(self, image_bytes: bytes) -> OCRResult:

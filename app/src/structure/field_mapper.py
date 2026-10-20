@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import re
 
-from src.domain.constants import GOVERNMENT_WARNING_CANONICAL
 from src.domain.models import ExtractedLabelRecord, OCRResult
 
 
@@ -138,7 +137,7 @@ def structure_fields(ocr: OCRResult) -> ExtractedLabelRecord:
         class_type=class_type,
         alcohol_content=abv,
         net_contents=net,
-        government_warning=warning or (GOVERNMENT_WARNING_CANONICAL if "SURGEON GENERAL" in upper else None),
+        government_warning=warning,
         government_warning_header_bold=warning_header_bold,
         government_warning_bold_confidence=warning_bold_confidence,
         government_warning_header_bbox=warning_header_bbox,

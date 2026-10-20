@@ -10,7 +10,14 @@ from src.adapters.ocr.factory import create_fallback_provider, create_ocr_provid
 from src.config import settings
 from src.domain.fixture_stem import resolve_fixture_stem
 from src.domain.interfaces import IOCRProvider, IRulesEngine
-from src.domain.models import ApplicationRecord, LabelSummary, OCRResult, VerificationResult, VerdictStatus
+from src.domain.label_id import sanitize_label_id
+from src.domain.models import (
+    ApplicationRecord,
+    LabelSummary,
+    OCRResult,
+    VerdictStatus,
+    VerificationResult,
+)
 from src.ingest.validator import UploadValidationError, validate_image_upload
 from src.rules.engine import DeterministicRulesEngine
 from src.structure.field_mapper import structure_fields
@@ -39,6 +46,8 @@ class VerificationPipeline:
         from src.adapters.ocr.sidecar_provider import SidecarByStemOCRProvider
 
         stem = resolve_fixture_stem(label_id) if label_id else None
+        if stem is not None:
+            stem = sanitize_label_id(stem)
         if isinstance(self._primary, SidecarByStemOCRProvider) and stem:
             self._primary.set_stem_hint(stem)
         if isinstance(self._fallback, SidecarByStemOCRProvider) and stem:
@@ -56,7 +65,7 @@ class VerificationPipeline:
                 if ocr.confidence >= settings.ocr_confidence_threshold and ocr.full_text.strip():
                     return ocr, errors
                 errors.append(f"OCR ({provider.name}) low confidence or empty text.")
-            except Exception as exc:
+            except Exception as exc:  # noqa: BLE001 — OCR provider failure degrades to the next provider
                 errors.append(f"OCR ({provider.name}) failed: {exc}")
 
         return OCRResult(full_text="", blocks=[], confidence=0.0, provider="none"), errors

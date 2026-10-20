@@ -9,7 +9,13 @@ from typing import TYPE_CHECKING
 
 from src.config import settings
 from src.domain.interfaces import IBatchSupervisor
-from src.domain.models import ApplicationRecord, BatchItemResult, BatchProgress, LabelSummary, VerificationResult
+from src.domain.models import (
+    ApplicationRecord,
+    BatchItemResult,
+    BatchProgress,
+    LabelSummary,
+    VerificationResult,
+)
 from src.verify.batch_store import FileBatchStore, InMemoryBatchStore
 from src.verify.pipeline import VerificationPipeline
 
@@ -99,7 +105,7 @@ class BatchVerificationService(IBatchSupervisor):
                     else:
                         item = BatchItemResult(label_id=label_id, status=result.summary, result=result)
                         await self._record_item(progress, item)
-                except Exception as exc:
+                except Exception as exc:  # noqa: BLE001 — per-item isolation keeps the batch running
                     item = BatchItemResult(label_id=label_id, status=LabelSummary.FAILED, error=str(exc))
                     await self._record_item(progress, item, error=True)
 
@@ -140,7 +146,7 @@ class BatchVerificationService(IBatchSupervisor):
                         else:
                             item = BatchItemResult(label_id=label_id, status=result.summary, result=result)
                             await self._record_item(progress, item)
-                    except Exception as exc:
+                    except Exception as exc:  # noqa: BLE001 — per-item isolation keeps the batch running
                         item = BatchItemResult(label_id=label_id, status=LabelSummary.FAILED, error=str(exc))
                         await self._record_item(progress, item, error=True)
 
