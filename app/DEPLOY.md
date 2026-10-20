@@ -4,7 +4,7 @@
 **Approach:** [APPROACH.md](../APPROACH.md) · **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](../SECURITY_ACCESSIBILITY.md) · **Blueprint:** [`render.yaml`](../render.yaml) · **Historical docs:** [docs/archive/](../docs/archive/)  
 **Client constraints:** [ClientRequirement.md](../ClientRequirement.md) — standalone PoC, firewall-aware OCR (Marcus Williams)
 
-Live on Render Starter (always-on). Tesseract OCR runs in-container; no API keys required for the default demo path.
+Live on Render Starter (configured; the service is currently suspended and must be resumed in the Render dashboard). Tesseract OCR runs in-container; no API keys required for the default demo path.
 
 ## Docker (recommended)
 

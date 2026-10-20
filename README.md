@@ -8,7 +8,7 @@
 >
 > **Two required deliverables**
 > 1. **Source repository** — [github.com/monigarr/instructions](https://github.com/monigarr/instructions)
-> 2. **Deployed application URL** — [**labelforge-w32d.onrender.com**](https://labelforge-w32d.onrender.com) (Render, live today)
+> 2. **Deployed application URL** — Render deployment: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com). The service is currently **suspended** in Render (`503`, `x-render-routing: suspend`); resume it in the Render dashboard or publish the Streamlit surface below to obtain a live URL.
 >
 > The same engine also ships as an additive **Streamlit Community Cloud** surface ([`app/streamlit_app.py`](app/streamlit_app.py)); publish steps are in [Deployment options](#deployment-options).
 
@@ -166,12 +166,12 @@ Open <http://localhost:8000>. Tesseract is baked into the image; fixtures and sc
 
 ## Deployment options
 
-All six targets are supported, and none of them removes or replaces the others. Render is live today; Streamlit is verified headlessly here and ready for a one-click Community Cloud publish.
+All six targets are supported, and none of them removes or replaces the others. Render is configured but currently suspended; Streamlit is verified headlessly here and ready for a one-click Community Cloud publish.
 
 | # | Target | How | Notes |
 |---|--------|-----|-------|
 | 1 | **Streamlit Community Cloud** *(`streamlit.io`)* | repo → `app/streamlit_app.py`; deps `app/requirements.txt`; apt `packages.txt` | zero-config, free tier, chunked/resumable batch |
-| 2 | **Render** | Blueprint [`render.yaml`](render.yaml) | live: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) |
+| 2 | **Render** | Blueprint [`render.yaml`](render.yaml) | configured; service currently suspended — resume in dashboard |
 | 3 | **Railway** | [`app/railway.toml`](app/railway.toml) + Dockerfile | set root directory to `app` |
 | 4 | **Docker / Compose** | [`app/docker-compose.yml`](app/docker-compose.yml) | non-root, healthcheck, one port |
 | 5 | **Local** | uvicorn + Vite (above) | development |

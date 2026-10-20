@@ -5,7 +5,7 @@
 **Primary source:** [ClientRequirement.md](ClientRequirement.md)  
 **Approach & trade-offs:** [APPROACH.md](APPROACH.md)  
 **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](SECURITY_ACCESSIBILITY.md)  
-**Status:** Implemented (P1 + P2+ in `app/`); **deployed** on Render at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com); additionally deployable on Streamlit Community Cloud from `app/streamlit_app.py` (steps in [README.md](README.md#1-streamlit-community-cloud-new-deploy-target))  
+**Status:** Implemented (P1 + P2+ in `app/`); **Render deployment configured** at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (service currently suspended), and additionally deployable on Streamlit Community Cloud from `app/streamlit_app.py` (steps in [README.md](README.md#1-streamlit-community-cloud-new-deploy-target))  
 **Author:** Monica Peters (MoniGarr) | Gauntlet AI GFA Cohort 5 Fellowship, 2026  
 **Last updated:** 2026-10-19
 
@@ -397,7 +397,7 @@ All production code files must use [CODE_COMMENT_HEADER_TEMPLATE.md](docs/archiv
 
 **Current repository:** [github.com/monigarr/instructions](https://github.com/monigarr/instructions) — application in [`app/`](app/).  
 **Deployed URLs:**  
-- Render Starter — [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) ([`render.yaml`](render.yaml))  
+- Render Starter — [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) ([`render.yaml`](render.yaml)); service is currently **suspended**, resume it in the Render dashboard  
 - Streamlit Community Cloud — entrypoint `app/streamlit_app.py`, dependencies `app/requirements.txt`, apt `packages.txt`, Python 3.11 (deployment steps: [README.md](README.md#1-streamlit-community-cloud-new-deploy-target))
 
 Only **two submissions** are mandatory. LabelForge factory work (§7) is **phased engineering depth** — prove it in **code + README approach**, not as extra doc deliverables.

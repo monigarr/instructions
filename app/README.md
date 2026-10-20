@@ -91,7 +91,7 @@ Open http://localhost:8501. The Streamlit app uses the same pipeline, rules, and
 
 | Environment | URL | Status |
 |-------------|-----|--------|
-| **Production (Render)** | https://labelforge-w32d.onrender.com | Live — Starter plan (always-on, no free-tier cold start) |
+| **Render** (configured) | https://labelforge-w32d.onrender.com | Service currently suspended — resume in the Render dashboard |
 | **Streamlit Community Cloud** | assigned at deploy time (e.g. `https://<app>.streamlit.app`) | Deploy from `app/streamlit_app.py` — steps in the repo README |
 | **Local (Docker)** | http://localhost:8000 | `docker compose up --build` |
 | **Local dev UI** | http://localhost:5173 | `npm run dev` + `VITE_API_URL=http://localhost:8000` |
