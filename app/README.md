@@ -215,7 +215,7 @@ Index RAG corpus (optional): `python scripts/index_rag_corpus.py` (requires `pip
 | P1 | Linear pipeline: ingest → OCR → structure → rules → UI |
 | P2 | LabelForgeFactory, LangGraph agents, conditional OCR fallback, NuanceAgent |
 | P2 | RAG corpus + ComplianceRAGAgent (Chroma optional) |
-| P3 | 30 golden evals + adversarial + RAG queries; per-field CI regression gate; **28** pytest tests |
+| P3 | 30 golden evals + adversarial + RAG queries; per-field CI regression gate; **69** pytest tests |
 | P4 | Image pre-processing, HITL batch resume stub, RAG-grounded ExplanationAgent |
 
 ## Environment variables
@@ -252,7 +252,7 @@ python evals/runners/run_eval_suite.py   # field accuracy, summary, warning reca
 ```bash
 cd app
 docker compose up --build
-# Or deploy docker image to Railway / Render / Fly.io with port 8000
+# Or deploy docker image to Railway / Render with port 8000
 ```
 
 Set environment variables on the platform. Build UI first: `cd ui && npm run build`. See [DEPLOY.md](DEPLOY.md).

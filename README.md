@@ -30,7 +30,7 @@
 ## What it does
 
 - **Single-label verification:** upload a label + application JSON (or pick a curated sample) → OCR → structured fields → deterministic rules → per-field `match` / `mismatch` / `needs_review` / `unable_to_verify` with reasons.
-- **Batch verification:** live Streamlit demo runs **25 labels per batch** on the free tier; local Streamlit, Docker, Render, Railway, and the API support **200–300 labels** via JSON/CSV manifests with chunked, resumable progress and CSV export.
+- **Batch verification:** live Streamlit demo runs **25 labels per batch** on the free tier (chunked at 25 with concurrency 2, resumable/checkpointed). Local Streamlit (uncapped to 300), Docker, Render, Railway, and the API support **200–300 labels** via JSON/CSV manifests with concurrent processing (API uses `BATCH_CONCURRENCY=6` by default), progress tracking, optional persistence/resume, and CSV export.
 - **TTB field coverage:** brand name, class/type, alcohol content (ABV/proof), net contents, government warning (exact text + all-caps bold header), bottler/producer address, country of origin for imports.
 - **Human authority:** the tool never auto-approves a COLA; `passed` means "no discrepancy detected by these rules."
 - **Three surfaces, one engine:** FastAPI + React, Streamlit, and a Docker image all call the same pipeline, rules, and adapters.
@@ -237,7 +237,7 @@ If your deploy form allows a subdirectory entrypoint, `app/streamlit_app.py` als
 - Root [`requirements.txt`](requirements.txt) and [`app/requirements.txt`](app/requirements.txt) hold the same Streamlit-only pins; CI fails if they drift. Keep both so either entrypoint works.
 - [`app/pyproject.toml`](app/pyproject.toml) is the API/Docker project and is safe to keep: Community Cloud checks `requirements.txt` before `pyproject.toml` in the entrypoint directory. Do **not** add `uv.lock`, `Pipfile`, or `environment.yml` at the repo root or in `app/` — those outrank `requirements.txt` and would shadow the Streamlit pins.
 - Community Cloud runs Debian bullseye, i.e. **Tesseract 4.1.1** (CI/Docker use 5.x). After deploy, smoke-test the 10-sample gallery and the **25-label** free-tier batch; test 200/300 locally, in Docker, or through the API. OCR is deterministic but version-sensitive.
-- Free-tier apps sleep when idle; the first request after sleep is slow. The live demo is capped at **25 labels per batch** because longer runs trigger platform CPU throttling. Local/Docker/API runs remain chunked at 25 with concurrency 2 and checkpoint per chunk. Python/glibc memory is released after each chunk.
+- Free-tier apps sleep when idle; the first request after sleep is slow. The live demo is capped at **25 labels per batch** because longer runs trigger platform CPU throttling. Streamlit (all surfaces) uses chunking at 25 with concurrency 2 and checkpoint per chunk with memory release; the API/Docker/Render/Railway batch service uses `BATCH_CONCURRENCY=6` by default with optional persistence/resume (no forced 25-label chunking).
 
 ### 2. Render (Blueprint)
 

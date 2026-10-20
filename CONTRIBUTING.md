@@ -23,7 +23,7 @@ Run from `app/` unless noted:
 | Factory graph smoke | `USE_FACTORY_GRAPH=true pytest tests/ -q` |
 | RAG smoke | `RAG_ENABLED=true pytest tests/ -q` |
 
-CI runs all of the above on every push/PR, plus `pip-audit` against the hash-pinned lockfile, production `npm audit`, `gitleaks`, a Streamlit AppTest smoke, and a Docker build/health check.
+CI runs unit tests, golden evals, lint, UI build, and the required checks on every push/PR, plus `pip-audit` against the hash-pinned lockfile, production `npm audit`, `gitleaks`, a Streamlit AppTest smoke, and a Docker build/health check. The optional factory graph and RAG smoke invocations can be run locally as documented above.
 
 ## Style & conventions
 
