@@ -18,7 +18,7 @@ This document is the "brief documentation of approach, tools, assumptions, and t
 5. presents a UI simple enough for a new compliance agent;
 6. documents approach, tools, assumptions, and trade-offs.
 
-Exactly **two submissions** are required: the source repository and a deployed URL. Everything else in this repo supports those two.
+Exactly **two submissions** are required: the source repository and a deployed URL. Both exist: [github.com/monigarr/instructions](https://github.com/monigarr/instructions) and the live public app at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/). Everything else in this repo supports those two.
 
 ---
 
@@ -94,7 +94,7 @@ Each field returns one of four statuses with the application value, label value,
 
 - **30 golden fixtures** run in CI as a regression gate ([`app/evals/runners/run_eval_suite.py`](app/evals/runners/run_eval_suite.py)).
 - The suite reports summary accuracy, per-field accuracy, warning recall, false-pass rate, RAG hit rate, and latency P95.
-- **63 pytest tests** cover rules, batch semantics, eval metrics, OCR adapters, logging, and API behavior; deterministic rules hold **100%** statement coverage with an 80% CI gate.
+- **65 pytest tests** cover rules, batch semantics, eval metrics, OCR adapters, bold-region selection, logging, and API behavior; deterministic rules hold **100%** statement coverage with an 80% CI gate.
 - Current results: **100%** golden summary accuracy, **100%** adversarial warning recall, **0%** false-pass rate on the adversarial set. Local golden-path P95 is milliseconds with the sidecar; the deployed streaming path targets **≤ ~5 s per label**.
 
 ---
@@ -208,7 +208,7 @@ Streamlit 1.66 requires `pillow<13`. The Streamlit surface therefore pins **Pill
 3. Government warning canonical text is fixed and seeded in rules/fixtures.
 4. Bold detection uses image heuristics, not font metadata; behavior is documented and tested.
 5. A human agent remains the final authority; the tool never auto-approves.
-6. Evaluators can reach a public HTTPS URL (the submission still needs the Render service resumed or the Streamlit app published); cloud OCR is optional and off by default.
+6. Evaluators can reach the public HTTPS URL ([labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/)); cloud OCR is optional and off by default.
 7. Batch manifests are JSON (`/batch/verify`) or CSV (`/batch/verify-csv`); images are matched to application records by `label_id`.
 
 ---
@@ -224,7 +224,7 @@ Streamlit 1.66 requires `pillow<13`. The Streamlit surface therefore pins **Pill
 | **Session-scoped Streamlit checkpoints** | no server-side storage | resume works across reruns in the same session; a hard browser reload starts fresh |
 | **In-memory batch state by default** | simplicity | enable `BATCH_PERSIST=true` for file-backed progress |
 | **Pillow split (13 vs 12.3)** | Streamlit compatibility | two patched lines to track (§7.3) |
-| **Tesseract 4.1.1 on Community Cloud** | platform image | OCR may differ slightly from CI/Docker 5.x; golden evals run in CI, and the gallery/scale batches must be smoke-tested after publish |
+| **Tesseract 4.1.1 on Community Cloud** | platform image | OCR may differ slightly from CI/Docker 5.x; golden evals run in CI, and the live gallery/batch were smoke-tested after publish |
 | **Archived docs** | repository consolidation | [`docs/archive/`](docs/archive/) retains history; live docs are the five at root |
 
 ### Deliberately cut (with rationale)
@@ -246,7 +246,7 @@ The production-hardening backlog is listed in [SECURITY_ACCESSIBILITY.md](SECURI
 From `app/`:
 
 ```bash
-pytest tests/ -q                              # 63 tests
+pytest tests/ -q                              # 65 tests
 pytest tests/ -q --cov=src.rules --cov-fail-under=80   # rules coverage gate
 python evals/runners/run_eval_suite.py        # 30 golden fixtures
 ruff check src tests                          # lint
@@ -295,7 +295,7 @@ Deployment instructions for all five runtime targets (plus CI) are in [README.md
 │   ├── ui/                       # React + TypeScript
 │   ├── fixtures/                 # synthetic labels + applications
 │   ├── evals/                    # golden + adversarial + RAG eval suites
-│   └── tests/                    # 63 pytest tests
+│   └── tests/                    # 65 pytest tests
 ├── packages.txt                  # Streamlit Cloud apt packages (tesseract)
 ├── .streamlit/config.toml        # Streamlit theme/config
 ├── requirements.lock             # hash-pinned Python lock (API/Docker)

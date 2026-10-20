@@ -98,31 +98,69 @@ class TesseractOCRProvider(IOCRProvider):
         return len(matches) == 1 and text == text.upper()
 
     @staticmethod
-    def _apply_pixel_bold(image_bytes: bytes, blocks: list[OCRBlock]) -> list[OCRBlock]:
-        gov_blocks = [b for b in blocks if "GOVERNMENT" in b.text.upper()]
-        if not gov_blocks:
-            return blocks
+    def _union_bbox(blocks: list[OCRBlock]) -> tuple[int, int, int, int] | None:
+        bboxes = [b.bbox for b in blocks if b.bbox]
+        if not bboxes:
+            return None
+        left = min(b[0] for b in bboxes)
+        top = min(b[1] for b in bboxes)
+        right = max(b[0] + b[2] for b in bboxes)
+        bottom = max(b[1] + b[3] for b in bboxes)
+        return (left, top, right - left, bottom - top)
 
-        header_bbox = None
-        for b in gov_blocks:
-            if b.bbox:
-                if header_bbox is None:
-                    header_bbox = b.bbox
-                else:
-                    hl, ht, hw, hh = header_bbox
-                    bl, bt, bw, bh = b.bbox
-                    header_bbox = (
-                        min(hl, bl),
-                        min(ht, bt),
-                        max(hl + hw, bl + bw) - min(hl, bl),
-                        max(ht + hh, bt + bh) - min(ht, bt),
-                    )
+    @classmethod
+    def _warning_regions(
+        cls, blocks: list[OCRBlock]
+    ) -> tuple[tuple[int, int, int, int] | None, tuple[int, int, int, int] | None]:
+        """Return the warning-header bbox and the adjacent body-line bbox.
 
-        body_blocks = [
-            b for b in blocks
-            if b.bbox and "GOVERNMENT" not in b.text.upper() and len(b.text) > 2
+        The header is usually split into ``GOVERNMENT`` and ``WARNING:`` tokens.
+        Group all-caps tokens on the anchor line, then compare against the first
+        text line below the header. Using the first block in the document (for
+        example the brand) produced bogus bold scores.
+        """
+        anchor = next((b for b in blocks if b.bbox and "GOVERNMENT" in b.text.upper()), None)
+        if anchor is None or anchor.bbox is None:
+            return None, None
+
+        anchor_top, anchor_height = anchor.bbox[1], anchor.bbox[3]
+        line_tolerance = max(3, anchor_height // 2)
+        line_blocks = sorted(
+            [b for b in blocks if b.bbox and abs(b.bbox[1] - anchor_top) <= line_tolerance],
+            key=lambda b: b.bbox[0],
+        )
+        anchor_index = line_blocks.index(anchor)
+        header_blocks = [anchor]
+        for b in line_blocks[anchor_index + 1 :]:
+            if not b.text.isupper():
+                break
+            header_blocks.append(b)
+        for b in reversed(line_blocks[:anchor_index]):
+            if not b.text.isupper():
+                break
+            header_blocks.insert(0, b)
+        header_bbox = cls._union_bbox(header_blocks) or anchor.bbox
+        header_bottom = header_bbox[1] + header_bbox[3]
+
+        body_candidates = [
+            b for b in blocks if b.bbox and b.text.strip() and b.bbox[1] > header_bottom + 2
         ]
-        body_bbox = body_blocks[0].bbox if body_blocks else None
+        body_candidates.sort(key=lambda b: (b.bbox[1], b.bbox[0]))
+        body_bbox = None
+        if body_candidates:
+            body_top = body_candidates[0].bbox[1]
+            body_height = body_candidates[0].bbox[3]
+            body_tolerance = max(3, body_height // 2)
+            body_line = [b for b in body_candidates if abs(b.bbox[1] - body_top) <= body_tolerance]
+            body_bbox = cls._union_bbox(body_line)
+
+        return header_bbox, body_bbox
+
+    @classmethod
+    def _apply_pixel_bold(cls, image_bytes: bytes, blocks: list[OCRBlock]) -> list[OCRBlock]:
+        header_bbox, body_bbox = cls._warning_regions(blocks)
+        if header_bbox is None:
+            return blocks
 
         analysis = analyze_bold_header(image_bytes, header_bbox, body_bbox)
         pixel_bold = analysis.bold_score >= 0.6
@@ -130,7 +168,9 @@ class TesseractOCRProvider(IOCRProvider):
         updated: list[OCRBlock] = []
         for block in blocks:
             if "GOVERNMENT" in block.text.upper():
-                combined_bold = block.is_bold and pixel_bold if analysis.bold_confidence >= 0.3 else pixel_bold
+                combined_bold = (
+                    block.is_bold and pixel_bold if analysis.bold_confidence >= 0.3 else pixel_bold
+                )
                 if analysis.bold_confidence < 0.3:
                     combined_bold = block.is_bold
                 updated.append(

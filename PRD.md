@@ -5,7 +5,7 @@
 **Primary source:** [ClientRequirement.md](ClientRequirement.md)  
 **Approach & trade-offs:** [APPROACH.md](APPROACH.md)  
 **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](SECURITY_ACCESSIBILITY.md)  
-**Status:** Implemented (P1 + P2+ in `app/`); **Render deployment configured** at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (service currently suspended), and additionally deployable on Streamlit Community Cloud from the repo-root `streamlit_app.py` (implementation `app/streamlit_app.py`; steps in [README.md](README.md#1-streamlit-community-cloud-new-deploy-target))  
+**Status:** Implemented (P1 + P2+ in `app/`); **live** on Streamlit Community Cloud at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/) (root `streamlit_app.py` → implementation `app/streamlit_app.py`). The full FastAPI + React stack is configured on Render at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (service currently suspended). Deployment steps: [README.md](README.md#1-streamlit-community-cloud-live-deploy-target)  
 **Author:** Monica Peters (MoniGarr) | Gauntlet AI GFA Cohort 5 Fellowship, 2026  
 **Last updated:** 2026-10-19
 
@@ -397,8 +397,8 @@ All production code files must use [CODE_COMMENT_HEADER_TEMPLATE.md](docs/archiv
 
 **Current repository:** [github.com/monigarr/instructions](https://github.com/monigarr/instructions) — application in [`app/`](app/).  
 **Deployed URLs:**  
-- Render Starter — [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) ([`render.yaml`](render.yaml)); service is currently **suspended**, resume it in the Render dashboard  
-- Streamlit Community Cloud — entrypoint `streamlit_app.py` (root shim → `app/streamlit_app.py`), dependencies root `requirements.txt`, apt `packages.txt`, Python 3.11 (deployment steps: [README.md](README.md#1-streamlit-community-cloud-new-deploy-target))
+- Streamlit Community Cloud — **live** at [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/); entrypoint `streamlit_app.py` (root shim → `app/streamlit_app.py`), dependencies root `requirements.txt`, apt `packages.txt`, Python 3.11 (deployment steps: [README.md](README.md#1-streamlit-community-cloud-live-deploy-target))  
+- Render Starter — [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) ([`render.yaml`](render.yaml)); service is currently **suspended**, resume it in the Render dashboard
 
 Only **two submissions** are mandatory. LabelForge factory work (§7) is **phased engineering depth** — prove it in **code + README approach**, not as extra doc deliverables.
 
@@ -423,8 +423,8 @@ Only **two submissions** are mandatory. LabelForge factory work (§7) is **phase
 
 | Surface | Entry point | Status |
 |---------|-------------|--------|
+| Streamlit Community Cloud | root `streamlit_app.py` + `requirements.txt` + `packages.txt` | **live** at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/); public, no login; redeploys on `main` |
 | Render (Docker, FastAPI + React) | [`render.yaml`](render.yaml) | configured at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com); currently suspended — resume in dashboard |
-| Streamlit Community Cloud | root `streamlit_app.py` + `requirements.txt` + `packages.txt` | deploy steps in [README.md](README.md#1-streamlit-community-cloud-new-deploy-target); URL assigned on publish |
 | Railway (Docker) | [`app/railway.toml`](app/railway.toml) | supported |
 | Docker Compose | [`app/docker-compose.yml`](app/docker-compose.yml) | supported |
 
@@ -490,14 +490,14 @@ Omitting P2+ folders does **not** fail submission if §10.1–10.2 are met. Docu
 
 ### Interview evaluators (AI-native depth)
 
-Evidence map: [APPROACH.md](APPROACH.md) §2–§6 · Render deployment (currently suspended): [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) · Streamlit deploy: [README.md](README.md#1-streamlit-community-cloud-new-deploy-target)
+Evidence map: [APPROACH.md](APPROACH.md) §2–§6 · Live deployment: [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/) · Render (currently suspended): [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) · Deploy steps: [README.md](README.md#1-streamlit-community-cloud-live-deploy-target)
 
 7. **Agent factory pattern** — composable agents with clear boundaries → [`app/src/factory/`](app/src/factory/)
 8. **Graph orchestration** — stateful workflow, fallbacks → [`app/src/graph/`](app/src/graph/)
 9. **RAG discipline** — grounded retrieval; rules own verdicts → [`app/src/rag/`](app/src/rag/)
 10. **Eval culture** — golden datasets, per-field CI gates, adversarial cases → [`app/evals/`](app/evals/), [`app/tests/test_eval_metrics.py`](app/tests/test_eval_metrics.py)
 11. **S.O.L.I.D. evidence** — interfaces, DI, OCR adapters → [`app/src/domain/interfaces.py`](app/src/domain/interfaces.py)
-12. **Pragmatic shipping** — P1 deployable on Render and Streamlit Community Cloud (Render currently suspended; Streamlit URL assigned on publish); P2+ behind flags → [`render.yaml`](render.yaml), [`streamlit_app.py`](streamlit_app.py), [`app/streamlit_app.py`](app/streamlit_app.py), [`app/README.md`](app/README.md)
+12. **Pragmatic shipping** — P1 live on Streamlit Community Cloud ([labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/)) with the full stack deployable on Render (currently suspended); P2+ behind flags → [`render.yaml`](render.yaml), [`streamlit_app.py`](streamlit_app.py), [`app/streamlit_app.py`](app/streamlit_app.py), [`app/README.md`](app/README.md)
 
 **Guidance:** **P1 satisfies ClientRequirement.md.** P2–P4 add interview craft; never block URL submission on eval CI or full graph.
 
@@ -510,7 +510,7 @@ Evidence map: [APPROACH.md](APPROACH.md) §2–§6 · Render deployment (current
 | **P0 — Foundation** | Interfaces, project skeleton, README draft | Compiles locally |
 | **P1 — MVP (SUBMIT)** | Ingest → extract → structure → rules → UI; single + batch; fixtures | **Repo + URL live**; §10.2 met; P95 ≤ ~5 s documented |
 | **P2 — Graph + RAG** | Factory, LangGraph, ComplianceRAGAgent, NuanceAgent | Interview craft; README approach updated |
-| **P3 - Eval hardening** | Golden/adversarial suites; **63** pytest tests (100% rules coverage); CI regression gate enforced (six jobs incl. lockfile audit, secret scan, Streamlit smoke, Docker) | Engineering quality; production deploy unaffected |
+| **P3 - Eval hardening** | Golden/adversarial suites; **65** pytest tests (100% rules coverage); CI regression gate enforced (six jobs incl. lockfile audit, secret scan, Streamlit smoke, Docker) | Engineering quality; production deploy unaffected |
 | **P4 — Stretch** | **Partially shipped:** batch checkpoint/resume (HITL-style review gate), `PREPROCESS_IMPERFECT` image preprocessing. **Documented as cut:** LLM-generated plain-language explanations, online eval sampling. | Jenny Park stretch; cuts recorded in [APPROACH.md](APPROACH.md) §9 |
 
 ---

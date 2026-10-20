@@ -8,7 +8,7 @@
 >
 > **Two required deliverables**
 > 1. **Source repository** — [github.com/monigarr/instructions](https://github.com/monigarr/instructions)
-> 2. **Deployed application URL** — Render deployment: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com). The service is currently **suspended** in Render (`503`, `x-render-routing: suspend`); resume it in the Render dashboard **or** publish the additive Streamlit surface. The Streamlit deploy entrypoint is the repo-root [`streamlit_app.py`](streamlit_app.py) (a thin shim over [`app/streamlit_app.py`](app/streamlit_app.py)); the assigned `*.streamlit.app` URL is created at publish time. Steps are in [Deployment options](#deployment-options).
+> 2. **Deployed application URL** — **Live:** [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/) (Streamlit Community Cloud, public, no login). The full FastAPI + React stack is also configured on Render at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com), but that service is currently **suspended** in Render (`503`, `x-render-routing: suspend`). The Streamlit deploy entrypoint is the repo-root [`streamlit_app.py`](streamlit_app.py), a thin shim over [`app/streamlit_app.py`](app/streamlit_app.py). Steps for both targets are in [Deployment options](#deployment-options).
 
 **Prototype posture:** synthetic fixtures only, no COLA integration, no authentication on the public demo, no sensitive data. See [SECURITY_ACCESSIBILITY.md](SECURITY_ACCESSIBILITY.md).
 
@@ -63,7 +63,7 @@ Verified against the repo on **2026-10-19**. Use these counts consistently.
 | **Scale test fixtures** | **300** | `scale_001`…`scale_300` — [`generate_scale_fixtures.py`](app/scripts/generate_scale_fixtures.py), [`batch_manifest_200.json`](app/fixtures/applications/batch_manifest_200.json) / [`_300`](app/fixtures/applications/batch_manifest_300.json) |
 | **Curated gallery samples** | **10** | [`SAMPLE_CATALOG`](app/src/api/samples_catalog.py) — one-click demo cards |
 | **Non-golden stretch fixtures** | **4** | `warning_not_bold`, `label_slight_rotation`, `label_low_contrast`, `label_glare_band` — in gallery/catalog, excluded from golden CI (visual variance) |
-| **Pytest unit tests** | **63** | `pytest tests/` (rules coverage 100%) |
+| **Pytest unit tests** | **65** | `pytest tests/` (rules coverage 100%) |
 | **CI jobs** | **6** | `.github/workflows/ci.yml`: `test`, `ui`, `lint-and-security`, `locked-install`, `streamlit-smoke`, `docker` |
 | **Runtime deployment targets** | **5** | Streamlit Community Cloud · Render · Railway · Docker Compose · local uvicorn + Vite (plus GitHub Actions CI, which does not deploy) |
 | **Extra label PNGs** | varies | Label picker only (synthetic fictional-brand labels, e.g. `DonPapa.png`); not in catalog or scale manifests |
@@ -76,9 +76,9 @@ Verified against the repo on **2026-10-19**. Use these counts consistently.
 
 | Step | What to do | What it proves |
 |------|------------|----------------|
-| **1. Try the product** | Open a live URL (resume Render or publish Streamlit below) → **Try this sample** on **Old Tom — Pass** → **Verify Label**; or run the local quick start | Deployed URL works; core path is live |
-| **2. Spot-check batch** | Batch tab → **Run demo batch** / **200-label** / **300-label** quick-starts | Peak-load flow (200–300 labels) |
-| **3. Check the Streamlit surface** | Deploy or open the Streamlit URL → **Verify one label** → sample → **Verify label**; then **Batch verify** → built-in 300 | Second deployed surface over the same engine |
+| **1. Try the product** | Open [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/) → **Verify one label** → **Old Tom — Pass** → **Verify label**; or run the local quick start | Deployed URL works; core path is live |
+| **2. Spot-check batch** | **Batch verify** → **built-in 200** / **300** quick-start | Peak-load flow (200–300 labels) |
+| **3. Check the full stack (optional)** | Run the FastAPI + React quick start locally, or resume the suspended Render service | The same engine behind the production UI |
 | **4. Read the approach** | [APPROACH.md](APPROACH.md) | Tools, assumptions, trade-offs, limitations, upgrade register |
 
 **Production Render settings:** `USE_FACTORY_GRAPH=false`, `RAG_ENABLED=false`, `BATCH_PERSIST=true`, `LATENCY_GATE_ENABLED=true`, `OCR_PROVIDER=tesseract`.
@@ -86,7 +86,7 @@ Verified against the repo on **2026-10-19**. Use these counts consistently.
 | # | Client deliverable | Proof |
 |---|-------------------|-------|
 | 1 | Source code repository | [`app/`](app/) + [`app/README.md`](app/README.md) |
-| 2 | Deployed application URL | [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (configured; currently suspended) · Streamlit Community Cloud root entrypoint [`streamlit_app.py`](streamlit_app.py) (publish steps below) |
+| 2 | Deployed application URL | **Live:** [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/) (public Streamlit Community Cloud app) · Render: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (configured; currently suspended) |
 
 ### Client requirement coverage
 
@@ -96,7 +96,7 @@ Verified against the repo on **2026-10-19**. Use these counts consistently.
 |--------------------|----------------|-------|
 | Source repository, README with setup/run | This README, [`app/README.md`](app/README.md), [`app/DEPLOY.md`](app/DEPLOY.md) | [Quick start](#quick-start-local) · [Deployment options](#deployment-options) |
 | Brief approach, tools, assumptions, trade-offs | [`APPROACH.md`](APPROACH.md) | §1–§9 |
-| Deployed application URL | Render blueprint + root Streamlit entrypoint | [`render.yaml`](render.yaml) · [`streamlit_app.py`](streamlit_app.py) · steps below |
+| Deployed application URL | Live Streamlit app + Render blueprint | [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/) · [`render.yaml`](render.yaml) · [`streamlit_app.py`](streamlit_app.py) |
 | Upload label image + application data | React UI, Streamlit, API | [`app/ui/src/App.tsx`](app/ui/src/App.tsx) · [`app/streamlit_app.py`](app/streamlit_app.py) · [`app/src/api/main.py`](app/src/api/main.py) |
 | Extract required TTB fields | OCR + structure mapper | [`app/src/structure/field_mapper.py`](app/src/structure/field_mapper.py) |
 | Field-by-field pass/fail, exact warning | Deterministic rules + pixel bold-header check | [`app/src/rules/`](app/src/rules/) |
@@ -182,18 +182,20 @@ Open <http://localhost:8000>. Tesseract is baked into the image; fixtures and sc
 
 ## Deployment options
 
-Five runtime targets are supported, plus CI; none removes or replaces the others. Render is configured but currently suspended; Streamlit is verified headlessly here and ready for a one-click Community Cloud publish.
+Five runtime targets are supported, plus CI; none removes or replaces the others. **Streamlit is live** at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/); Render is configured but currently suspended.
 
 | # | Target | How | Notes |
 |---|--------|-----|-------|
-| 1 | **Streamlit Community Cloud** *(`streamlit.io`)* | repo root `streamlit_app.py`; deps `requirements.txt`; apt `packages.txt` | zero-config, free tier, chunked/resumable batch |
+| 1 | **Streamlit Community Cloud** *(`streamlit.io`)* | repo root `streamlit_app.py`; deps `requirements.txt`; apt `packages.txt` | **live** at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/); free tier, chunked/resumable batch |
 | 2 | **Render** | Blueprint [`render.yaml`](render.yaml) | configured; service currently suspended — resume in dashboard |
 | 3 | **Railway** | [`app/railway.toml`](app/railway.toml) + Dockerfile | set root directory to `app` |
 | 4 | **Docker / Compose** | [`app/docker-compose.yml`](app/docker-compose.yml) | non-root, healthcheck, one port |
 | 5 | **Local** | uvicorn + Vite (above) | development |
 | 6 | **CI verification** | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | six jobs; verifies, does not deploy |
 
-### 1. Streamlit Community Cloud (new deploy target)
+### 1. Streamlit Community Cloud (live deploy target)
+
+**Status:** published and public at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/). It redeploys automatically when `main` changes. The steps below reproduce the deployment.
 
 1. Sign in at <https://share.streamlit.io> with GitHub.
 2. **Create app** → **Deploy from GitHub**.
@@ -202,7 +204,7 @@ Five runtime targets are supported, plus CI; none removes or replaces the others
 5. **Advanced settings** → Python version **3.11** (3.12 also works).
 6. Leave secrets empty — the demo needs no credentials.
 7. Click **Deploy**. Community Cloud installs root [`requirements.txt`](requirements.txt) (Streamlit-only exact pins), apt packages from root [`packages.txt`](packages.txt) (`tesseract-ocr`), and reads root [`.streamlit/config.toml`](.streamlit/config.toml).
-8. Copy the assigned `https://<app>.streamlit.app` URL into the top of this README and into the submission.
+8. Use the assigned `https://<app>.streamlit.app` URL in the submission. The current live URL is [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/).
 
 If your deploy form allows a subdirectory entrypoint, `app/streamlit_app.py` also works and resolves `app/requirements.txt`.
 
@@ -281,7 +283,7 @@ Streamlit uses platform environment variables only; the demo needs none.
 Run from `app/`:
 
 ```bash
-pytest tests/ -q                              # 63 tests
+pytest tests/ -q                              # 65 tests
 pytest tests/ -q --cov=src.rules --cov-fail-under=80   # rules coverage gate
 python evals/runners/run_eval_suite.py        # 30 golden fixtures
 ruff check src tests                          # lint
@@ -295,7 +297,7 @@ CI (`.github/workflows/ci.yml`) enforces:
 
 | Job | Checks |
 |-----|--------|
-| `test` | fixtures + 63 tests + rules coverage gate + eval suite + latency benchmark |
+| `test` | fixtures + 65 tests + rules coverage gate + eval suite + latency benchmark |
 | `ui` | `npm ci`, production build, `npm audit --omit=dev` |
 | `lint-and-security` | `ruff`, `pip-audit -r requirements.lock`, `gitleaks` |
 | `locked-install` | install from hash-pinned lockfile, tests + evals |

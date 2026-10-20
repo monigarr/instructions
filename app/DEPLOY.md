@@ -1,10 +1,11 @@
 # Deployment Guide
 
+**Live Streamlit URL:** [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/)  
 **Render URL:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (configured; currently suspended)  
 **Approach:** [APPROACH.md](../APPROACH.md) · **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](../SECURITY_ACCESSIBILITY.md) · **Blueprint:** [`render.yaml`](../render.yaml) · **Historical docs:** [docs/archive/](../docs/archive/)  
 **Client constraints:** [ClientRequirement.md](../ClientRequirement.md) — standalone PoC, firewall-aware OCR (Marcus Williams)
 
-Configured for Render Starter; the service is currently suspended and must be resumed in the Render dashboard (or publish the Streamlit surface for a live URL). Tesseract OCR runs in-container; no API keys required for the default demo path.
+The public Streamlit app is live and is the deployed URL for the submission. The full FastAPI + React stack is configured for Render Starter, but that service is currently suspended and must be resumed in the Render dashboard. Tesseract OCR runs in-container/on Community Cloud; no API keys are required for the default demo path.
 
 ## Docker (recommended)
 
@@ -101,18 +102,22 @@ VITE_API_URL=http://localhost:8000
 
 ## Streamlit Community Cloud
 
+**Status:** live at [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/). Pushes to `main` redeploy automatically. The steps below reproduce the deployment.
+
 1. Push the repository to GitHub (branch `main`).
 2. At [share.streamlit.io](https://share.streamlit.io): **Create app** → **Deploy from GitHub**.
 3. Repository `monigarr/instructions`, branch `main`, main file path `streamlit_app.py` (repo root). The shim executes `app/streamlit_app.py`; a subdirectory entrypoint also works where the form permits it.
 4. Advanced settings → Python **3.11**; leave secrets empty.
 5. Deploy. Community Cloud installs root [`requirements.txt`](../requirements.txt), apt packages from root [`packages.txt`](../packages.txt) (`tesseract-ocr`), and reads root [`.streamlit/config.toml`](../.streamlit/config.toml).
-6. Smoke-test the gallery and a 300-label batch, then record the assigned URL.
+6. Smoke-test the gallery and a 300-label batch, then record the assigned URL. The current live app is `https://labelforge-monigarr.streamlit.app/`.
 
 Root `requirements.txt` and [`app/requirements.txt`](requirements.txt) carry identical Streamlit pins; CI fails if they drift. `app/pyproject.toml` remains the API/Docker project and is safe to keep (Community Cloud checks `requirements.txt` first in that directory). Do **not** add a high-priority `uv.lock`, `Pipfile`, or `environment.yml` at the repo root or in `app/` — those would shadow the Streamlit pins. The hash-pinned lockfile lives at the repo root for the API/Docker surface.
 
 ## Smoke test after deploy
 
-After resuming the Render service (or replacing the hostname with your Streamlit URL where applicable):
+**Streamlit:** open [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/), select **Old Tom — Pass**, click **Verify label**, and confirm **All fields match**. Then open **Batch verify** and run the built-in 200- or 300-label quick-start. Community Cloud runs Tesseract 4.1.1; the bold-header heuristic is region-based and has been verified live.
+
+**Render (after resuming the service):**
 
 ```bash
 curl https://labelforge-w32d.onrender.com/health
@@ -121,9 +126,7 @@ curl -X POST https://labelforge-w32d.onrender.com/verify \
   -F "application=$(cat fixtures/applications/old_tom_match.json)"
 ```
 
-Expected `/health` includes `batch_persist: true` and `latency_gate_enabled: true` on production.
-
-Browser: open the URL, use **Try this sample** on **Old Tom — Pass**, verify single-label and batch flows.
+Expected `/health` includes `batch_persist: true` and `latency_gate_enabled: true` on production. Browser: use **Try this sample** on **Old Tom — Pass**, then verify single-label and batch flows.
 
 ## Local without Tesseract
 

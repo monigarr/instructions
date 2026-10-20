@@ -2,7 +2,7 @@
 
 Standalone proof-of-concept for TTB compliance agents: upload label artwork, compare extracted fields to application data, and review match/mismatch results — single label or batch.
 
-**Deployment:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (configured; currently suspended) · **Streamlit surface:** root [`streamlit_app.py`](../streamlit_app.py) shim → [`app/streamlit_app.py`](streamlit_app.py) · **Approach:** [APPROACH.md](../APPROACH.md) · **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](../SECURITY_ACCESSIBILITY.md) · **Historical docs:** [docs/archive/](../docs/archive/)
+**Live demo:** [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/) (public Streamlit Community Cloud) · **Full stack:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (configured; currently suspended) · **Streamlit entrypoint:** root [`streamlit_app.py`](../streamlit_app.py) shim → [`app/streamlit_app.py`](streamlit_app.py) · **Approach:** [APPROACH.md](../APPROACH.md) · **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](../SECURITY_ACCESSIBILITY.md) · **Historical docs:** [docs/archive/](../docs/archive/)
 
 **Normative requirements:** [ClientRequirement.md](../ClientRequirement.md) — all approach and fixture decisions trace to this document.
 
@@ -89,14 +89,14 @@ streamlit run streamlit_app.py
 
 The app-directory form also works: `pip install -r app/requirements.txt && streamlit run app/streamlit_app.py`.
 
-Open http://localhost:8501. The Streamlit app uses the same pipeline, rules, and fixtures; batch runs are chunked (25) and resumable. The root manifest and app manifest contain identical pins, enforced by CI. Community Cloud deployment details are in the [repo README](../README.md#1-streamlit-community-cloud-new-deploy-target).
+Open http://localhost:8501. The Streamlit app uses the same pipeline, rules, and fixtures; batch runs are chunked (25) and resumable. The root manifest and app manifest contain identical pins, enforced by CI. Community Cloud deployment details are in the [repo README](../README.md#1-streamlit-community-cloud-live-deploy-target).
 
 ## Demo URL
 
 | Environment | URL | Status |
 |-------------|-----|--------|
+| **Streamlit Community Cloud** | https://labelforge-monigarr.streamlit.app/ | **Live** — public, no login; redeploys from root `streamlit_app.py` |
 | **Render** (configured) | https://labelforge-w32d.onrender.com | Service currently suspended — resume in the Render dashboard |
-| **Streamlit Community Cloud** | assigned at deploy time (e.g. `https://<app>.streamlit.app`) | Deploy from root `streamlit_app.py` — steps in the repo README |
 | **Local (Docker)** | http://localhost:8000 | `docker compose up --build` |
 | **Local dev UI** | http://localhost:5173 | `npm run dev` + `VITE_API_URL=http://localhost:8000` |
 | **Local Streamlit** | http://localhost:8501 | `streamlit run streamlit_app.py` (or `app/streamlit_app.py`) |
@@ -228,8 +228,8 @@ For local Vite dev, also set `VITE_API_URL=http://localhost:8000` in `ui/.env.lo
 
 ```bash
 cd app
-pytest tests/ -v          # 63 tests: rules (100% coverage), eval metrics, batch service,
-                          # samples catalog, fixture stems, scale fixtures, logging/trace ids
+pytest tests/ -v          # 65 tests: rules (100% coverage), eval metrics, batch service,
+                          # samples catalog, fixture stems, scale fixtures, bold regions, logging/trace ids
 python evals/runners/run_eval_suite.py
 ```
 
@@ -277,4 +277,4 @@ Regenerate fixtures and eval manifests: see **Regenerate eval data** above.
 
 Evaluation prototype for Gauntlet AI GFA Cohort 5 take-home — not licensed for production use.
 
-*Last verified against repo: 2026-07-08*
+*Last verified against repo: 2026-10-19*

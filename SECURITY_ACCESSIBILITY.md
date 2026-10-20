@@ -9,7 +9,7 @@ LabelForge is a technical-interview prototype, not a production federal system. 
 
 ## 1. Scope and intended use
 
-- Public demo, **no authentication**, **synthetic fixtures only**.
+- Public demo at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/), **no authentication**, **synthetic fixtures only**.
 - No COLA integration, no PII, no CUI, no controlled unclassified information.
 - Do not upload real labels, personal data, or any document you would not publish.
 - A `passed` verdict means "no discrepancy detected by deterministic rules"; it is **not** a legal approval.
