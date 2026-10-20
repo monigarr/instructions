@@ -73,7 +73,7 @@ Non-goals for the prototype: defending against a determined attacker, multi-tena
 
 ### 3.4 Streamlit surface specifics
 
-- Dependencies are exact-pinned in [`app/requirements.txt`](app/requirements.txt); **Pillow 12.3.0** because Streamlit 1.66 pins `pillow<13` (patched line, zero known OSV advisories).
+- Dependencies are exact-pinned in root [`requirements.txt`](requirements.txt) and [`app/requirements.txt`](app/requirements.txt) (CI enforces parity); the root manifest is what Community Cloud installs for the default root entrypoint. **Pillow 12.3.0** because Streamlit 1.66 pins `pillow<13` (patched line, zero known OSV advisories).
 - No secrets or API keys are required; nothing is persisted server-side.
 - Results live in browser session state only; uploaded bytes for a completed chunk are released.
 - Uploads are re-validated by the same engine validator.
@@ -119,7 +119,7 @@ Existing positives retained: semantic landmarks (`header`, `nav`/tablist, `main`
 | Surface | Status |
 |---------|--------|
 | Python (API/Docker) | hash-pinned; `pip-audit` clean on the lockfile at audit time |
-| Python (Streamlit) | exact-pinned; Pillow 12.3.0 (0 known advisories) due to Streamlit's `<13` pin |
+| Python (Streamlit) | exact-pinned root + app manifests (CI parity); Pillow 12.3.0 (0 known advisories) due to Streamlit's `<13` pin |
 | npm production | 0 vulnerabilities |
 | npm development | Vite/esbuild dev-server advisories remain; requires Vite 8 major (dev-only, never deployed) — tracked in [APPROACH.md](APPROACH.md) §7.2 |
 | Container base images | `python:3.11-slim`, `node:24-alpine`; Node 20 removed (EOL) |

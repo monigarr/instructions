@@ -120,20 +120,27 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.11"
-      - name: Install Streamlit surface dependencies
-        run: pip install -r app/requirements.txt
-      - name: Headless AppTest smoke (single + chunked batch)
+      - name: Verify root/app Streamlit pins match
+        run: |
+          diff -u \
+            <(grep -vE '^[[:space:]]*(#|$)' app/requirements.txt) \
+            <(grep -vE '^[[:space:]]*(#|$)' requirements.txt)
+      - name: Install Streamlit surface dependencies (root deploy manifest)
+        run: pip install -r requirements.txt
+      - name: Headless AppTest smoke (root shim + app entrypoint + chunked batch)
         run: |
           python - <<'PY'
           from streamlit.testing.v1 import AppTest
 
-          at = AppTest.from_file("app/streamlit_app.py", default_timeout=180).run()
-          assert not at.exception, at.exception
-          assert [t.label for t in at.tabs] == ["Verify one label", "Batch verify", "About"]
+          for path in ("streamlit_app.py", "app/streamlit_app.py"):
+              at = AppTest.from_file(path, default_timeout=180).run()
+              assert not at.exception, (path, at.exception)
+              assert [t.label for t in at.tabs] == ["Verify one label", "Batch verify", "About"]
 
-          at.button(key="verify_single").click().run()
-          assert not at.exception, at.exception
-          assert at.success, "single-label verification produced no result banner"
+              at.button(key="verify_single").click().run()
+              assert not at.exception, (path, at.exception)
+              assert at.success, f"{path}: single-label verification produced no result banner"
+              print("single-label OK:", path)
 
           at.radio(key="batch_size").set_value(200)
           at.button(key="batch_start").click().run()

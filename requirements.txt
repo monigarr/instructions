@@ -1,0 +1,20 @@
+# Streamlit Community Cloud dependency manifest for the ROOT entrypoint.
+# Community Cloud defaults to `streamlit_app.py` at the repository root, so this
+# file is what its deploy form installs. Keep the pin lines identical to
+# app/requirements.txt (CI checks parity); the app path remains supported for
+# local runs and for deploy forms that accept a subdirectory entrypoint.
+#
+# Do NOT add uv.lock / Pipfile / environment.yml at the repo root or in app/:
+# Community Cloud prefers those over requirements.txt and would shadow these
+# Streamlit-only pins. FastAPI/React/Docker installs use app/pyproject.toml and
+# the hash-pinned root requirements.lock.
+#
+# Pillow: Streamlit 1.66 pins pillow<13, so this surface uses 12.3.0 - the
+# patched 12.x line (OSV: 0 advisories) rather than 12.2.0 (26 advisories).
+# The API/Docker surface uses Pillow 13.0.0 via pyproject.toml. Re-check the
+# pin when Streamlit relaxes its constraint (see APPROACH.md upgrade register).
+streamlit==1.66.0
+pillow==12.3.0
+pytesseract==0.3.13
+pydantic==2.14.1
+pydantic-settings==2.16.0

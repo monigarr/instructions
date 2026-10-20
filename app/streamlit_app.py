@@ -7,8 +7,9 @@ UPDATED: 2026-10-19
 CLASSIFICATION: Internal
 
 PURPOSE:
-Streamlit Community Cloud entrypoint — a third deployment surface over the
-same verification engine used by the FastAPI/React app and Docker image.
+Streamlit Community Cloud implementation — a third deployment surface over the
+same verification engine used by the FastAPI/React app and Docker image. The
+repo-root streamlit_app.py shim executes this file for the default deploy path.
 
 DEPENDENCIES:
   - src.verify.pipeline — P1 linear verification pipeline (no FastAPI needed)
@@ -27,8 +28,8 @@ PERFORMANCE:
     a 200–300 label batch resumable instead of capping it.
 
 OPERATIONAL:
-  - Run locally: streamlit run app/streamlit_app.py
-  - Community Cloud: entrypoint app/streamlit_app.py; deps app/requirements.txt;
+  - Run locally: streamlit run streamlit_app.py (or app/streamlit_app.py)
+  - Community Cloud: root entrypoint streamlit_app.py; deps requirements.txt;
     apt packages (tesseract-ocr) via root packages.txt.
   - Rollback: the API/React/Docker/Render surfaces are unchanged.
 ===============================================================================

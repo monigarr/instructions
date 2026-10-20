@@ -2,7 +2,7 @@
 
 Standalone proof-of-concept for TTB compliance agents: upload label artwork, compare extracted fields to application data, and review match/mismatch results — single label or batch.
 
-**Live demo:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) · **Streamlit surface:** [`streamlit_app.py`](streamlit_app.py) · **Approach:** [APPROACH.md](../APPROACH.md) · **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](../SECURITY_ACCESSIBILITY.md) · **Historical docs:** [docs/archive/](../docs/archive/)
+**Deployment:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (configured; currently suspended) · **Streamlit surface:** root [`streamlit_app.py`](../streamlit_app.py) shim → [`app/streamlit_app.py`](streamlit_app.py) · **Approach:** [APPROACH.md](../APPROACH.md) · **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](../SECURITY_ACCESSIBILITY.md) · **Historical docs:** [docs/archive/](../docs/archive/)
 
 **Normative requirements:** [ClientRequirement.md](../ClientRequirement.md) — all approach and fixture decisions trace to this document.
 
@@ -10,7 +10,7 @@ Standalone proof-of-concept for TTB compliance agents: upload label artwork, com
 
 ## For code reviewers
 
-**Client reviewers** ([ClientRequirement.md](../ClientRequirement.md)): live URL → P1 pipeline → [fixture catalog](#fixtures) below. That is the submission.
+**Client reviewers** ([ClientRequirement.md](../ClientRequirement.md)): deployed URL (or local quick start) → P1 pipeline → [fixture catalog](#fixtures) below. That is the submission.
 
 **Interview reviewers:** eval harness, graph flags, RAG — see [repo README](../README.md) § Interview reviewers.
 
@@ -80,22 +80,26 @@ Open http://localhost:8000
 
 ### Streamlit surface
 
+From the repository root:
+
 ```bash
-pip install -r app/requirements.txt
-streamlit run app/streamlit_app.py
+pip install -r requirements.txt
+streamlit run streamlit_app.py
 ```
 
-Open http://localhost:8501. The Streamlit app uses the same pipeline, rules, and fixtures; batch runs are chunked (25) and resumable. Community Cloud deployment details are in the [repo README](../README.md#1-streamlit-community-cloud-new-deploy-target).
+The app-directory form also works: `pip install -r app/requirements.txt && streamlit run app/streamlit_app.py`.
+
+Open http://localhost:8501. The Streamlit app uses the same pipeline, rules, and fixtures; batch runs are chunked (25) and resumable. The root manifest and app manifest contain identical pins, enforced by CI. Community Cloud deployment details are in the [repo README](../README.md#1-streamlit-community-cloud-new-deploy-target).
 
 ## Demo URL
 
 | Environment | URL | Status |
 |-------------|-----|--------|
 | **Render** (configured) | https://labelforge-w32d.onrender.com | Service currently suspended — resume in the Render dashboard |
-| **Streamlit Community Cloud** | assigned at deploy time (e.g. `https://<app>.streamlit.app`) | Deploy from `app/streamlit_app.py` — steps in the repo README |
+| **Streamlit Community Cloud** | assigned at deploy time (e.g. `https://<app>.streamlit.app`) | Deploy from root `streamlit_app.py` — steps in the repo README |
 | **Local (Docker)** | http://localhost:8000 | `docker compose up --build` |
 | **Local dev UI** | http://localhost:5173 | `npm run dev` + `VITE_API_URL=http://localhost:8000` |
-| **Local Streamlit** | http://localhost:8501 | `streamlit run app/streamlit_app.py` |
+| **Local Streamlit** | http://localhost:8501 | `streamlit run streamlit_app.py` (or `app/streamlit_app.py`) |
 
 **Proof index (historical):** [docs/archive/DELIVERABLES_PROOF.md](../docs/archive/DELIVERABLES_PROOF.md) — file paths, API smoke tests, fixture map.
 

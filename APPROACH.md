@@ -57,7 +57,8 @@ flowchart TB
 | API | `/verify`, `/batch/verify`, `/batch/verify-csv`, `/batch/{id}`, `/batch/{id}/resume`, `/health`, sample/label endpoints, `/docs` | [`app/src/api/main.py`](app/src/api/main.py) |
 | Observability | JSON logs, request-scoped `trace_id`, `X-Trace-ID` header | [`app/src/observability.py`](app/src/observability.py) |
 | React UI | two-tab workflow, sample gallery, label picker, batch progress, CSV export | [`app/ui/src/App.tsx`](app/ui/src/App.tsx) |
-| Streamlit UI | single, chunked/resumable batch, results + CSV | [`app/streamlit_app.py`](app/streamlit_app.py) |
+| Streamlit UI | single, chunked/resumable batch, results + CSV | root [`streamlit_app.py`](streamlit_app.py) shim → [`app/streamlit_app.py`](app/streamlit_app.py) |
+| Streamlit deps | exact-pinned root/app manifests (CI parity check) | [`requirements.txt`](requirements.txt) · [`app/requirements.txt`](app/requirements.txt) |
 | Optional depth | agent factory, LangGraph workflow, RAG grounding, evals | [`app/src/factory/`](app/src/factory/), [`app/src/graph/`](app/src/graph/), [`app/src/rag/`](app/src/rag/), [`app/evals/`](app/evals/) |
 
 **Design rule:** orchestration is pluggable; **deterministic rules own compliance verdicts**. Agents may assist extraction; they never decide pass/fail.
@@ -196,7 +197,7 @@ Streamlit 1.66 requires `pillow<13`. The Streamlit surface therefore pins **Pill
 | Optional Azure SDK / Chroma extras | optional, not on the P1 path; lockfile covers resolved versions |
 | `STRICT_WARNING` setting | reserved/unused; warning validation is always strict (documented, no behavior change) |
 | Vite 8 | deferred (§7.2) |
-| Hash-pinned lockfile for Streamlit | not possible on Community Cloud; `app/requirements.txt` is exact-pinned instead |
+| Hash-pinned lockfile for Streamlit | not possible on Community Cloud; root `requirements.txt` and `app/requirements.txt` are exact-pinned, with CI enforcing parity |
 
 ---
 
@@ -207,7 +208,7 @@ Streamlit 1.66 requires `pillow<13`. The Streamlit surface therefore pins **Pill
 3. Government warning canonical text is fixed and seeded in rules/fixtures.
 4. Bold detection uses image heuristics, not font metadata; behavior is documented and tested.
 5. A human agent remains the final authority; the tool never auto-approves.
-6. Evaluators can reach a public HTTPS URL; cloud OCR is optional and off by default.
+6. Evaluators can reach a public HTTPS URL (the submission still needs the Render service resumed or the Streamlit app published); cloud OCR is optional and off by default.
 7. Batch manifests are JSON (`/batch/verify`) or CSV (`/batch/verify-csv`); images are matched to application records by `label_id`.
 
 ---
@@ -223,7 +224,7 @@ Streamlit 1.66 requires `pillow<13`. The Streamlit surface therefore pins **Pill
 | **Session-scoped Streamlit checkpoints** | no server-side storage | resume works across reruns in the same session; a hard browser reload starts fresh |
 | **In-memory batch state by default** | simplicity | enable `BATCH_PERSIST=true` for file-backed progress |
 | **Pillow split (13 vs 12.3)** | Streamlit compatibility | two patched lines to track (§7.3) |
-| **Tesseract 4.1.1 on Community Cloud** | platform image | OCR may differ slightly from CI/Docker 5.x; golden evals run in CI, and the deployed gallery/scale batches are smoke-tested after publish |
+| **Tesseract 4.1.1 on Community Cloud** | platform image | OCR may differ slightly from CI/Docker 5.x; golden evals run in CI, and the gallery/scale batches must be smoke-tested after publish |
 | **Archived docs** | repository consolidation | [`docs/archive/`](docs/archive/) retains history; live docs are the five at root |
 
 ### Deliberately cut (with rationale)
@@ -263,11 +264,13 @@ docker compose up --build                     # http://localhost:8000
 Streamlit:
 
 ```bash
-pip install -r app/requirements.txt
-streamlit run app/streamlit_app.py
+pip install -r requirements.txt
+streamlit run streamlit_app.py
 ```
 
-Deployment instructions for all six targets are in [README.md](README.md#deployment-options).
+The app-directory form still works: `pip install -r app/requirements.txt && streamlit run app/streamlit_app.py`.
+
+Deployment instructions for all five runtime targets (plus CI) are in [README.md](README.md#deployment-options).
 
 ---
 
@@ -281,9 +284,11 @@ Deployment instructions for all six targets are in [README.md](README.md#deploym
 ├── PRD.md                        # requirements + phased delivery
 ├── ClientRequirement.md          # normative client brief (verbatim)
 ├── CONTRIBUTING.md / SECURITY.md # contribution + disclosure
+├── streamlit_app.py              # Community Cloud root entrypoint (shim)
+├── requirements.txt              # Streamlit-only pinned deps (root deploy)
 ├── app/                          # runnable application
-│   ├── streamlit_app.py          # Streamlit entrypoint (Community Cloud)
-│   ├── requirements.txt          # Streamlit-only pinned deps
+│   ├── streamlit_app.py          # Streamlit implementation (same engine)
+│   ├── requirements.txt          # Streamlit-only pinned deps (app entrypoint)
 │   ├── pyproject.toml            # API/Docker deps
 │   ├── Dockerfile / docker-compose.yml / railway.toml / DEPLOY.md
 │   ├── src/                      # engine, API, adapters, rules, optional depth

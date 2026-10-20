@@ -8,9 +8,7 @@
 >
 > **Two required deliverables**
 > 1. **Source repository** — [github.com/monigarr/instructions](https://github.com/monigarr/instructions)
-> 2. **Deployed application URL** — Render deployment: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com). The service is currently **suspended** in Render (`503`, `x-render-routing: suspend`); resume it in the Render dashboard or publish the Streamlit surface below to obtain a live URL.
->
-> The same engine also ships as an additive **Streamlit Community Cloud** surface ([`app/streamlit_app.py`](app/streamlit_app.py)); publish steps are in [Deployment options](#deployment-options).
+> 2. **Deployed application URL** — Render deployment: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com). The service is currently **suspended** in Render (`503`, `x-render-routing: suspend`); resume it in the Render dashboard **or** publish the additive Streamlit surface. The Streamlit deploy entrypoint is the repo-root [`streamlit_app.py`](streamlit_app.py) (a thin shim over [`app/streamlit_app.py`](app/streamlit_app.py)); the assigned `*.streamlit.app` URL is created at publish time. Steps are in [Deployment options](#deployment-options).
 
 **Prototype posture:** synthetic fixtures only, no COLA integration, no authentication on the public demo, no sensitive data. See [SECURITY_ACCESSIBILITY.md](SECURITY_ACCESSIBILITY.md).
 
@@ -67,7 +65,7 @@ Verified against the repo on **2026-10-19**. Use these counts consistently.
 | **Non-golden stretch fixtures** | **4** | `warning_not_bold`, `label_slight_rotation`, `label_low_contrast`, `label_glare_band` — in gallery/catalog, excluded from golden CI (visual variance) |
 | **Pytest unit tests** | **63** | `pytest tests/` (rules coverage 100%) |
 | **CI jobs** | **6** | `.github/workflows/ci.yml`: `test`, `ui`, `lint-and-security`, `locked-install`, `streamlit-smoke`, `docker` |
-| **Deployment targets** | **6** | Streamlit Community Cloud · Render · Railway · Docker Compose · local uvicorn + Vite · GitHub Actions |
+| **Runtime deployment targets** | **5** | Streamlit Community Cloud · Render · Railway · Docker Compose · local uvicorn + Vite (plus GitHub Actions CI, which does not deploy) |
 | **Extra label PNGs** | varies | Label picker only (synthetic fictional-brand labels, e.g. `DonPapa.png`); not in catalog or scale manifests |
 
 ---
@@ -78,7 +76,7 @@ Verified against the repo on **2026-10-19**. Use these counts consistently.
 
 | Step | What to do | What it proves |
 |------|------------|----------------|
-| **1. Try the product** | Open the live URL → **Try this sample** on **Old Tom — Pass** → **Verify Label** | Deployed URL works; core path is live |
+| **1. Try the product** | Open a live URL (resume Render or publish Streamlit below) → **Try this sample** on **Old Tom — Pass** → **Verify Label**; or run the local quick start | Deployed URL works; core path is live |
 | **2. Spot-check batch** | Batch tab → **Run demo batch** / **200-label** / **300-label** quick-starts | Peak-load flow (200–300 labels) |
 | **3. Check the Streamlit surface** | Deploy or open the Streamlit URL → **Verify one label** → sample → **Verify label**; then **Batch verify** → built-in 300 | Second deployed surface over the same engine |
 | **4. Read the approach** | [APPROACH.md](APPROACH.md) | Tools, assumptions, trade-offs, limitations, upgrade register |
@@ -88,7 +86,25 @@ Verified against the repo on **2026-10-19**. Use these counts consistently.
 | # | Client deliverable | Proof |
 |---|-------------------|-------|
 | 1 | Source code repository | [`app/`](app/) + [`app/README.md`](app/README.md) |
-| 2 | Deployed application URL | [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) · Streamlit Community Cloud (steps below) |
+| 2 | Deployed application URL | [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (configured; currently suspended) · Streamlit Community Cloud root entrypoint [`streamlit_app.py`](streamlit_app.py) (publish steps below) |
+
+### Client requirement coverage
+
+[`ClientRequirement.md`](ClientRequirement.md) is the upstream client brief verbatim. This table maps each required/evaluated item to the implementation and a proof path.
+
+| Client requirement | Implementation | Proof |
+|--------------------|----------------|-------|
+| Source repository, README with setup/run | This README, [`app/README.md`](app/README.md), [`app/DEPLOY.md`](app/DEPLOY.md) | [Quick start](#quick-start-local) · [Deployment options](#deployment-options) |
+| Brief approach, tools, assumptions, trade-offs | [`APPROACH.md`](APPROACH.md) | §1–§9 |
+| Deployed application URL | Render blueprint + root Streamlit entrypoint | [`render.yaml`](render.yaml) · [`streamlit_app.py`](streamlit_app.py) · steps below |
+| Upload label image + application data | React UI, Streamlit, API | [`app/ui/src/App.tsx`](app/ui/src/App.tsx) · [`app/streamlit_app.py`](app/streamlit_app.py) · [`app/src/api/main.py`](app/src/api/main.py) |
+| Extract required TTB fields | OCR + structure mapper | [`app/src/structure/field_mapper.py`](app/src/structure/field_mapper.py) |
+| Field-by-field pass/fail, exact warning | Deterministic rules + pixel bold-header check | [`app/src/rules/`](app/src/rules/) |
+| Batch 200–300 at peak | API manifests + chunked Streamlit batch | `/batch/verify`, `/batch/verify-csv`, built-in 200/300 quick-starts |
+| Simple UI for a new agent | Two-task workflow, sample gallery, plain-language results | React UI + Streamlit surface |
+| ≤ ~5 s per label | Latency budget + flagging; measured container path ~3.7 s before suspension | `elapsed_ms`, `LATENCY_WARN_MS`; local golden P95 is milliseconds with the sidecar |
+| Imperfect images (stretch) | Optional preprocessing flag; visual-variance fixtures | `PREPROCESS_IMPERFECT=true`; four non-golden fixtures in the gallery |
+| No COLA integration, offline OCR, no sensitive storage | Tesseract default; synthetic fixtures; session-scoped results | [`APPROACH.md](APPROACH.md) §3.2, [SECURITY_ACCESSIBILITY.md](SECURITY_ACCESSIBILITY.md) |
 
 ### Stakeholder traceability
 
@@ -147,11 +163,11 @@ API docs: <http://localhost:8000/docs> · Health: <http://localhost:8000/health>
 ### B. Streamlit surface
 
 ```bash
-pip install -r app/requirements.txt
-streamlit run app/streamlit_app.py
+pip install -r requirements.txt
+streamlit run streamlit_app.py
 ```
 
-Opens on <http://localhost:8501>.
+Opens on <http://localhost:8501>. The app-directory form remains supported for local runs: `pip install -r app/requirements.txt && streamlit run app/streamlit_app.py`.
 
 ### C. Docker Compose (API + built UI on one port)
 
@@ -166,31 +182,34 @@ Open <http://localhost:8000>. Tesseract is baked into the image; fixtures and sc
 
 ## Deployment options
 
-All six targets are supported, and none of them removes or replaces the others. Render is configured but currently suspended; Streamlit is verified headlessly here and ready for a one-click Community Cloud publish.
+Five runtime targets are supported, plus CI; none removes or replaces the others. Render is configured but currently suspended; Streamlit is verified headlessly here and ready for a one-click Community Cloud publish.
 
 | # | Target | How | Notes |
 |---|--------|-----|-------|
-| 1 | **Streamlit Community Cloud** *(`streamlit.io`)* | repo → `app/streamlit_app.py`; deps `app/requirements.txt`; apt `packages.txt` | zero-config, free tier, chunked/resumable batch |
+| 1 | **Streamlit Community Cloud** *(`streamlit.io`)* | repo root `streamlit_app.py`; deps `requirements.txt`; apt `packages.txt` | zero-config, free tier, chunked/resumable batch |
 | 2 | **Render** | Blueprint [`render.yaml`](render.yaml) | configured; service currently suspended — resume in dashboard |
 | 3 | **Railway** | [`app/railway.toml`](app/railway.toml) + Dockerfile | set root directory to `app` |
 | 4 | **Docker / Compose** | [`app/docker-compose.yml`](app/docker-compose.yml) | non-root, healthcheck, one port |
 | 5 | **Local** | uvicorn + Vite (above) | development |
-| 6 | **GitHub Actions** | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | six CI jobs, no deploy step required |
+| 6 | **CI verification** | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | six jobs; verifies, does not deploy |
 
 ### 1. Streamlit Community Cloud (new deploy target)
 
 1. Sign in at <https://share.streamlit.io> with GitHub.
 2. **Create app** → **Deploy from GitHub**.
 3. Repository: `monigarr/instructions` · Branch: `main`.
-4. **Main file path:** `app/streamlit_app.py`.
+4. **Main file path:** `streamlit_app.py` (repo root — this is the deploy form's default and executes [`app/streamlit_app.py`](app/streamlit_app.py) through a shim).
 5. **Advanced settings** → Python version **3.11** (3.12 also works).
 6. Leave secrets empty — the demo needs no credentials.
-7. Click **Deploy**. Community Cloud installs `app/requirements.txt` (entrypoint directory first), apt packages from root [`packages.txt`](packages.txt) (`tesseract-ocr`), and reads root [`.streamlit/config.toml`](.streamlit/config.toml).
+7. Click **Deploy**. Community Cloud installs root [`requirements.txt`](requirements.txt) (Streamlit-only exact pins), apt packages from root [`packages.txt`](packages.txt) (`tesseract-ocr`), and reads root [`.streamlit/config.toml`](.streamlit/config.toml).
 8. Copy the assigned `https://<app>.streamlit.app` URL into the top of this README and into the submission.
+
+If your deploy form allows a subdirectory entrypoint, `app/streamlit_app.py` also works and resolves `app/requirements.txt`.
 
 **Important constraints** (already handled in the repo):
 
-- Do **not** add `uv.lock`, `Pipfile`, `environment.yml`, or a `pyproject.toml` to `app/` — Community Cloud prefers them over `requirements.txt` and would ignore the Streamlit-only pins. The lockfile lives at the repo root.
+- Root [`requirements.txt`](requirements.txt) and [`app/requirements.txt`](app/requirements.txt) hold the same Streamlit-only pins; CI fails if they drift. Keep both so either entrypoint works.
+- [`app/pyproject.toml`](app/pyproject.toml) is the API/Docker project and is safe to keep: Community Cloud checks `requirements.txt` before `pyproject.toml` in the entrypoint directory. Do **not** add `uv.lock`, `Pipfile`, or `environment.yml` at the repo root or in `app/` — those outrank `requirements.txt` and would shadow the Streamlit pins.
 - Community Cloud runs Debian bullseye, i.e. **Tesseract 4.1.1** (CI/Docker use 5.x). After deploy, smoke-test the 10-sample gallery and the built-in 300-label batch; OCR is deterministic but version-sensitive.
 - Free-tier apps sleep when idle; the first request after sleep is slow. Batch runs are chunked at 25 with concurrency 4 and checkpoint per chunk, so a 200–300 label run resumes instead of failing.
 
@@ -222,7 +241,7 @@ The image runs as **non-root** (`appuser`, uid 10001), writes batch state only u
 
 ### 5–6. Local and CI
 
-See [Quick start](#quick-start-local) and the [quality gates](#quality-gates). CI runs on every push and PR; it does not deploy.
+See [Quick start](#quick-start-local) and the [quality gates](#quality-gates). CI runs on every push and PR; it verifies and does not deploy.
 
 ---
 
@@ -280,7 +299,7 @@ CI (`.github/workflows/ci.yml`) enforces:
 | `ui` | `npm ci`, production build, `npm audit --omit=dev` |
 | `lint-and-security` | `ruff`, `pip-audit -r requirements.lock`, `gitleaks` |
 | `locked-install` | install from hash-pinned lockfile, tests + evals |
-| `streamlit-smoke` | headless AppTest: single verify + full 200-label chunked batch |
+| `streamlit-smoke` | headless AppTest: root shim + app entrypoint single verify, full 200-label chunked batch, root/app pin parity |
 | `docker` | image build, container health check |
 
 Current eval results: **100%** golden summary accuracy, **100%** adversarial warning recall, **0%** false-pass rate.

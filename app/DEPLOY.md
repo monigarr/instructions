@@ -1,10 +1,10 @@
 # Deployment Guide
 
-**Production URL:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com)  
+**Render URL:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (configured; currently suspended)  
 **Approach:** [APPROACH.md](../APPROACH.md) · **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](../SECURITY_ACCESSIBILITY.md) · **Blueprint:** [`render.yaml`](../render.yaml) · **Historical docs:** [docs/archive/](../docs/archive/)  
 **Client constraints:** [ClientRequirement.md](../ClientRequirement.md) — standalone PoC, firewall-aware OCR (Marcus Williams)
 
-Live on Render Starter (configured; the service is currently suspended and must be resumed in the Render dashboard). Tesseract OCR runs in-container; no API keys required for the default demo path.
+Configured for Render Starter; the service is currently suspended and must be resumed in the Render dashboard (or publish the Streamlit surface for a live URL). Tesseract OCR runs in-container; no API keys required for the default demo path.
 
 ## Docker (recommended)
 
@@ -20,7 +20,7 @@ Open http://localhost:8000 — API + built UI on one port. Tesseract is included
 1. Create project from this repo; set root directory to `app`
 2. Use `Dockerfile` builder (see `railway.toml`)
 3. Set environment variables from `.env.example`
-4. Copy the generated HTTPS URL into `app/README.md`
+4. Copy the generated HTTPS URL into the root `README.md` and `app/README.md`
 
 ## Render
 
@@ -70,7 +70,7 @@ First build takes ~5-10 minutes (Node 24 UI build + Tesseract install + pip).
 | Auto-Deploy | On |
 
 4. Add environment variables from the table below (or use Blueprint defaults)
-5. Deploy and copy the generated `*.onrender.com` URL into `app/README.md`
+5. Deploy and copy the generated `*.onrender.com` URL into the root `README.md` and `app/README.md`
 
 ## Environment variables (platform)
 
@@ -103,14 +103,16 @@ VITE_API_URL=http://localhost:8000
 
 1. Push the repository to GitHub (branch `main`).
 2. At [share.streamlit.io](https://share.streamlit.io): **Create app** → **Deploy from GitHub**.
-3. Repository `monigarr/instructions`, branch `main`, main file path `app/streamlit_app.py`.
+3. Repository `monigarr/instructions`, branch `main`, main file path `streamlit_app.py` (repo root). The shim executes `app/streamlit_app.py`; a subdirectory entrypoint also works where the form permits it.
 4. Advanced settings → Python **3.11**; leave secrets empty.
-5. Deploy. Community Cloud installs [`requirements.txt`](requirements.txt), apt packages from root [`packages.txt`](../packages.txt) (`tesseract-ocr`), and reads root [`.streamlit/config.toml`](../.streamlit/config.toml).
+5. Deploy. Community Cloud installs root [`requirements.txt`](../requirements.txt), apt packages from root [`packages.txt`](../packages.txt) (`tesseract-ocr`), and reads root [`.streamlit/config.toml`](../.streamlit/config.toml).
 6. Smoke-test the gallery and a 300-label batch, then record the assigned URL.
 
-Do not place a `uv.lock`, `Pipfile`, `environment.yml`, or `pyproject.toml` in `app/` — Community Cloud prefers those over `requirements.txt`. The hash-pinned lockfile lives at the repo root for the API/Docker surface.
+Root `requirements.txt` and [`app/requirements.txt`](requirements.txt) carry identical Streamlit pins; CI fails if they drift. `app/pyproject.toml` remains the API/Docker project and is safe to keep (Community Cloud checks `requirements.txt` first in that directory). Do **not** add a high-priority `uv.lock`, `Pipfile`, or `environment.yml` at the repo root or in `app/` — those would shadow the Streamlit pins. The hash-pinned lockfile lives at the repo root for the API/Docker surface.
 
 ## Smoke test after deploy
+
+After resuming the Render service (or replacing the hostname with your Streamlit URL where applicable):
 
 ```bash
 curl https://labelforge-w32d.onrender.com/health
