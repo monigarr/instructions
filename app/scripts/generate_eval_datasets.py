@@ -21,6 +21,17 @@ DATASETS = ROOT / "evals" / "datasets"
 EXPECTED_DIR = DATASETS / "expected"
 LABELS_DIR = ROOT / "fixtures" / "labels"
 
+# Visual-variance fixtures stay in the gallery/scale catalog but are excluded
+# from the golden gate: OCR output legitimately varies across Tesseract builds
+# (local sidecar vs CI 5.x vs Community Cloud 4.1.1), so gating on them would
+# fail for infrastructure reasons rather than rule regressions.
+NON_GOLDEN_FIXTURE_IDS = {
+    "warning_not_bold",
+    "label_slight_rotation",
+    "label_low_contrast",
+    "label_glare_band",
+}
+
 ADVERSARIAL_CASES = [
     {
         "label_id": "warning_title_case",
@@ -122,16 +133,17 @@ def main() -> None:
     golden_lines: list[str] = []
     for fx in fixture_catalog():
         label_id = fx["id"]
-        golden_lines.append(
-            json.dumps(
-                {
-                    "label_id": label_id,
-                    "fixture": f"fixtures/labels/{label_id}.png",
-                    "application": f"fixtures/applications/{label_id}.json",
-                    "expected_summary": fx["expected_summary"],
-                }
+        if label_id not in NON_GOLDEN_FIXTURE_IDS:
+            golden_lines.append(
+                json.dumps(
+                    {
+                        "label_id": label_id,
+                        "fixture": f"fixtures/labels/{label_id}.png",
+                        "application": f"fixtures/applications/{label_id}.json",
+                        "expected_summary": fx["expected_summary"],
+                    }
+                )
             )
-        )
 
         if fx.get("blank"):
             (EXPECTED_DIR / f"{label_id}.json").write_text("[]\n", encoding="utf-8")
