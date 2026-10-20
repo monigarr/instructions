@@ -115,7 +115,7 @@ Root `requirements.txt` and [`app/requirements.txt`](requirements.txt) carry ide
 
 ## Smoke test after deploy
 
-**Streamlit:** open [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/), select **Old Tom — Pass**, click **Verify label**, and confirm **All fields match**. Then open **Batch verify** and run the built-in 200- or 300-label quick-start. Community Cloud runs Tesseract 4.1.1; the bold-header heuristic is region-based and has been verified live.
+**Streamlit:** open [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/), select **Old Tom — Pass**, click **Verify label**, and confirm **All fields match**. Then open **Batch verify** and run the built-in 200- or 300-label quick-start. Community Cloud runs Tesseract 4.1.1; the bold-header heuristic now compares the header against the adjacent warning line, so the happy-path sample should pass. If the app was already running before this fix was pushed, use **Manage app → Reboot app** once to reload the imported engine modules.
 
 **Render (after resuming the service):**
 

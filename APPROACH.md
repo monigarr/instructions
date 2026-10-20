@@ -224,7 +224,7 @@ Streamlit 1.66 requires `pillow<13`. The Streamlit surface therefore pins **Pill
 | **Session-scoped Streamlit checkpoints** | no server-side storage | resume works across reruns in the same session; a hard browser reload starts fresh |
 | **In-memory batch state by default** | simplicity | enable `BATCH_PERSIST=true` for file-backed progress |
 | **Pillow split (13 vs 12.3)** | Streamlit compatibility | two patched lines to track (§7.3) |
-| **Tesseract 4.1.1 on Community Cloud** | platform image | OCR may differ slightly from CI/Docker 5.x; golden evals run in CI, and the live gallery/batch were smoke-tested after publish |
+| **Tesseract 4.1.1 on Community Cloud** | platform image | OCR may differ slightly from CI/Docker 5.x; golden evals run in CI, and the gallery/scale batches are smoke-tested after each redeploy |
 | **Archived docs** | repository consolidation | [`docs/archive/`](docs/archive/) retains history; live docs are the five at root |
 
 ### Deliberately cut (with rationale)
