@@ -372,11 +372,15 @@ def _run_batch() -> None:
             chunk = batch["items"][start_index : start_index + CHUNK_SIZE]
             outcomes = asyncio.run(_verify_chunk(chunk))
             for label_id, outcome in outcomes:
-                if isinstance(outcome, VerificationResult):
+                # Classify by exception, not by isinstance(VerificationResult).
+                # Community Cloud hot reloads can leave the pipeline holding a
+                # different copy of the model class, which made valid results
+                # look like errors and reported every label as failed.
+                if isinstance(outcome, BaseException):
+                    batch["results"][label_id] = {"error": str(outcome)}
+                else:
                     batch["results"][label_id] = {"result": outcome.model_dump(mode="json")}
                     batch["elapsed"].append(outcome.elapsed_ms)
-                else:
-                    batch["results"][label_id] = {"error": str(outcome)}
             batch["cursor"] = start_index + len(chunk)
             # Release uploaded bytes for completed items — bounded memory on free tier.
             images = st.session_state.get("batch_images") or {}
