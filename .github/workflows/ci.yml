@@ -127,11 +127,17 @@ jobs:
             <(grep -vE '^[[:space:]]*(#|$)' requirements.txt)
       - name: Install Streamlit surface dependencies (root deploy manifest)
         run: pip install -r requirements.txt
-      - name: Headless AppTest smoke (root shim + app entrypoint + chunked batch)
+      - name: Headless AppTest smoke (root shim, free-tier cap, local 200 batch)
         run: |
           python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
           from streamlit.testing.v1 import AppTest
 
+          # Both entrypoints must render and verify one label.
+          os.environ["LABELFORGE_FREE_TIER"] = "0"
           for path in ("streamlit_app.py", "app/streamlit_app.py"):
               at = AppTest.from_file(path, default_timeout=180).run()
               assert not at.exception, (path, at.exception)
@@ -142,13 +148,55 @@ jobs:
               assert at.success, f"{path}: single-label verification produced no result banner"
               print("single-label OK:", path)
 
-          at.radio(key="batch_size").set_value(200)
+          # Free-tier mode: 25-label batch runs, 200/300 are disabled.
+          os.environ["LABELFORGE_FREE_TIER"] = "1"
+          at = AppTest.from_file("app/streamlit_app.py", default_timeout=180).run()
+          assert not at.exception, at.exception
+          assert at.session_state["fixture_batch_size"] == 25
+          assert at.button(key="fixture_size_200").disabled
+          assert at.button(key="fixture_size_300").disabled
+          at.button(key="batch_start").click().run()
+          assert not at.exception, at.exception
+          state = at.session_state["batch"]
+          assert state["finished"] and state["cursor"] == 25, state["cursor"]
+          assert len(state["results"]) == 25
+          print("free-tier batch OK:", state["cursor"], "labels")
+
+          # Free-tier upload guard: a 30-row manifest is rejected, not truncated.
+          at.radio(key="batch_source").set_value("Upload images + manifest").run()
+          manifest = json.loads(
+              Path("app/fixtures/applications/batch_manifest_200.json").read_text(encoding="utf-8")
+          )[:30]
+          at.file_uploader(key="batch_manifest").set_value(
+              ("batch.json", json.dumps(manifest).encode(), "application/json")
+          )
+          uploads = [
+              (
+                  f"{entry['label_id']}.png",
+                  Path(f"app/fixtures/labels/{entry['label_id']}.png").read_bytes(),
+                  "image/png",
+              )
+              for entry in manifest
+          ]
+          at.file_uploader(key="batch_images_upload").set_value(uploads).run()
+          assert at.button(key="batch_start").disabled
+          assert any("up to 25" in error.value for error in at.error)
+          print("free-tier upload guard OK")
+
+          # Local mode: 200-label batch remains available and completes.
+          os.environ["LABELFORGE_FREE_TIER"] = "0"
+          at = AppTest.from_file("app/streamlit_app.py", default_timeout=180).run()
+          assert not at.exception, at.exception
+          assert not at.button(key="fixture_size_200").disabled
+          at.button(key="fixture_size_200").click().run()
+          assert not at.exception, at.exception
+          assert at.session_state["fixture_batch_size"] == 200
           at.button(key="batch_start").click().run()
           assert not at.exception, at.exception
           state = at.session_state["batch"]
           assert state["finished"] and state["cursor"] == 200, state["cursor"]
           assert len(state["results"]) == 200
-          print("streamlit smoke OK:", state["cursor"], "labels")
+          print("local batch OK:", state["cursor"], "labels")
           PY
 
   docker:

@@ -24,9 +24,10 @@ SECURITY:
 PERFORMANCE:
   - Single label: same ~5 s/label budget as the API.
   - Batch: chunked at 25 labels with concurrency 2 (below the API's 6) so the
-    free Community Cloud tier stays within memory; checkpoint per chunk makes
-    a 200–300 label batch resumable instead of capping it. Python and glibc
-    memory are released after each chunk because the free tier is 1 GB.
+    free Community Cloud tier stays within memory. On Community Cloud the live
+    demo is capped at 25 labels per run because sustained 200–300 label batches
+    trigger platform CPU throttling; local, Docker, Render, and the API still
+    support 200–300. Python and glibc memory are released after each chunk.
 
 OPERATIONAL:
   - Run locally: streamlit run streamlit_app.py (or app/streamlit_app.py)
@@ -57,6 +58,12 @@ if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
 from src.api.samples_catalog import SAMPLE_CATALOG  # noqa: E402
+from src.domain.batch_limits import (  # noqa: E402
+    FREE_TIER_BATCH_LIMIT,
+    batch_limit,
+    batch_limit_error,
+    is_community_cloud,
+)
 from src.domain.fixture_stem import resolve_fixture_stem  # noqa: E402
 from src.domain.models import ApplicationRecord, LabelSummary, VerificationResult  # noqa: E402
 from src.verify.pipeline import VerificationPipeline  # noqa: E402
@@ -67,11 +74,13 @@ LABELS = FIXTURES / "labels"
 APPLICATIONS = FIXTURES / "applications"
 
 CHUNK_SIZE = 25
-# The free Community Cloud tier has 1 GB of memory. Two OCR jobs at a time keeps
-# peak usage comfortably below that; the checkpointed chunk loop preserves
-# throughput and resumability for 200-300 label runs.
+# The free Community Cloud tier has limited CPU and memory. Two OCR jobs at a
+# time keeps peak usage below the limit, and the live demo is capped at one
+# 25-label chunk because longer runs trigger platform CPU throttling.
 CHUNK_CONCURRENCY = 2
 LATENCY_BUDGET_MS = 5000.0
+IS_COMMUNITY_CLOUD = is_community_cloud()
+BATCH_LIMIT = batch_limit()
 
 
 def _release_memory() -> None:
@@ -238,9 +247,16 @@ def _batch_csv(batch: dict[str, Any]) -> str:
 
 def _builtin_batch(size: int) -> list[dict[str, Any]]:
     path = APPLICATIONS / f"batch_manifest_{size}.json"
-    if not path.is_file():
-        path = APPLICATIONS / "batch_manifest.json"
-    manifest = json.loads(path.read_text(encoding="utf-8"))
+    manifest: list[dict[str, Any]]
+    if path.is_file():
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+    elif size == FREE_TIER_BATCH_LIMIT:
+        # Keep the free-tier demo available even if the generated 25-label
+        # manifest is missing; the first 25 scale fixtures are stable.
+        fallback = APPLICATIONS / "batch_manifest_200.json"
+        manifest = json.loads(fallback.read_text(encoding="utf-8"))[:size]
+    else:
+        manifest = json.loads((APPLICATIONS / "batch_manifest.json").read_text(encoding="utf-8"))
     items = []
     for entry in manifest:
         label_id = str(entry.get("label_id") or "single")
@@ -254,12 +270,53 @@ def _builtin_batch(size: int) -> list[dict[str, Any]]:
     return items
 
 
+def _fixture_size_control() -> int:
+    """Render the fixture-size chooser, disabling 200/300 on the free tier."""
+    default = FREE_TIER_BATCH_LIMIT if BATCH_LIMIT is not None else 200
+    if "fixture_batch_size" not in st.session_state:
+        st.session_state["fixture_batch_size"] = default
+    if BATCH_LIMIT is not None and int(st.session_state["fixture_batch_size"]) > BATCH_LIMIT:
+        st.session_state["fixture_batch_size"] = default
+
+    current = int(st.session_state["fixture_batch_size"])
+    options = (
+        (FREE_TIER_BATCH_LIMIT, f"{FREE_TIER_BATCH_LIMIT} labels"),
+        (200, "200 labels"),
+        (300, "300 labels"),
+    )
+    st.caption("Fixture batch")
+    columns = st.columns(3)
+    for column, (size, label) in zip(columns, options, strict=True):
+        disabled = BATCH_LIMIT is not None and size > BATCH_LIMIT
+        help_text = None
+        if disabled:
+            help_text = (
+                "Unavailable on the Streamlit Community Cloud free tier. "
+                "Use local, Docker, Render, or the FastAPI batch endpoints for "
+                "200–300 labels."
+            )
+        with column:
+            if st.button(
+                label,
+                key=f"fixture_size_{size}",
+                type="primary" if size == current else "secondary",
+                disabled=disabled,
+                help=help_text,
+            ):
+                st.session_state["fixture_batch_size"] = size
+                current = size
+    return current
+
+
 def _signature(items: list[dict[str, Any]]) -> str:
     payload = "|".join(f"{item['label_id']}:{item['image_key']}" for item in items)
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()[:16]
 
 
 def _new_batch(items: list[dict[str, Any]], images: dict[str, bytes] | None) -> None:
+    limit_error = batch_limit_error(len(items))
+    if limit_error:
+        raise ValueError(limit_error)
     st.session_state["batch"] = {
         "signature": _signature(items),
         "items": items,
@@ -474,15 +531,22 @@ with tab_single:
 # ---------------------------------------------------------------------------
 with tab_batch:
     st.subheader("Batch verify")
-    st.caption(
-        "Batches run in chunks of 25 with concurrency 2 and checkpoint after every chunk. "
-        "A 200–300 label run is supported and can resume after an interruption. "
-        "Run one batch at a time on the free Community Cloud tier."
-    )
+    if BATCH_LIMIT is not None:
+        st.caption(
+            f"Free-tier mode: one batch of up to {BATCH_LIMIT} labels at a time. "
+            "The live Community Cloud tier throttles sustained CPU, so 200/300 "
+            "are disabled here; they remain available locally, in Docker, and "
+            "through the FastAPI batch endpoints."
+        )
+    else:
+        st.caption(
+            "Batches run in chunks of 25 with concurrency 2 and checkpoint after every chunk. "
+            "A 200–300 label run is supported and can resume after an interruption."
+        )
 
     source = st.radio(
         "Batch source",
-        ["Built-in scale batch (200 / 300 fixtures)", "Upload images + manifest"],
+        ["Built-in fixture batch", "Upload images + manifest"],
         horizontal=True,
         key="batch_source",
     )
@@ -492,7 +556,7 @@ with tab_batch:
     ready = False
 
     if source.startswith("Built-in"):
-        size = st.radio("Fixture batch", [200, 300], horizontal=True, key="batch_size")
+        size = _fixture_size_control()
         items = _builtin_batch(int(size))
         ready = True
         st.info(
@@ -519,26 +583,32 @@ with tab_batch:
             except (json.JSONDecodeError, ValueError) as exc:
                 st.error(f"Manifest is invalid: {exc}")
             else:
-                image_map: dict[str, bytes] = {}
-                for upload in image_files:
-                    data = upload.getvalue()
-                    stem = Path(upload.name).stem
-                    image_map[stem] = data
-                    image_map[upload.name] = data
-                for entry in manifest:
-                    label_id = str(entry.get("label_id") or "")
-                    key = Path(label_id).stem if label_id else ""
-                    if key in image_map:
-                        items.append(
-                            {"label_id": label_id, "application": entry, "image_key": key}
-                        )
-                missing = len(manifest) - len(items)
-                images = image_map
-                ready = bool(items)
-                if missing:
-                    st.warning(f"{missing} manifest rows had no matching image and will be skipped.")
-                if items:
-                    st.info(f"{len(items)} labels matched and ready to verify.")
+                limit_error = batch_limit_error(len(manifest))
+                if limit_error:
+                    # Check the manifest itself, not only matched images, so a
+                    # large upload cannot slip through with partial images.
+                    st.error(limit_error)
+                else:
+                    image_map: dict[str, bytes] = {}
+                    for upload in image_files:
+                        data = upload.getvalue()
+                        stem = Path(upload.name).stem
+                        image_map[stem] = data
+                        image_map[upload.name] = data
+                    for entry in manifest:
+                        label_id = str(entry.get("label_id") or "")
+                        key = Path(label_id).stem if label_id else ""
+                        if key in image_map:
+                            items.append(
+                                {"label_id": label_id, "application": entry, "image_key": key}
+                            )
+                    missing = len(manifest) - len(items)
+                    images = image_map
+                    ready = bool(items)
+                    if missing:
+                        st.warning(f"{missing} manifest rows had no matching image and will be skipped.")
+                    if items:
+                        st.info(f"{len(items)} labels matched and ready to verify.")
 
     signature = _signature(items) if items else ""
     existing = st.session_state.get("batch")
@@ -602,10 +672,11 @@ with tab_about:
         "**Verification is deterministic and explainable:** every field yields a status "
         "(`match`, `mismatch`, `needs_review`, `unable_to_verify`) with the application "
         "value, label value, and reason. The tool never auto-approves a COLA.\n\n"
-        "**Batch scale:** 200–300 labels run in chunks of 25 with concurrency 2. Each "
-        "chunk is checkpointed, per-item failures are isolated, and an interrupted run "
-        "resumes where it stopped. Concurrency is deliberately low because the free "
-        "Community Cloud tier has 1 GB of memory; run one batch at a time."
+        "**Batch scale:** the live Community Cloud free tier is capped at 25 labels "
+        "per run because sustained CPU is throttled. Local, Docker, Render, and the "
+        "FastAPI batch endpoints support 200–300 labels in chunks of 25 with "
+        "concurrency 2; each chunk is checkpointed, per-item failures are isolated, "
+        "and an interrupted run resumes where it stopped."
     )
     st.subheader("Prototype posture and limits")
     st.markdown(

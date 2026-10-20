@@ -2,7 +2,7 @@
 
 Standalone proof-of-concept for TTB compliance agents: upload label artwork, compare extracted fields to application data, and review match/mismatch results — single label or batch.
 
-**Live demo:** [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/) (public Streamlit Community Cloud) · **Full stack:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (configured; currently suspended) · **Streamlit entrypoint:** root [`streamlit_app.py`](../streamlit_app.py) shim → [`app/streamlit_app.py`](streamlit_app.py) · **Approach:** [APPROACH.md](../APPROACH.md) · **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](../SECURITY_ACCESSIBILITY.md) · **Historical docs:** [docs/archive/](../docs/archive/)
+**Live demo:** [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/) (public Streamlit Community Cloud; **25-label batch cap** on the free tier) · **Full stack:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) (configured; currently suspended) · **Streamlit entrypoint:** root [`streamlit_app.py`](../streamlit_app.py) shim → [`app/streamlit_app.py`](streamlit_app.py) · **Approach:** [APPROACH.md](../APPROACH.md) · **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](../SECURITY_ACCESSIBILITY.md) · **Historical docs:** [docs/archive/](../docs/archive/)
 
 **Normative requirements:** [ClientRequirement.md](../ClientRequirement.md) — all approach and fixture decisions trace to this document.
 
@@ -89,13 +89,13 @@ streamlit run streamlit_app.py
 
 The app-directory form also works: `pip install -r app/requirements.txt && streamlit run app/streamlit_app.py`.
 
-Open http://localhost:8501. The Streamlit app uses the same pipeline, rules, and fixtures; batch runs are chunked (25) and resumable. The root manifest and app manifest contain identical pins, enforced by CI. Community Cloud deployment details are in the [repo README](../README.md#1-streamlit-community-cloud-live-deploy-target).
+Open http://localhost:8501. The Streamlit app uses the same pipeline, rules, and fixtures; local runs offer **25 / 200 / 300** fixture batches, chunked at 25 and resumable. On the Community Cloud free tier the live app hard-caps batches at **25** and disables 200/300 to avoid platform CPU throttling. The root manifest and app manifest contain identical pins, enforced by CI. Community Cloud deployment details are in the [repo README](../README.md#1-streamlit-community-cloud-live-deploy-target).
 
 ## Demo URL
 
 | Environment | URL | Status |
 |-------------|-----|--------|
-| **Streamlit Community Cloud** | https://labelforge-monigarr.streamlit.app/ | **Live** — public, no login; redeploys from root `streamlit_app.py` |
+| **Streamlit Community Cloud** | https://labelforge-monigarr.streamlit.app/ | **Live** — public, no login; redeploys from root `streamlit_app.py`; free-tier batch cap **25** |
 | **Render** (configured) | https://labelforge-w32d.onrender.com | Service currently suspended — resume in the Render dashboard |
 | **Local (Docker)** | http://localhost:8000 | `docker compose up --build` |
 | **Local dev UI** | http://localhost:5173 | `npm run dev` + `VITE_API_URL=http://localhost:8000` |
@@ -144,10 +144,10 @@ The eval suite uses [`SidecarByStemOCRProvider`](src/adapters/ocr/sidecar_provid
 
 ### Batch processing
 
-- Supports **200–300** labels per session via async batch API with progress polling
+- Supports **200–300** labels per session via the async batch API, local Streamlit, and Docker; the live Streamlit Community Cloud free tier is capped at **25** (200/300 controls visible but disabled)
 - Partial failures do not fail the entire batch
-- **Quick-start in UI:** demo batch button (loads full `batch_manifest.json`; label shows count from API), 200/300 scale test buttons
-- Scale manifests: `python scripts/generate_scale_fixtures.py` → 300 unique `scale_NNN` fixtures, `batch_manifest_200.json`, `batch_manifest_300.json`, and `scale_manifest_summary.json` (~51% pass / ~42% fail / ~7% needs_review per summary)
+- **Quick-start:** the React batch panel offers the demo batch (full `batch_manifest.json`; count from the API) plus 200/300 scale tests. The Streamlit surface adds a 25-label option; 200/300 are disabled on the Community Cloud free tier.
+- Scale manifests: `python scripts/generate_scale_fixtures.py` → 300 unique `scale_NNN` fixtures, `batch_manifest_25.json`, `batch_manifest_200.json`, `batch_manifest_300.json`, and `scale_manifest_summary.json` (~51% pass / ~42% fail / ~7% needs_review per summary)
 - Load test: `python scripts/run_batch_load_test.py --base-url http://localhost:8000 --size 200`
 - `GET /batch/{id}?summary_only=true` for lightweight polling at scale
 - Set `BATCH_PERSIST=true` to survive process restarts (file-backed store)
@@ -228,7 +228,7 @@ For local Vite dev, also set `VITE_API_URL=http://localhost:8000` in `ui/.env.lo
 
 ```bash
 cd app
-pytest tests/ -v          # 65 tests: rules (100% coverage), eval metrics, batch service,
+pytest tests/ -v          # 69 tests: rules (100% coverage), eval metrics, batch service/limits,
                           # samples catalog, fixture stems, scale fixtures, bold regions, logging/trace ids
 python evals/runners/run_eval_suite.py
 ```
@@ -242,7 +242,7 @@ Synthetic fixtures and eval manifests are derived from use cases in [ClientRequi
 ```bash
 cd app
 python scripts/generate_fixtures.py        # 34 catalog PNG labels + application JSON + demo batch manifest
-python scripts/generate_scale_fixtures.py  # 300 unique scale labels + batch_manifest_200/300.json
+python scripts/generate_scale_fixtures.py  # 300 unique scale labels + batch_manifest_25/200/300.json
 python scripts/generate_eval_datasets.py   # golden_labels.jsonl (30), expected/*.json, adversarial + RAG queries
 python evals/runners/run_eval_suite.py   # field accuracy, summary, warning recall, RAG hit rate, P95 latency
 ```

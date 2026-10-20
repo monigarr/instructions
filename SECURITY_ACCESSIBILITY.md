@@ -9,7 +9,7 @@ LabelForge is a technical-interview prototype, not a production federal system. 
 
 ## 1. Scope and intended use
 
-- Public demo at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/), **no authentication**, **synthetic fixtures only**.
+- Public demo at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/), **no authentication**, **synthetic fixtures only**. Batches are capped at **25 labels** on the Streamlit Community Cloud free tier; 200–300 remain available locally, in Docker, and through the API.
 - No COLA integration, no PII, no CUI, no controlled unclassified information.
 - Do not upload real labels, personal data, or any document you would not publish.
 - A `passed` verdict means "no discrepancy detected by deterministic rules"; it is **not** a legal approval.
@@ -22,7 +22,7 @@ Out of scope by design (PRD §5.2): retention/purge policy, CUI/PIA documentatio
 
 | Asset | Threat | Mitigation |
 |-------|--------|------------|
-| Service availability | oversized uploads, decompression bombs, giant batches | per-file 10 MB cap, 40 MP decode ceiling, 256 MB request cap, 400 files/batch, 2 MB manifest cap |
+| Service availability | oversized uploads, decompression bombs, giant batches, free-tier CPU throttling | per-file 10 MB cap, 40 MP decode ceiling, 256 MB request cap, 400 files/batch, 2 MB manifest cap; live Streamlit batches hard-capped at 25 |
 | Verdict integrity | client-supplied `label_id` fabricating compliant fixture text | sidecar OCR requires a byte-for-byte fixture-image hash match; label IDs validated; warning text never fabricated |
 | Filesystem | path traversal via `label_id` / `batch_id` | shared validator + sanitized path joins in OCR sidecar and batch store |
 | Browser security | wildcard CORS with credentials, clickjacking, MIME sniffing | explicit origin allowlist, credentials off, CSP, `X-Frame-Options: DENY`, `nosniff` |
@@ -77,6 +77,8 @@ Non-goals for the prototype: defending against a determined attacker, multi-tena
 - No secrets or API keys are required; nothing is persisted server-side.
 - Results live in browser session state only; uploaded bytes for a completed chunk are released.
 - Uploads are re-validated by the same engine validator.
+- Batch size is hard-capped at **25** on Community Cloud by [`app/src/domain/batch_limits.py`](app/src/domain/batch_limits.py). The 200/300 controls are disabled and larger uploaded manifests are rejected with a clear message, never silently truncated. Local/Docker runs are uncapped to 300 and chunks of 25.
+- The cap limits resource-exhaustion and sustained-CPU throttling risk on the shared free tier; it is a hosting control, not a verdict or data-handling control.
 - HTTP security headers on `*.streamlit.app` are controlled by Streamlit, not this repository (shared-responsibility limitation).
 
 ### 3.5 Secrets

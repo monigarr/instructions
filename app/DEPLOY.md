@@ -107,17 +107,19 @@ VITE_API_URL=http://localhost:8000
 1. Push the repository to GitHub (branch `main`).
 2. At [share.streamlit.io](https://share.streamlit.io): **Create app** → **Deploy from GitHub**.
 3. Repository `monigarr/instructions`, branch `main`, main file path `streamlit_app.py` (repo root). The shim executes `app/streamlit_app.py`; a subdirectory entrypoint also works where the form permits it.
-4. Advanced settings → Python **3.11**; leave secrets empty.
+4. Advanced settings → Python **3.11 or 3.12** (both tested); leave secrets empty. If the app reports an untested runtime (for example 3.14) and import errors appear after a hot reload, reboot or redeploy on a tested version.
 5. Deploy. Community Cloud installs root [`requirements.txt`](../requirements.txt), apt packages from root [`packages.txt`](../packages.txt) (`tesseract-ocr`), and reads root [`.streamlit/config.toml`](../.streamlit/config.toml).
-6. Smoke-test the gallery and a 300-label batch, then record the assigned URL. The current live app is `https://labelforge-monigarr.streamlit.app/`.
+6. Smoke-test the gallery and the **25-label** free-tier batch, then record the assigned URL. The current live app is `https://labelforge-monigarr.streamlit.app/`.
 
-The free tier has **1 GB of memory**. Streamlit batches therefore run two OCR jobs at a time (chunks of 25), release Python/glibc memory after every chunk, and expect **one batch at a time** per app instance. Two overlapping 200-300 label runs can trip the container's memory limit; the app recovers automatically, but the in-flight results are lost unless the chunk checkpoint can be resumed in the same session.
+The free tier throttles sustained CPU, so the live demo hard-caps each batch at **25 labels**. The 25/200/300 controls remain visible, but 200/300 are disabled on Community Cloud; uploaded manifests larger than 25 are rejected rather than truncated. Local and Docker Streamlit runs keep 200/300 enabled. Detection is automatic (`/mount/src`); `LABELFORGE_FREE_TIER=1` forces the cap, `=0` disables it for tests or a non-Cloud host.
+
+The free tier has **1 GB of memory**. Streamlit batches run two OCR jobs at a time (chunks of 25) and release Python/glibc memory after every chunk, so run **one batch at a time** per app instance. Off the free tier, overlapping 200-300 label runs can still trip a 1 GB container's memory limit; the app recovers automatically, but in-flight results are lost unless the chunk checkpoint can be resumed in the same session.
 
 Root `requirements.txt` and [`app/requirements.txt`](requirements.txt) carry identical Streamlit pins; CI fails if they drift. `app/pyproject.toml` remains the API/Docker project and is safe to keep (Community Cloud checks `requirements.txt` first in that directory). Do **not** add a high-priority `uv.lock`, `Pipfile`, or `environment.yml` at the repo root or in `app/` — those would shadow the Streamlit pins. The hash-pinned lockfile lives at the repo root for the API/Docker surface.
 
 ## Smoke test after deploy
 
-**Streamlit:** open [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/), select **Old Tom — Pass**, click **Verify label**, and confirm **All fields match**. Then open **Batch verify** and run the built-in 200- or 300-label quick-start. Community Cloud runs Tesseract 4.1.1; the bold-header heuristic now compares the header against the adjacent warning line, so the happy-path sample should pass. If the app was already running before this fix was pushed, use **Manage app → Reboot app** once to reload the imported engine modules.
+**Streamlit:** open [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/), select **Old Tom — Pass**, click **Verify label**, and confirm **All fields match**. Then open **Batch verify**, confirm **25 labels** is selected, and run the free-tier batch; verify that **200 labels** and **300 labels** are visible but disabled. Test 200/300 locally or in Docker. Community Cloud runs Tesseract 4.1.1; the bold-header heuristic compares the header against the adjacent warning line, so the happy-path sample should pass. If the app was already running before this fix was pushed, use **Manage app → Reboot app** once to reload the imported engine modules.
 
 **Render (after resuming the service):**
 

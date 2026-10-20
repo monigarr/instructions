@@ -30,14 +30,20 @@ def test_scale_fixture_catalog_mixed_outcomes():
 
 
 def test_scale_manifest_files_when_generated():
+    path_25 = APPS / "batch_manifest_25.json"
     path_200 = APPS / "batch_manifest_200.json"
     path_300 = APPS / "batch_manifest_300.json"
-    if not path_200.is_file() or not path_300.is_file():
+    if not path_25.is_file() or not path_200.is_file() or not path_300.is_file():
         return
+    manifest_25 = json.loads(path_25.read_text(encoding="utf-8"))
     manifest_200 = json.loads(path_200.read_text(encoding="utf-8"))
     manifest_300 = json.loads(path_300.read_text(encoding="utf-8"))
+    assert len(manifest_25) == 25
     assert len(manifest_200) == 200
     assert len(manifest_300) == 300
+    assert manifest_25[0]["label_id"] == "scale_001"
+    assert manifest_25[-1]["label_id"] == "scale_025"
+    assert manifest_25 == manifest_200[:25]
     assert manifest_200[0]["label_id"] == "scale_001"
     assert manifest_300[-1]["label_id"] == "scale_300"
 

@@ -14,10 +14,23 @@
 
 ---
 
+## Reviewer quick check (2 minutes)
+
+| # | Do this | Expected |
+|---|---------|----------|
+| 1 | Open [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/) → **Verify one label** → **Old Tom — Pass** → **Verify label** | **Passed**; 7 fields checked; 0 mismatches; government warning **matches exactly** |
+| 2 | Open **Batch verify** → **25 labels** → **Start batch** | **25/25 verified**; CSV download available |
+| 3 | Look at **200 labels** / **300 labels** | Visible but **disabled** on the Streamlit Community Cloud free tier; use the local/Docker/API paths below for 200–300 |
+| 4 | Read [APPROACH.md](APPROACH.md) | Tools, assumptions, trade-offs, limitations, upgrade register |
+
+> **Why the live batch is capped at 25:** Streamlit Community Cloud throttles sustained CPU on the free tier. The full **200–300 label** flow remains implemented and verified through the local Streamlit app, FastAPI API, and Docker image. This is a hosting limit, not an application limit; see [Batch limits by surface](#batch-limits-by-surface).
+
+---
+
 ## What it does
 
 - **Single-label verification:** upload a label + application JSON (or pick a curated sample) → OCR → structured fields → deterministic rules → per-field `match` / `mismatch` / `needs_review` / `unable_to_verify` with reasons.
-- **Batch verification:** 200–300 labels via JSON manifest or CSV manifest (API), or built-in 200/300 fixture batches (Streamlit) with chunked, resumable progress and CSV export.
+- **Batch verification:** live Streamlit demo runs **25 labels per batch** on the free tier; local Streamlit, Docker, Render, Railway, and the API support **200–300 labels** via JSON/CSV manifests with chunked, resumable progress and CSV export.
 - **TTB field coverage:** brand name, class/type, alcohol content (ABV/proof), net contents, government warning (exact text + all-caps bold header), bottler/producer address, country of origin for imports.
 - **Human authority:** the tool never auto-approves a COLA; `passed` means "no discrepancy detected by these rules."
 - **Three surfaces, one engine:** FastAPI + React, Streamlit, and a Docker image all call the same pipeline, rules, and adapters.
@@ -60,10 +73,10 @@ Verified against the repo on **2026-10-19**. Use these counts consistently.
 |------|-------|--------|
 | **Golden eval set** | **30** | [`app/evals/datasets/golden_labels.jsonl`](app/evals/datasets/golden_labels.jsonl) — CI regression gate |
 | **Full synthetic catalog** | **34** | [`fixture_catalog()`](app/scripts/generate_fixtures.py), [`batch_manifest.json`](app/fixtures/applications/batch_manifest.json) |
-| **Scale test fixtures** | **300** | `scale_001`…`scale_300` — [`generate_scale_fixtures.py`](app/scripts/generate_scale_fixtures.py), [`batch_manifest_200.json`](app/fixtures/applications/batch_manifest_200.json) / [`_300`](app/fixtures/applications/batch_manifest_300.json) |
+| **Scale test fixtures** | **300** | `scale_001`…`scale_300` — [`generate_scale_fixtures.py`](app/scripts/generate_scale_fixtures.py), [`batch_manifest_25.json`](app/fixtures/applications/batch_manifest_25.json) / [`_200`](app/fixtures/applications/batch_manifest_200.json) / [`_300`](app/fixtures/applications/batch_manifest_300.json) |
 | **Curated gallery samples** | **10** | [`SAMPLE_CATALOG`](app/src/api/samples_catalog.py) — one-click demo cards |
 | **Non-golden stretch fixtures** | **4** | `warning_not_bold`, `label_slight_rotation`, `label_low_contrast`, `label_glare_band` — in gallery/catalog, excluded from golden CI (visual variance) |
-| **Pytest unit tests** | **65** | `pytest tests/` (rules coverage 100%) |
+| **Pytest unit tests** | **69** | `pytest tests/` (rules coverage 100%) |
 | **CI jobs** | **6** | `.github/workflows/ci.yml`: `test`, `ui`, `lint-and-security`, `locked-install`, `streamlit-smoke`, `docker` |
 | **Runtime deployment targets** | **5** | Streamlit Community Cloud · Render · Railway · Docker Compose · local uvicorn + Vite (plus GitHub Actions CI, which does not deploy) |
 | **Extra label PNGs** | varies | Label picker only (synthetic fictional-brand labels, e.g. `DonPapa.png`); not in catalog or scale manifests |
@@ -77,9 +90,10 @@ Verified against the repo on **2026-10-19**. Use these counts consistently.
 | Step | What to do | What it proves |
 |------|------------|----------------|
 | **1. Try the product** | Open [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/) → **Verify one label** → **Old Tom — Pass** → **Verify label**; or run the local quick start | Deployed URL works; core path is live |
-| **2. Spot-check batch** | **Batch verify** → **built-in 200** / **300** quick-start | Peak-load flow (200–300 labels) |
-| **3. Check the full stack (optional)** | Run the FastAPI + React quick start locally, or resume the suspended Render service | The same engine behind the production UI |
-| **4. Read the approach** | [APPROACH.md](APPROACH.md) | Tools, assumptions, trade-offs, limitations, upgrade register |
+| **2. Spot-check the live batch** | **Batch verify** → **25 labels** → **Start batch** | Free-tier flow completes within the platform CPU limit |
+| **3. Spot-check 200–300 (optional)** | Run the local Streamlit app or the FastAPI batch endpoint (commands below) | Full peak-load flow; the live free tier caps at 25 |
+| **4. Check the full stack (optional)** | Run the FastAPI + React quick start locally, or resume the suspended Render service | The same engine behind the production UI |
+| **5. Read the approach** | [APPROACH.md](APPROACH.md) | Tools, assumptions, trade-offs, limitations, upgrade register |
 
 **Production Render settings:** `USE_FACTORY_GRAPH=false`, `RAG_ENABLED=false`, `BATCH_PERSIST=true`, `LATENCY_GATE_ENABLED=true`, `OCR_PROVIDER=tesseract`.
 
@@ -100,7 +114,7 @@ Verified against the repo on **2026-10-19**. Use these counts consistently.
 | Upload label image + application data | React UI, Streamlit, API | [`app/ui/src/App.tsx`](app/ui/src/App.tsx) · [`app/streamlit_app.py`](app/streamlit_app.py) · [`app/src/api/main.py`](app/src/api/main.py) |
 | Extract required TTB fields | OCR + structure mapper | [`app/src/structure/field_mapper.py`](app/src/structure/field_mapper.py) |
 | Field-by-field pass/fail, exact warning | Deterministic rules + pixel bold-header check | [`app/src/rules/`](app/src/rules/) |
-| Batch 200–300 at peak | API manifests + chunked Streamlit batch | `/batch/verify`, `/batch/verify-csv`, built-in 200/300 quick-starts |
+| Batch 200–300 at peak | API manifests + local/Docker chunked Streamlit batch; live free-tier demo capped at 25 by host CPU limits | `/batch/verify`, `/batch/verify-csv`, `batch_manifest_25/200/300.json`; see [Batch limits by surface](#batch-limits-by-surface) |
 | Simple UI for a new agent | Two-task workflow, sample gallery, plain-language results | React UI + Streamlit surface |
 | ≤ ~5 s per label | Latency budget + flagging; measured container path ~3.7 s before suspension | `elapsed_ms`, `LATENCY_WARN_MS`; local golden P95 is milliseconds with the sidecar |
 | Imperfect images (stretch) | Optional preprocessing flag; visual-variance fixtures | `PREPROCESS_IMPERFECT=true`; four non-golden fixtures in the gallery |
@@ -110,7 +124,7 @@ Verified against the repo on **2026-10-19**. Use these counts consistently.
 
 | Stakeholder | Requirement | Implementation |
 |-------------|-------------|----------------|
-| **Sarah Chen** | ≤ ~5 s per label; batch 200–300 | `elapsed_ms` in API/UI; batch quick-starts; chunked Streamlit batch; latency warning over budget |
+| **Sarah Chen** | ≤ ~5 s per label; batch 200–300 | `elapsed_ms` in API/UI; 200/300 manifests and chunked local Streamlit batch; live free tier shows 25-label cap; latency warning over budget |
 | **Jenny Park** | Government warning exactness | `WarningExactRule` + pixel bold-header analysis; `warning_title_case`, `warning_wording_change` fixtures |
 | **Dave Morrison** | Brand nuance; simple workflow | Fuzzy brand rule with casing/apostrophe tolerance → `needs_review`; two-tab UI |
 | **Marcus Williams** | Standalone, offline OCR, no COLA, sensible security | Tesseract default; synthetic fixtures; no COLA; hardened uploads, CORS, headers, non-root container |
@@ -167,7 +181,7 @@ pip install -r requirements.txt
 streamlit run streamlit_app.py
 ```
 
-Opens on <http://localhost:8501>. The app-directory form remains supported for local runs: `pip install -r app/requirements.txt && streamlit run app/streamlit_app.py`.
+Opens on <http://localhost:8501>. Local runs keep **25 / 200 / 300** fixture batches enabled; only the Community Cloud free tier enforces the 25-label cap. The app-directory form remains supported for local runs: `pip install -r app/requirements.txt && streamlit run app/streamlit_app.py`.
 
 ### C. Docker Compose (API + built UI on one port)
 
@@ -186,12 +200,22 @@ Five runtime targets are supported, plus CI; none removes or replaces the others
 
 | # | Target | How | Notes |
 |---|--------|-----|-------|
-| 1 | **Streamlit Community Cloud** *(`streamlit.io`)* | repo root `streamlit_app.py`; deps `requirements.txt`; apt `packages.txt` | **live** at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/); free tier, chunked/resumable batch |
+| 1 | **Streamlit Community Cloud** *(`streamlit.io`)* | repo root `streamlit_app.py`; deps `requirements.txt`; apt `packages.txt` | **live** at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/); free tier, **25-label batch cap** |
 | 2 | **Render** | Blueprint [`render.yaml`](render.yaml) | configured; service currently suspended — resume in dashboard |
 | 3 | **Railway** | [`app/railway.toml`](app/railway.toml) + Dockerfile | set root directory to `app` |
 | 4 | **Docker / Compose** | [`app/docker-compose.yml`](app/docker-compose.yml) | non-root, healthcheck, one port |
 | 5 | **Local** | uvicorn + Vite (above) | development |
 | 6 | **CI verification** | [`.github/workflows/ci.yml`](.github/workflows/ci.yml) | six jobs; verifies, does not deploy |
+
+### Batch limits by surface
+
+| Surface | Max labels per batch | Why |
+|---------|----------------------|-----|
+| **Live Streamlit Community Cloud (free tier)** | **25** | The free tier throttles sustained CPU; 200/300 options are visible but disabled |
+| **Local Streamlit** | **300** | No shared free-tier CPU cap; same chunked engine |
+| **FastAPI / Docker / Render / Railway** | **300** | `BATCH_CONCURRENCY=6`, optional persistence and resume |
+
+The 25-label cap is enforced in code and covered by CI. Uploaded manifests larger than 25 are rejected on the free tier with a clear message; they are never silently truncated.
 
 ### 1. Streamlit Community Cloud (live deploy target)
 
@@ -201,7 +225,7 @@ Five runtime targets are supported, plus CI; none removes or replaces the others
 2. **Create app** → **Deploy from GitHub**.
 3. Repository: `monigarr/instructions` · Branch: `main`.
 4. **Main file path:** `streamlit_app.py` (repo root — this is the deploy form's default and executes [`app/streamlit_app.py`](app/streamlit_app.py) through a shim).
-5. **Advanced settings** → Python version **3.11** (3.12 also works).
+5. **Advanced settings** → Python version **3.11 or 3.12** (both tested). If the app reports an untested runtime (for example 3.14) and import errors appear after a hot reload, reboot or redeploy on a tested version.
 6. Leave secrets empty — the demo needs no credentials.
 7. Click **Deploy**. Community Cloud installs root [`requirements.txt`](requirements.txt) (Streamlit-only exact pins), apt packages from root [`packages.txt`](packages.txt) (`tesseract-ocr`), and reads root [`.streamlit/config.toml`](.streamlit/config.toml).
 8. Use the assigned `https://<app>.streamlit.app` URL in the submission. The current live URL is [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/).
@@ -212,8 +236,8 @@ If your deploy form allows a subdirectory entrypoint, `app/streamlit_app.py` als
 
 - Root [`requirements.txt`](requirements.txt) and [`app/requirements.txt`](app/requirements.txt) hold the same Streamlit-only pins; CI fails if they drift. Keep both so either entrypoint works.
 - [`app/pyproject.toml`](app/pyproject.toml) is the API/Docker project and is safe to keep: Community Cloud checks `requirements.txt` before `pyproject.toml` in the entrypoint directory. Do **not** add `uv.lock`, `Pipfile`, or `environment.yml` at the repo root or in `app/` — those outrank `requirements.txt` and would shadow the Streamlit pins.
-- Community Cloud runs Debian bullseye, i.e. **Tesseract 4.1.1** (CI/Docker use 5.x). After deploy, smoke-test the 10-sample gallery and the built-in 300-label batch; OCR is deterministic but version-sensitive.
-- Free-tier apps sleep when idle; the first request after sleep is slow. Batch runs are chunked at 25 with concurrency 2 and checkpoint per chunk, so a 200–300 label run resumes instead of failing. The free tier has 1 GB of memory, so run one batch at a time; Python/glibc memory is released after each chunk.
+- Community Cloud runs Debian bullseye, i.e. **Tesseract 4.1.1** (CI/Docker use 5.x). After deploy, smoke-test the 10-sample gallery and the **25-label** free-tier batch; test 200/300 locally, in Docker, or through the API. OCR is deterministic but version-sensitive.
+- Free-tier apps sleep when idle; the first request after sleep is slow. The live demo is capped at **25 labels per batch** because longer runs trigger platform CPU throttling. Local/Docker/API runs remain chunked at 25 with concurrency 2 and checkpoint per chunk. Python/glibc memory is released after each chunk.
 
 ### 2. Render (Blueprint)
 
@@ -283,7 +307,7 @@ Streamlit uses platform environment variables only; the demo needs none.
 Run from `app/`:
 
 ```bash
-pytest tests/ -q                              # 65 tests
+pytest tests/ -q                              # 69 tests
 pytest tests/ -q --cov=src.rules --cov-fail-under=80   # rules coverage gate
 python evals/runners/run_eval_suite.py        # 30 golden fixtures
 ruff check src tests                          # lint
@@ -297,11 +321,11 @@ CI (`.github/workflows/ci.yml`) enforces:
 
 | Job | Checks |
 |-----|--------|
-| `test` | fixtures + 65 tests + rules coverage gate + eval suite + latency benchmark |
+| `test` | fixtures + 69 tests + rules coverage gate + eval suite + latency benchmark |
 | `ui` | `npm ci`, production build, `npm audit --omit=dev` |
 | `lint-and-security` | `ruff`, `pip-audit -r requirements.lock`, `gitleaks` |
 | `locked-install` | install from hash-pinned lockfile, tests + evals |
-| `streamlit-smoke` | headless AppTest: root shim + app entrypoint single verify, full 200-label chunked batch, root/app pin parity |
+| `streamlit-smoke` | headless AppTest: root shim + app entrypoint single verify, free-tier 25-label cap, local 200-label batch, root/app pin parity |
 | `docker` | image build, container health check |
 
 Current eval results: **100%** golden summary accuracy, **100%** adversarial warning recall, **0%** false-pass rate.

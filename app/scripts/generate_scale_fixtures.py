@@ -452,7 +452,7 @@ def main() -> None:
     for fx in fixtures:
         summary[fx["expected_summary"]] = summary.get(fx["expected_summary"], 0) + 1
 
-    for size in (200, 300):
+    for size in (25, 200, 300):
         manifest = generate_scale_manifest(size, fixtures)
         out = APPS_DIR / f"batch_manifest_{size}.json"
         out.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
@@ -464,7 +464,7 @@ def main() -> None:
             {
                 "total_fixtures": len(fixtures),
                 "expected_summary": summary,
-                "manifest_sizes": {"200": 200, "300": 300},
+                "manifest_sizes": {"25": 25, "200": 200, "300": 300},
             },
             indent=2,
         ),

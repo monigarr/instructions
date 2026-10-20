@@ -94,23 +94,25 @@ Each field returns one of four statuses with the application value, label value,
 
 - **30 golden fixtures** run in CI as a regression gate ([`app/evals/runners/run_eval_suite.py`](app/evals/runners/run_eval_suite.py)).
 - The suite reports summary accuracy, per-field accuracy, warning recall, false-pass rate, RAG hit rate, and latency P95.
-- **65 pytest tests** cover rules, batch semantics, eval metrics, OCR adapters, bold-region selection, logging, and API behavior; deterministic rules hold **100%** statement coverage with an 80% CI gate.
+- **69 pytest tests** cover rules, batch limits/semantics, eval metrics, OCR adapters, bold-region selection, logging, and API behavior; deterministic rules hold **100%** statement coverage with an 80% CI gate.
 - Current results: **100%** golden summary accuracy, **100%** adversarial warning recall, **0%** false-pass rate on the adversarial set. Local golden-path P95 is milliseconds with the sidecar; the deployed streaming path targets **≤ ~5 s per label**.
 
 ---
 
-## 4. Batch approach (200–300 labels)
+## 4. Batch approach (25 live free tier; 200–300 off the free tier)
 
 | Concern | Decision |
 |---------|----------|
 | **API/Docker** | `POST /batch/verify` (JSON manifest) or `/batch/verify-csv`; concurrency capped by `BATCH_CONCURRENCY` (default 6); progress persisted when `BATCH_PERSIST=true`; HITL resume via `POST /batch/{id}/resume` |
-| **Streamlit** | runs the same pipeline in **chunks of 25** with concurrency **2**, checkpointing to `st.session_state` after every chunk and releasing Python/glibc memory between chunks |
-| **Why chunking on Streamlit** | the free Community Cloud tier has limited memory/CPU and a single long request is fragile; chunking bounds memory, keeps the UI responsive, and makes a 300-label run **resumable** rather than capped |
+| **Live Streamlit (Community Cloud free tier)** | hard cap of **25 labels per run**. The 25/200/300 controls remain visible, but 200/300 are disabled and explained in the UI. Enforced for built-in fixtures and uploaded manifests; larger uploads are rejected, never silently truncated |
+| **Local / Docker Streamlit** | runs the same pipeline in **chunks of 25** with concurrency **2**, checkpointing to `st.session_state` after every chunk and releasing Python/glibc memory between chunks; 200/300 remain enabled |
+| **Why the live cap** | sustained 200–300 label runs trigger Community Cloud CPU throttling on the free tier. Capping at one 25-label chunk keeps the public demo responsive; the full flow remains available locally and through the API |
+| **Why chunking on Streamlit** | chunking bounds memory, keeps the UI responsive, and makes an interrupted 200–300 label local run **resumable** |
 | **Failure isolation** | one unreadable label records an error for that label only; the batch continues |
 | **Progress** | per-label elapsed time, mean latency, count above the 5 s budget, CSV export of every result |
 | **Idempotent resume** | resume skips already-completed labels; uploaded image bytes are released after their chunk completes |
 
-Nothing is truncated or silently dropped at 200 or 300 labels. A completed 300-label Streamlit batch was verified end-to-end headlessly, including a simulated interruption at label 50 followed by a successful resume.
+The 25-label cap is a **hosting** control, not an engine limit. Off the free tier, nothing is truncated or silently dropped at 200 or 300 labels. A completed 300-label Streamlit batch was verified end-to-end locally (including a simulated interruption at label 50 followed by a successful resume), and the API/Docker path has completed 300/300.
 
 ---
 
@@ -210,6 +212,7 @@ Streamlit 1.66 requires `pillow<13`. The Streamlit surface therefore pins **Pill
 5. A human agent remains the final authority; the tool never auto-approves.
 6. Evaluators can reach the public HTTPS URL ([labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/)); cloud OCR is optional and off by default.
 7. Batch manifests are JSON (`/batch/verify`) or CSV (`/batch/verify-csv`); images are matched to application records by `label_id`.
+8. The public demo runs on the Streamlit Community Cloud free tier, which throttles sustained CPU. Its **25-label per-batch cap** is intentional; reviewers can exercise 200–300 labels locally, in Docker, or through the API.
 
 ---
 
@@ -220,7 +223,8 @@ Streamlit 1.66 requires `pillow<13`. The Streamlit surface therefore pins **Pill
 | **No auth on the public demo** | deliberate prototype posture (PRD §8) | anyone can use the demo; no sensitive data is accepted; documented in [SECURITY_ACCESSIBILITY.md](SECURITY_ACCESSIBILITY.md) |
 | **Deterministic rules over LLM verdicts** | auditability and reproducibility | less flexible on exotic label layouts |
 | **Tesseract default** | offline/firewall-safe | lower accuracy on glare/skew than a paid OCR API; pre-processing flag available |
-| **Streamlit chunk size 25 / concurrency 2** | stay inside the 1 GB free tier; release memory after each chunk | lower throughput than the containerized API (6 concurrent); one Streamlit batch should run at a time |
+| **Streamlit free-tier cap of 25 labels** | the free Community Cloud tier throttles sustained CPU | the public demo cannot run 200/300; those remain available locally, in Docker, and through the API |
+| **Streamlit chunk size 25 / concurrency 2** | stay inside the free-tier memory/CPU limits; release memory after each chunk | lower throughput than the containerized API (6 concurrent); one Streamlit batch should run at a time |
 | **Session-scoped Streamlit checkpoints** | no server-side storage | resume works across reruns in the same session; a hard browser reload starts fresh |
 | **In-memory batch state by default** | simplicity | enable `BATCH_PERSIST=true` for file-backed progress |
 | **Pillow split (13 vs 12.3)** | Streamlit compatibility | two patched lines to track (§7.3) |
@@ -246,7 +250,7 @@ The production-hardening backlog is listed in [SECURITY_ACCESSIBILITY.md](SECURI
 From `app/`:
 
 ```bash
-pytest tests/ -q                              # 65 tests
+pytest tests/ -q                              # 69 tests
 pytest tests/ -q --cov=src.rules --cov-fail-under=80   # rules coverage gate
 python evals/runners/run_eval_suite.py        # 30 golden fixtures
 ruff check src tests                          # lint
@@ -295,7 +299,7 @@ Deployment instructions for all five runtime targets (plus CI) are in [README.md
 │   ├── ui/                       # React + TypeScript
 │   ├── fixtures/                 # synthetic labels + applications
 │   ├── evals/                    # golden + adversarial + RAG eval suites
-│   └── tests/                    # 65 pytest tests
+│   └── tests/                    # 69 pytest tests
 ├── packages.txt                  # Streamlit Cloud apt packages (tesseract)
 ├── .streamlit/config.toml        # Streamlit theme/config
 ├── requirements.lock             # hash-pinned Python lock (API/Docker)

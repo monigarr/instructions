@@ -16,7 +16,7 @@ Run from `app/` unless noted:
 
 | Gate | Command |
 |------|---------|
-| Unit tests | `pytest tests/` (65 tests) |
+| Unit tests | `pytest tests/` (69 tests) |
 | Golden evals (CI regression gate) | `python evals/runners/run_eval_suite.py` (30 golden fixtures) |
 | Lint | `ruff check src tests` |
 | UI type-check + build | `cd ui && npm run build` |

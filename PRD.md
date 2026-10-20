@@ -95,6 +95,8 @@ This is **not** a COLA integration project.
 | Repository completeness | Runnable locally from README |
 | UX | Clean, obvious; no hunting for buttons |
 
+> **Live demo constraint:** the Streamlit Community Cloud free tier throttles sustained CPU, so the public demo caps batches at **25 labels**. The 200–300 requirement is fully supported and tested locally, in Docker, and through the API; the cap is documented in [README.md](README.md#batch-limits-by-surface).
+
 #### Engineering metrics (aspirational — P2+; supports interview, not ClientRequirement.md)
 
 | Metric | Target |
@@ -220,7 +222,7 @@ P2+: ingest → extract → structure → [rag_enrich] → rules → [nuance] �
 - **Clean, obvious layout** — benchmark: Sarah Chen’s “my mother could figure out” standard.
 - **USWDS 3.0–aligned styling** — federal design tokens and system font stack (no third-party font CDN) in custom CSS; two-tab workflow (Verify One Label / Batch Verify).
 - **Must show:** label image, extracted values, application values, field-level diffs for mismatches.
-- **Batch quick-starts:** demo catalog batch (34), 200-label and 300-label scale tests (Sarah/Janet peak-load requirement).
+- **Batch quick-starts:** demo catalog batch (34), plus 25-label (live free tier), 200-label, and 300-label scale tests. The 200/300 controls are visible but disabled on the public free-tier demo; they remain enabled locally and in Docker (Sarah/Janet peak-load requirement).
 - **Must not:** hide complexity behind opaque scores; require training to find primary actions (Dave Morrison).
 - **Optional (P2+ / logs / README):** pipeline stage names, `trace_id`, graph node provenance — keep out of default agent UI unless minimal.
 
@@ -382,7 +384,7 @@ All production code files must use [CODE_COMMENT_HEADER_TEMPLATE.md](docs/archiv
 | OCR | Tesseract default (offline) + Azure Document Intelligence fallback + content-addressed fixture sidecar |
 | Evals | Custom runner + optional LangSmith traces |
 | UI | React + TypeScript (production); Streamlit (Community Cloud surface) |
-| Batch | Chunked/resumable Streamlit batches; concurrent API batch with optional persistence |
+| Batch | Live Streamlit capped at 25 labels (free-tier CPU); chunked/resumable 200–300 off the free tier; concurrent API batch with optional persistence |
 | Packaging | Docker (non-root) + hash-pinned `requirements.lock` |
 | CI | GitHub Actions: `test`, `ui`, `lint-and-security`, `locked-install`, `streamlit-smoke`, `docker` |
 
@@ -397,7 +399,7 @@ All production code files must use [CODE_COMMENT_HEADER_TEMPLATE.md](docs/archiv
 
 **Current repository:** [github.com/monigarr/instructions](https://github.com/monigarr/instructions) — application in [`app/`](app/).  
 **Deployed URLs:**  
-- Streamlit Community Cloud — **live** at [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/); entrypoint `streamlit_app.py` (root shim → `app/streamlit_app.py`), dependencies root `requirements.txt`, apt `packages.txt`, Python 3.11 (deployment steps: [README.md](README.md#1-streamlit-community-cloud-live-deploy-target))  
+- Streamlit Community Cloud — **live** at [https://labelforge-monigarr.streamlit.app/](https://labelforge-monigarr.streamlit.app/); entrypoint `streamlit_app.py` (root shim → `app/streamlit_app.py`), dependencies root `requirements.txt`, apt `packages.txt`, Python 3.11 (deployment steps: [README.md](README.md#1-streamlit-community-cloud-live-deploy-target)); free-tier batch cap **25**
 - Render Starter — [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) ([`render.yaml`](render.yaml)); service is currently **suspended**, resume it in the Render dashboard
 
 Only **two submissions** are mandatory. LabelForge factory work (§7) is **phased engineering depth** — prove it in **code + README approach**, not as extra doc deliverables.
@@ -423,7 +425,7 @@ Only **two submissions** are mandatory. LabelForge factory work (§7) is **phase
 
 | Surface | Entry point | Status |
 |---------|-------------|--------|
-| Streamlit Community Cloud | root `streamlit_app.py` + `requirements.txt` + `packages.txt` | **live** at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/); public, no login; redeploys on `main` |
+| Streamlit Community Cloud | root `streamlit_app.py` + `requirements.txt` + `packages.txt` | **live** at [labelforge-monigarr.streamlit.app](https://labelforge-monigarr.streamlit.app/); public, no login; redeploys on `main`; free-tier batch cap **25** |
 | Render (Docker, FastAPI + React) | [`render.yaml`](render.yaml) | configured at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com); currently suspended — resume in dashboard |
 | Railway (Docker) | [`app/railway.toml`](app/railway.toml) | supported |
 | Docker Compose | [`app/docker-compose.yml`](app/docker-compose.yml) | supported |
@@ -510,7 +512,7 @@ Evidence map: [APPROACH.md](APPROACH.md) §2–§6 · Live deployment: [labelfor
 | **P0 — Foundation** | Interfaces, project skeleton, README draft | Compiles locally |
 | **P1 — MVP (SUBMIT)** | Ingest → extract → structure → rules → UI; single + batch; fixtures | **Repo + URL live**; §10.2 met; P95 ≤ ~5 s documented |
 | **P2 — Graph + RAG** | Factory, LangGraph, ComplianceRAGAgent, NuanceAgent | Interview craft; README approach updated |
-| **P3 - Eval hardening** | Golden/adversarial suites; **65** pytest tests (100% rules coverage); CI regression gate enforced (six jobs incl. lockfile audit, secret scan, Streamlit smoke, Docker) | Engineering quality; production deploy unaffected |
+| **P3 - Eval hardening** | Golden/adversarial suites; **69** pytest tests (100% rules coverage); CI regression gate enforced (six jobs incl. lockfile audit, secret scan, Streamlit smoke, Docker) | Engineering quality; production deploy unaffected |
 | **P4 — Stretch** | **Partially shipped:** batch checkpoint/resume (HITL-style review gate), `PREPROCESS_IMPERFECT` image preprocessing. **Documented as cut:** LLM-generated plain-language explanations, online eval sampling. | Jenny Park stretch; cuts recorded in [APPROACH.md](APPROACH.md) §9 |
 
 ---
@@ -541,7 +543,7 @@ Evidence map: [APPROACH.md](APPROACH.md) §2–§6 · Live deployment: [labelfor
 | Adversarial warning recall | 100% | **100%** |
 | False-pass rate (adversarial) | 0% | **0%** |
 | Production `/verify` latency | ≤ ~5 s | **~3.7 s** on Render Starter |
-| Batch scale | 200–300 labels | **300/300** completed in API and Streamlit (chunked, resumable) |
+| Batch scale | 200–300 labels | **300/300** completed in the API and local Streamlit (chunked, resumable); live free-tier demo intentionally capped at **25** |
 | Dependency advisories | none known on shipped surface | `pip-audit` clean on `requirements.lock`; npm production clean |
 
 ---
