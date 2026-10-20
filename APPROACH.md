@@ -104,7 +104,7 @@ Each field returns one of four statuses with the application value, label value,
 | Concern | Decision |
 |---------|----------|
 | **API/Docker** | `POST /batch/verify` (JSON manifest) or `/batch/verify-csv`; concurrency capped by `BATCH_CONCURRENCY` (default 6); progress persisted when `BATCH_PERSIST=true`; HITL resume via `POST /batch/{id}/resume` |
-| **Streamlit** | runs the same pipeline in **chunks of 25** with concurrency **4**, checkpointing to `st.session_state` after every chunk |
+| **Streamlit** | runs the same pipeline in **chunks of 25** with concurrency **2**, checkpointing to `st.session_state` after every chunk and releasing Python/glibc memory between chunks |
 | **Why chunking on Streamlit** | the free Community Cloud tier has limited memory/CPU and a single long request is fragile; chunking bounds memory, keeps the UI responsive, and makes a 300-label run **resumable** rather than capped |
 | **Failure isolation** | one unreadable label records an error for that label only; the batch continues |
 | **Progress** | per-label elapsed time, mean latency, count above the 5 s budget, CSV export of every result |
@@ -220,7 +220,7 @@ Streamlit 1.66 requires `pillow<13`. The Streamlit surface therefore pins **Pill
 | **No auth on the public demo** | deliberate prototype posture (PRD §8) | anyone can use the demo; no sensitive data is accepted; documented in [SECURITY_ACCESSIBILITY.md](SECURITY_ACCESSIBILITY.md) |
 | **Deterministic rules over LLM verdicts** | auditability and reproducibility | less flexible on exotic label layouts |
 | **Tesseract default** | offline/firewall-safe | lower accuracy on glare/skew than a paid OCR API; pre-processing flag available |
-| **Streamlit chunk size 25 / concurrency 4** | bounded memory on free tier | slightly lower throughput than the containerized API (6 concurrent) |
+| **Streamlit chunk size 25 / concurrency 2** | stay inside the 1 GB free tier; release memory after each chunk | lower throughput than the containerized API (6 concurrent); one Streamlit batch should run at a time |
 | **Session-scoped Streamlit checkpoints** | no server-side storage | resume works across reruns in the same session; a hard browser reload starts fresh |
 | **In-memory batch state by default** | simplicity | enable `BATCH_PERSIST=true` for file-backed progress |
 | **Pillow split (13 vs 12.3)** | Streamlit compatibility | two patched lines to track (§7.3) |

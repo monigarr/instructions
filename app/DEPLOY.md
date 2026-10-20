@@ -111,6 +111,8 @@ VITE_API_URL=http://localhost:8000
 5. Deploy. Community Cloud installs root [`requirements.txt`](../requirements.txt), apt packages from root [`packages.txt`](../packages.txt) (`tesseract-ocr`), and reads root [`.streamlit/config.toml`](../.streamlit/config.toml).
 6. Smoke-test the gallery and a 300-label batch, then record the assigned URL. The current live app is `https://labelforge-monigarr.streamlit.app/`.
 
+The free tier has **1 GB of memory**. Streamlit batches therefore run two OCR jobs at a time (chunks of 25), release Python/glibc memory after every chunk, and expect **one batch at a time** per app instance. Two overlapping 200-300 label runs can trip the container's memory limit; the app recovers automatically, but the in-flight results are lost unless the chunk checkpoint can be resumed in the same session.
+
 Root `requirements.txt` and [`app/requirements.txt`](requirements.txt) carry identical Streamlit pins; CI fails if they drift. `app/pyproject.toml` remains the API/Docker project and is safe to keep (Community Cloud checks `requirements.txt` first in that directory). Do **not** add a high-priority `uv.lock`, `Pipfile`, or `environment.yml` at the repo root or in `app/` — those would shadow the Streamlit pins. The hash-pinned lockfile lives at the repo root for the API/Docker surface.
 
 ## Smoke test after deploy

@@ -213,7 +213,7 @@ If your deploy form allows a subdirectory entrypoint, `app/streamlit_app.py` als
 - Root [`requirements.txt`](requirements.txt) and [`app/requirements.txt`](app/requirements.txt) hold the same Streamlit-only pins; CI fails if they drift. Keep both so either entrypoint works.
 - [`app/pyproject.toml`](app/pyproject.toml) is the API/Docker project and is safe to keep: Community Cloud checks `requirements.txt` before `pyproject.toml` in the entrypoint directory. Do **not** add `uv.lock`, `Pipfile`, or `environment.yml` at the repo root or in `app/` — those outrank `requirements.txt` and would shadow the Streamlit pins.
 - Community Cloud runs Debian bullseye, i.e. **Tesseract 4.1.1** (CI/Docker use 5.x). After deploy, smoke-test the 10-sample gallery and the built-in 300-label batch; OCR is deterministic but version-sensitive.
-- Free-tier apps sleep when idle; the first request after sleep is slow. Batch runs are chunked at 25 with concurrency 4 and checkpoint per chunk, so a 200–300 label run resumes instead of failing.
+- Free-tier apps sleep when idle; the first request after sleep is slow. Batch runs are chunked at 25 with concurrency 2 and checkpoint per chunk, so a 200–300 label run resumes instead of failing. The free tier has 1 GB of memory, so run one batch at a time; Python/glibc memory is released after each chunk.
 
 ### 2. Render (Blueprint)
 

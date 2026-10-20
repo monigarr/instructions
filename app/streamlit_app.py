@@ -23,9 +23,10 @@ SECURITY:
 
 PERFORMANCE:
   - Single label: same ~5 s/label budget as the API.
-  - Batch: chunked at 25 labels with concurrency 4 (below the API's 6) so the
+  - Batch: chunked at 25 labels with concurrency 2 (below the API's 6) so the
     free Community Cloud tier stays within memory; checkpoint per chunk makes
-    a 200–300 label batch resumable instead of capping it.
+    a 200–300 label batch resumable instead of capping it. Python and glibc
+    memory are released after each chunk because the free tier is 1 GB.
 
 OPERATIONAL:
   - Run locally: streamlit run streamlit_app.py (or app/streamlit_app.py)
@@ -39,6 +40,7 @@ from __future__ import annotations
 
 import asyncio
 import csv
+import gc
 import hashlib
 import io
 import json
@@ -65,8 +67,31 @@ LABELS = FIXTURES / "labels"
 APPLICATIONS = FIXTURES / "applications"
 
 CHUNK_SIZE = 25
-CHUNK_CONCURRENCY = 4
+# The free Community Cloud tier has 1 GB of memory. Two OCR jobs at a time keeps
+# peak usage comfortably below that; the checkpointed chunk loop preserves
+# throughput and resumability for 200-300 label runs.
+CHUNK_CONCURRENCY = 2
 LATENCY_BUDGET_MS = 5000.0
+
+
+def _release_memory() -> None:
+    """Return freed Python/glibc memory to the OS after each batch chunk.
+
+    Streaming 200-300 labels repeatedly allocates large OCR buffers. CPython and
+    glibc can retain those arenas after the objects are freed, which eventually
+    trips the Community Cloud memory limit. ``malloc_trim`` is Linux-only and
+    optional; the rest of the app works if it is unavailable.
+    """
+    gc.collect()
+    if not sys.platform.startswith("linux"):
+        return
+    try:
+        import ctypes
+
+        ctypes.CDLL("libc.so.6").malloc_trim(0)
+    except (OSError, AttributeError):
+        pass
+
 
 STATUS_ICON = {
     "match": "✅",
@@ -300,6 +325,7 @@ def _run_batch() -> None:
             images = st.session_state.get("batch_images") or {}
             for item in chunk:
                 images.pop(item["image_key"], None)
+            _release_memory()
             done = batch["cursor"]
             progress.progress(
                 done / total,
@@ -313,8 +339,10 @@ def _run_batch() -> None:
         batch["error"] = None
         progress.progress(1.0, text=f"Batch complete — {total} labels verified.")
         status.empty()
+        _release_memory()
     except Exception as exc:  # keep the checkpoint; the Resume button continues
         batch["error"] = str(exc)
+        _release_memory()
         progress.empty()
         st.error(
             f"Batch paused after {batch['cursor']} of {total} labels: {exc}. "
@@ -447,8 +475,9 @@ with tab_single:
 with tab_batch:
     st.subheader("Batch verify")
     st.caption(
-        "Batches run in chunks of 25 with concurrency 4 and checkpoint after every chunk. "
-        "A 200–300 label run is fully supported and can resume after an interruption."
+        "Batches run in chunks of 25 with concurrency 2 and checkpoint after every chunk. "
+        "A 200–300 label run is supported and can resume after an interruption. "
+        "Run one batch at a time on the free Community Cloud tier."
     )
 
     source = st.radio(
@@ -573,9 +602,10 @@ with tab_about:
         "**Verification is deterministic and explainable:** every field yields a status "
         "(`match`, `mismatch`, `needs_review`, `unable_to_verify`) with the application "
         "value, label value, and reason. The tool never auto-approves a COLA.\n\n"
-        "**Batch scale:** 200–300 labels run in chunks of 25 with concurrency 4. Each "
+        "**Batch scale:** 200–300 labels run in chunks of 25 with concurrency 2. Each "
         "chunk is checkpointed, per-item failures are isolated, and an interrupted run "
-        "resumes where it stopped."
+        "resumes where it stopped. Concurrency is deliberately low because the free "
+        "Community Cloud tier has 1 GB of memory; run one batch at a time."
     )
     st.subheader("Prototype posture and limits")
     st.markdown(
