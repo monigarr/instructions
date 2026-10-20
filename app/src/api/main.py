@@ -6,7 +6,7 @@ import csv
 import io
 import json
 import logging
-import uuid
+import time
 from pathlib import Path
 from typing import Any
 
@@ -29,7 +29,16 @@ from src.config import settings
 from src.domain.fixture_stem import resolve_fixture_stem
 from src.domain.models import ApplicationRecord
 from src.factory.labelforge_factory import LabelForgeFactory
+from src.observability import (
+    configure_logging,
+    current_trace_id,
+    new_trace_id,
+    reset_trace_id,
+    set_trace_id,
+)
 from src.verify.batch_service import BatchVerificationService
+
+configure_logging(settings.log_level, settings.log_json)
 
 app = FastAPI(title="LabelForge", description="TTB Alcohol Label Verification", version="0.1.0")
 
@@ -61,24 +70,46 @@ SECURITY_HEADERS = {
 
 
 @app.middleware("http")
-async def security_headers(request: Request, call_next):
-    content_length = request.headers.get("content-length")
-    if content_length and content_length.isdigit() and int(content_length) > settings.max_request_bytes:
-        return JSONResponse(status_code=413, content={"detail": "Request body too large."})
-    response = await call_next(request)
-    for name, value in SECURITY_HEADERS.items():
-        response.headers.setdefault(name, value)
-    return response
+async def observability_and_security(request: Request, call_next):
+    trace_id = new_trace_id(request.headers.get("X-Trace-ID"))
+    token = set_trace_id(trace_id)
+    started = time.perf_counter()
+    try:
+        content_length = request.headers.get("content-length")
+        if content_length and content_length.isdigit() and int(content_length) > settings.max_request_bytes:
+            response = JSONResponse(status_code=413, content={"detail": "Request body too large."})
+        else:
+            response = await call_next(request)
+        for name, value in SECURITY_HEADERS.items():
+            response.headers.setdefault(name, value)
+        response.headers.setdefault("X-Trace-ID", trace_id)
+        logger.info(
+            "request_completed",
+            extra={
+                "event": "request_completed",
+                "method": request.method,
+                "path": request.url.path,
+                "status_code": response.status_code,
+                "duration_ms": round((time.perf_counter() - started) * 1000, 2),
+            },
+        )
+        return response
+    finally:
+        reset_trace_id(token)
 
 
 @app.exception_handler(Exception)
 async def unhandled_exception(request: Request, exc: Exception) -> JSONResponse:
     """Never leak stack traces or parser internals; correlate server-side by trace id."""
-    trace_id = str(uuid.uuid4())
-    logger.exception("Unhandled error trace_id=%s path=%s", trace_id, request.url.path)
+    trace_id = current_trace_id() or new_trace_id()
+    logger.exception(
+        "unhandled_error",
+        extra={"event": "unhandled_error", "path": request.url.path},
+    )
     return JSONResponse(
         status_code=500,
         content={"detail": "Internal server error.", "trace_id": trace_id},
+        headers={"X-Trace-ID": trace_id},
     )
 
 _factory = LabelForgeFactory()

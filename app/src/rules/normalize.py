@@ -16,7 +16,9 @@ def normalize_text(value: str | None) -> str:
 
 
 def normalize_brand(value: str | None) -> str:
-    return normalize_text(value).replace("'", "'")
+    if not value:
+        return ""
+    return normalize_text(value.replace("\u2019", "'").replace("\u2018", "'"))
 
 
 def normalize_units(value: str | None) -> str:

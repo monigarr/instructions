@@ -28,9 +28,9 @@ jobs:
       - name: Generate eval datasets
         working-directory: app
         run: python scripts/generate_eval_datasets.py
-      - name: Unit tests
+      - name: Unit tests + rules coverage gate
         working-directory: app
-        run: pytest tests/ -v
+        run: pytest tests/ -v --cov=src.rules --cov-report=term-missing --cov-fail-under=80
       - name: Latency benchmark
         working-directory: app
         run: python evals/runners/run_latency_benchmark.py --output latency-report.json

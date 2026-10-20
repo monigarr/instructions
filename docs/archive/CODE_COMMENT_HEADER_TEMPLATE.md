@@ -1,10 +1,12 @@
+﻿> **Archived 2026-10-19.** Historical document retained for traceability. It predates the repository consolidation; canonical docs are [README](../README.md) | [APPROACH](../APPROACH.md) | [SECURITY_ACCESSIBILITY](../SECURITY_ACCESSIBILITY.md) | [PRD](../PRD.md) | [ClientRequirement](../ClientRequirement.md). Relative links inside this file may be stale.
+
 # File Header Template
 
 | Primary Source | [ClientRequirement.md](ClientRequirement.md) |
-| Derived Spec | [PRD.md](PRD.md) · [ARCHITECTURE.md](ARCHITECTURE.md) |
+| Derived Spec | [PRD.md](PRD.md) Â· [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Client Deliverable | GitHub repository (code quality and organization) |
 
-Use this header on production modules per [ARCHITECTURE.md](ARCHITECTURE.md) §15 and M.O.M. file standards. Test modules may use minimal headers.
+Use this header on production modules per [ARCHITECTURE.md](ARCHITECTURE.md) Â§15 and M.O.M. file standards. Test modules may use minimal headers.
 
 ## Python (LabelForge `app/`)
 
@@ -21,7 +23,7 @@ PURPOSE:
 One-line description of module responsibility.
 
 DEPENDENCIES:
-  - domain.interfaces — abstractions this module implements or consumes
+  - domain.interfaces â€” abstractions this module implements or consumes
 
 SECURITY:
   - No logging of full label/application text in production mode

@@ -1,4 +1,6 @@
-# Security Audit Report — LabelForge
+﻿> **Archived 2026-10-19.** Historical document retained for traceability. It predates the repository consolidation; canonical docs are [README](../README.md) | [APPROACH](../APPROACH.md) | [SECURITY_ACCESSIBILITY](../SECURITY_ACCESSIBILITY.md) | [PRD](../PRD.md) | [ClientRequirement](../ClientRequirement.md). Relative links inside this file may be stale.
+
+# Security Audit Report â€” LabelForge
 
 **Date:** July 8, 2026  
 **Repository:** `instructions` (LabelForge / TTB Alcohol Label Verification)  
@@ -39,7 +41,7 @@ Project documentation (`ARCHITECTURE.md`, `DELIVERABLES.md`, `PRD.md`) explicitl
 |-----------|------|------|
 | API server | `app/src/api/main.py` | FastAPI entrypoint; all HTTP routes |
 | UI | `app/ui/` | React + Vite SPA; built to `ui/dist`, served by API |
-| Verification pipeline | `app/src/verify/pipeline.py` | Linear OCR → rules flow (P1 default) |
+| Verification pipeline | `app/src/verify/pipeline.py` | Linear OCR â†’ rules flow (P1 default) |
 | LangGraph factory | `app/src/graph/`, `app/src/agents/` | Optional orchestration (`USE_FACTORY_GRAPH=true`) |
 | OCR adapters | `app/src/adapters/ocr/` | Tesseract (default), Azure DI, sidecar fixtures |
 | Rules engine | `app/src/rules/` | Deterministic field rules (no LLM verdicts) |
@@ -55,31 +57,31 @@ Project documentation (`ARCHITECTURE.md`, `DELIVERABLES.md`, `PRD.md`) explicitl
 
 | ID | Severity | Location | Finding |
 |----|----------|----------|---------|
-| SEC-001 | **High** | `app/src/api/main.py:57–250` | No authentication on any endpoint |
-| SEC-002 | **High** | `app/src/api/main.py:35–41` | CORS allows wildcard origin with credentials |
-| SEC-003 | **High** | `app/src/api/main.py:139,167–170,207–215` | Full upload buffered in memory before size validation |
-| SEC-004 | **Medium** | `app/src/verify/batch_store.py:34–43` | Path traversal via user-supplied `batch_id` on read |
-| SEC-005 | **Medium** | `app/src/adapters/ocr/sidecar_provider.py:56`, `pipeline.py:41–45` | Path traversal via unvalidated `label_id` in sidecar OCR |
-| SEC-006 | **Medium** | `app/src/ingest/validator.py:41–45` | MIME type check skipped when `content_type` omitted |
-| SEC-007 | **Medium** | `app/src/ingest/validator.py:47–55` | No image decompression bomb / pixel dimension limits |
-| SEC-008 | **Medium** | `app/src/api/main.py:151–229` | No limit on batch image count or manifest size |
+| SEC-001 | **High** | `app/src/api/main.py:57â€“250` | No authentication on any endpoint |
+| SEC-002 | **High** | `app/src/api/main.py:35â€“41` | CORS allows wildcard origin with credentials |
+| SEC-003 | **High** | `app/src/api/main.py:139,167â€“170,207â€“215` | Full upload buffered in memory before size validation |
+| SEC-004 | **Medium** | `app/src/verify/batch_store.py:34â€“43` | Path traversal via user-supplied `batch_id` on read |
+| SEC-005 | **Medium** | `app/src/adapters/ocr/sidecar_provider.py:56`, `pipeline.py:41â€“45` | Path traversal via unvalidated `label_id` in sidecar OCR |
+| SEC-006 | **Medium** | `app/src/ingest/validator.py:41â€“45` | MIME type check skipped when `content_type` omitted |
+| SEC-007 | **Medium** | `app/src/ingest/validator.py:47â€“55` | No image decompression bomb / pixel dimension limits |
+| SEC-008 | **Medium** | `app/src/api/main.py:151â€“229` | No limit on batch image count or manifest size |
 | SEC-009 | **Medium** | `app/src/api/main.py` (no middleware) | Missing security headers (CSP, HSTS, X-Frame-Options, etc.) |
-| SEC-010 | **Medium** | `app/pyproject.toml:7–17` | Python dependencies unpinned (no lockfile) |
-| SEC-011 | **Medium** | `app/Dockerfile:8–24` | Container runs as root; no `USER` directive |
-| SEC-012 | **Medium** | `render.yaml:19–20`, `batch_service.py:35–36` | Production enables batch persistence without access controls |
-| SEC-013 | **Medium** | `app/src/api/samples_catalog.py:192–208` | Unauthenticated disk write on scale manifest endpoint |
-| SEC-014 | **Medium** | `app/src/verify/batch_service.py:102–104,143–145` | Internal exception strings returned to API clients |
-| SEC-015 | **Medium** | `app/src/api/main.py:232–237` | Batch results readable by ID without ownership binding |
-| SEC-016 | **Low** | `app/src/api/main.py:57–66` | `/health` exposes internal configuration |
-| SEC-017 | **Low** | `app/src/api/main.py:240–250` | HITL resume endpoint is unauthenticated stub |
-| SEC-018 | **Low** | `app/src/api/main.py:173–188` | Batch silently skips unmatched manifest entries |
-| SEC-019 | **Low** | `app/src/domain/models.py:24–32` | Application JSON fields have no length limits |
-| SEC-020 | **Low** | `app/src/api/main.py:51–52,159–160` | JSON parse errors include exception detail |
+| SEC-010 | **Medium** | `app/pyproject.toml:7â€“17` | Python dependencies unpinned (no lockfile) |
+| SEC-011 | **Medium** | `app/Dockerfile:8â€“24` | Container runs as root; no `USER` directive |
+| SEC-012 | **Medium** | `render.yaml:19â€“20`, `batch_service.py:35â€“36` | Production enables batch persistence without access controls |
+| SEC-013 | **Medium** | `app/src/api/samples_catalog.py:192â€“208` | Unauthenticated disk write on scale manifest endpoint |
+| SEC-014 | **Medium** | `app/src/verify/batch_service.py:102â€“104,143â€“145` | Internal exception strings returned to API clients |
+| SEC-015 | **Medium** | `app/src/api/main.py:232â€“237` | Batch results readable by ID without ownership binding |
+| SEC-016 | **Low** | `app/src/api/main.py:57â€“66` | `/health` exposes internal configuration |
+| SEC-017 | **Low** | `app/src/api/main.py:240â€“250` | HITL resume endpoint is unauthenticated stub |
+| SEC-018 | **Low** | `app/src/api/main.py:173â€“188` | Batch silently skips unmatched manifest entries |
+| SEC-019 | **Low** | `app/src/domain/models.py:24â€“32` | Application JSON fields have no length limits |
+| SEC-020 | **Low** | `app/src/api/main.py:51â€“52,159â€“160` | JSON parse errors include exception detail |
 | SEC-021 | **Info** | `app/src/api/main.py:33` | FastAPI `/docs` and `/openapi.json` exposed by default |
 | SEC-022 | **Info** | `app/src/config.py:24` | API binds to `0.0.0.0` (expected for containers) |
 | SEC-023 | **Info** | Repo root `data/chroma/` | Runtime Chroma artifacts outside `app/.gitignore` scope |
 | SEC-024 | **Info** | `.github/workflows/ci.yml` | No dependency vulnerability scanning in CI |
-| SEC-025 | **Info** | `app/Dockerfile:23–24` | `EXPOSE 10000` vs default port 8000 mismatch |
+| SEC-025 | **Info** | `app/Dockerfile:23â€“24` | `EXPOSE 10000` vs default port 8000 mismatch |
 | SEC-026 | **Info** | Application code | No SQL or command injection vectors found |
 | SEC-027 | **Info** | `app/src/rag/` | RAG corpus is static; no user corpus ingestion |
 | SEC-028 | **Info** | `app/evals/`, `app/scripts/` | Dev scripts print reports to stdout |
@@ -90,7 +92,7 @@ Project documentation (`ARCHITECTURE.md`, `DELIVERABLES.md`, `PRD.md`) explicitl
 
 ### 1. Authentication & Authorization
 
-#### SEC-001 — No authentication on any endpoint (High)
+#### SEC-001 â€” No authentication on any endpoint (High)
 
 All HTTP routes are publicly accessible. There is no API key, JWT, session, OAuth, or role-based access control.
 
@@ -124,7 +126,7 @@ app.add_middleware(
 )
 ```
 
-#### SEC-015 — Batch results readable without ownership (Medium)
+#### SEC-015 â€” Batch results readable without ownership (Medium)
 
 `GET /batch/{batch_id}` returns full verification results (field values, verdicts, errors) for any valid `batch_id`. New batches use UUIDs (reducing guessability), but there is no caller identity or access token binding.
 
@@ -139,7 +141,7 @@ async def get_batch(batch_id: str, summary_only: bool = Query(default=False)):
 
 With `BATCH_PERSIST=true` (enabled in `render.yaml`), results are written to `./data/batches` on disk.
 
-#### SEC-017 — HITL resume endpoint unauthenticated (Low)
+#### SEC-017 â€” HITL resume endpoint unauthenticated (Low)
 
 `POST /batch/{batch_id}/resume` acknowledges human review without identity checks. Low impact today (no privileged state change), but establishes an insecure pattern for future privileged actions.
 
@@ -147,7 +149,7 @@ With `BATCH_PERSIST=true` (enabled in `render.yaml`), results are written to `./
 
 ### 2. CORS & HTTP Security Headers
 
-#### SEC-002 — Permissive CORS with credentials (High)
+#### SEC-002 â€” Permissive CORS with credentials (High)
 
 Configured origins from `CORS_ORIGINS` are extended with a literal `"*"`, combined with `allow_credentials=True` and wildcard methods/headers. Browsers may reject `*` + credentials per spec, but the configuration intent is clearly wide open and any cross-origin site may invoke the API.
 
@@ -161,7 +163,7 @@ app.add_middleware(
 )
 ```
 
-#### SEC-009 — Missing security headers (Medium)
+#### SEC-009 â€” Missing security headers (Medium)
 
 No middleware sets:
 
@@ -178,7 +180,7 @@ The UI loads Google Fonts from `fonts.googleapis.com` (`app/ui/index.html`) with
 
 ### 3. File Upload Handling
 
-#### SEC-003 — Unbounded in-memory buffering before validation (High)
+#### SEC-003 â€” Unbounded in-memory buffering before validation (High)
 
 The API reads entire upload bodies into memory before pipeline validation runs:
 
@@ -194,7 +196,7 @@ async def verify_label(
 
 Batch endpoints repeat this pattern for every image (`await img.read()`). The 10 MB cap in `validate_image_upload()` applies only after buffering. An attacker can send very large payloads and exhaust server memory before rejection.
 
-#### SEC-006 — MIME type check is optional (Medium)
+#### SEC-006 â€” MIME type check is optional (Medium)
 
 Validation rejects bad MIME types only when `content_type` is provided. Omitted or spoofed content types skip the MIME gate; only PIL decode is used.
 
@@ -206,15 +208,15 @@ Validation rejects bad MIME types only when `content_type` is provided. Omitted 
         )
 ```
 
-#### SEC-007 — No decompression bomb protection (Medium)
+#### SEC-007 â€” No decompression bomb protection (Medium)
 
 PIL `Image.open().verify()` and `.load()` are used without `Image.MAX_IMAGE_PIXELS` limits or maximum dimension caps. A small compressed image can expand to very large pixel arrays, causing CPU/memory exhaustion.
 
-#### SEC-008 — No batch size limits (Medium)
+#### SEC-008 â€” No batch size limits (Medium)
 
 `/batch/verify` and `/batch/verify-csv` accept unbounded image lists and manifest payloads. Combined with `batch_concurrency=6`, this enables amplified resource consumption.
 
-#### SEC-018 — Silent manifest skips (Low)
+#### SEC-018 â€” Silent manifest skips (Low)
 
 Unmatched manifest rows are skipped with `continue` rather than returning an error. Partial batches may process without operator awareness, affecting data integrity rather than direct security.
 
@@ -222,7 +224,7 @@ Unmatched manifest rows are skipped with `continue` rather than returning an err
 
 ### 4. Path Traversal
 
-#### SEC-004 — `batch_id` path traversal in `FileBatchStore` (Medium)
+#### SEC-004 â€” `batch_id` path traversal in `FileBatchStore` (Medium)
 
 `_path()` joins user-supplied `batch_id` directly into the filesystem path without sanitization:
 
@@ -240,7 +242,7 @@ Unmatched manifest rows are skipped with `continue` rather than returning an err
 
 A `batch_id` such as `../../../path/to/file` on `GET /batch/{batch_id}` could read JSON files outside `BATCH_PERSIST_DIR` if they exist and deserialize to `BatchProgress`. Batch creation uses UUIDs (safe for writes); the read path is the attack surface.
 
-#### SEC-005 — `label_id` path traversal in sidecar OCR (Medium)
+#### SEC-005 â€” `label_id` path traversal in sidecar OCR (Medium)
 
 User-controlled `label_id` from application JSON flows through `resolve_fixture_stem()` without validation, then into a filesystem join:
 
@@ -262,7 +264,7 @@ User-controlled `label_id` from application JSON flows through `resolve_fixture_
 
 A `label_id` like `../../secret` can escape `fixtures/labels/` when sidecar OCR fallback is active (Tesseract unavailable).
 
-**Note:** A `sanitize_label_id()` helper exists in `app/src/domain/label_id.py` but is **not used** in the pipeline or sidecar paths. Fixture catalog API routes (`/labels/{id}`, `/samples/{id}`) do validate IDs with a regex whitelist — see positive controls.
+**Note:** A `sanitize_label_id()` helper exists in `app/src/domain/label_id.py` but is **not used** in the pipeline or sidecar paths. Fixture catalog API routes (`/labels/{id}`, `/samples/{id}`) do validate IDs with a regex whitelist â€” see positive controls.
 
 ---
 
@@ -277,7 +279,7 @@ A `label_id` like `../../secret` can escape `fixtures/labels/` when sidecar OCR 
 | Azure credentials | Loaded from `settings` only (`app/src/config.py`, `azure_provider.py`) |
 | Credential logging | Not observed in OCR or API paths |
 
-#### SEC-016 — Health endpoint configuration disclosure (Low)
+#### SEC-016 â€” Health endpoint configuration disclosure (Low)
 
 ```57:66:app/src/api/main.py
 @app.get("/health")
@@ -294,7 +296,7 @@ async def health():
 
 Useful for attacker reconnaissance; acceptable for internal monitoring with network controls.
 
-#### SEC-023 — Chroma runtime data at repo root (Info)
+#### SEC-023 â€” Chroma runtime data at repo root (Info)
 
 Git status shows untracked `data/chroma/` at repository root. `app/.gitignore` covers `data/chroma/` relative to `app/` only. No root-level `.gitignore` exists. Operators should ensure persistence directories are excluded from version control and backups containing sensitive embeddings.
 
@@ -302,7 +304,7 @@ Git status shows untracked `data/chroma/` at repository root. `app/.gitignore` c
 
 ### 6. Injection Risks
 
-#### SEC-026 — No SQL or command injection (Info)
+#### SEC-026 â€” No SQL or command injection (Info)
 
 - No SQL database usage; Chroma is embedded vector storage; batch data is JSON files.
 - No `subprocess`, `os.system`, `shell=True`, or `eval()` in application code.
@@ -312,13 +314,13 @@ Git status shows untracked `data/chroma/` at repository root. `app/.gitignore` c
 
 ### 7. LLM / RAG Security
 
-**Verdict path is deterministic** — `DeterministicRulesEngine` evaluates field rules; no LLM owns compliance outcomes. LangGraph agents orchestrate OCR/rules; no OpenAI/Anthropic API calls were found in the verdict path.
+**Verdict path is deterministic** â€” `DeterministicRulesEngine` evaluates field rules; no LLM owns compliance outcomes. LangGraph agents orchestrate OCR/rules; no OpenAI/Anthropic API calls were found in the verdict path.
 
 | Topic | Assessment |
 |-------|------------|
-| Prompt injection affecting verdicts | **Not applicable** — rules engine is non-LLM |
+| Prompt injection affecting verdicts | **Not applicable** â€” rules engine is non-LLM |
 | RAG query input | OCR-extracted text and field names (`app/src/rag/retriever.py`) |
-| RAG impact on outcomes | Low — RAG enriches explanations only; rules own verdict bits |
+| RAG impact on outcomes | Low â€” RAG enriches explanations only; rules own verdict bits |
 | User-controlled application JSON | By design for a verification tool; not model injection |
 | Corpus trust | Static developer-authored markdown under `app/src/rag/corpus/`; no user upload endpoint |
 
@@ -337,16 +339,16 @@ Git status shows untracked `data/chroma/` at repository root. `app/.gitignore` c
 | langgraph | `>=0.2.0` | Optional graph path |
 | chromadb | `>=0.5.0` (optional `[rag]`) | Vector DB |
 
-#### SEC-010 — No Python lockfile (Medium)
+#### SEC-010 â€” No Python lockfile (Medium)
 
 Open lower bounds prevent reproducible builds and complicate CVE tracking. No `uv.lock`, `poetry.lock`, or `requirements.lock` observed.
 
 #### JavaScript (`app/ui/package.json`)
 
 - Minimal dependency tree (React 18, Vite 5, TypeScript 5).
-- `app/ui/package-lock.json` exists — UI dependencies are pinned.
+- `app/ui/package-lock.json` exists â€” UI dependencies are pinned.
 
-#### SEC-024 — No automated vulnerability scanning (Info)
+#### SEC-024 â€” No automated vulnerability scanning (Info)
 
 `.github/workflows/ci.yml` runs tests and builds but does not include Dependabot, `pip-audit`, `npm audit`, Snyk, or similar.
 
@@ -354,7 +356,7 @@ Open lower bounds prevent reproducible builds and complicate CVE tracking. No `u
 
 ### 9. Docker & Deployment
 
-#### SEC-011 — Container runs as root (Medium)
+#### SEC-011 â€” Container runs as root (Medium)
 
 ```8:24:app/Dockerfile
 FROM python:3.11-slim
@@ -367,11 +369,11 @@ CMD ["sh", "-c", "uvicorn src.api.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
 
 No non-root `USER` directive. Container compromise grants root inside the container namespace.
 
-#### SEC-012 — Batch persistence without ACLs in production (Medium)
+#### SEC-012 â€” Batch persistence without ACLs in production (Medium)
 
 `render.yaml` sets `BATCH_PERSIST=true`. Batch JSON is written to `./data/batches` with no encryption, filesystem permissions hardening, or access control beyond unauthenticated API routes.
 
-#### SEC-013 — Unauthenticated disk write on scale endpoint (Medium)
+#### SEC-013 â€” Unauthenticated disk write on scale endpoint (Medium)
 
 ```192:208:app/src/api/samples_catalog.py
 def scale_batch_manifest(size: int) -> list[dict]:
@@ -386,7 +388,7 @@ def scale_batch_manifest(size: int) -> list[dict]:
 
 `GET /samples/batch/scale/{size}` (size 200 or 300) generates and writes manifest files when missing. Unauthenticated callers can trigger disk writes (disk-fill DoS vector).
 
-#### SEC-025 — Dockerfile port mismatch (Info)
+#### SEC-025 â€” Dockerfile port mismatch (Info)
 
 `EXPOSE 10000` but `CMD` defaults to port 8000. Railway/Render override via `$PORT`; local confusion only.
 
@@ -394,7 +396,7 @@ def scale_batch_manifest(size: int) -> list[dict]:
 
 ### 10. Error Handling & Information Disclosure
 
-#### SEC-014 — Exception strings in API responses (Medium)
+#### SEC-014 â€” Exception strings in API responses (Medium)
 
 ```102:104:app/src/verify/batch_service.py
                 except Exception as exc:
@@ -411,11 +413,11 @@ OCR failures in the pipeline similarly append exception text:
                 errors.append(f"OCR ({provider.name}) failed: {exc}")
 ```
 
-#### SEC-019 — Unbounded application JSON fields (Low)
+#### SEC-019 â€” Unbounded application JSON fields (Low)
 
 `ApplicationRecord` string fields have no max length. Very large `application` form payloads could cause memory pressure.
 
-#### SEC-020 — JSON parse error detail (Low)
+#### SEC-020 â€” JSON parse error detail (Low)
 
 `detail=f"Invalid application JSON: {exc}"` exposes parser messages in 400 responses. Generally acceptable for client debugging.
 
@@ -435,13 +437,13 @@ OCR failures in the pipeline similarly append exception text:
 
 | Control | Location | Notes |
 |---------|----------|-------|
-| Fixture path validation | `app/src/api/samples_catalog.py:16,94–96,146–157` | Regex `^[a-zA-Z0-9][a-zA-Z0-9_.-]*$`; tests reject `../etc/passwd` |
+| Fixture path validation | `app/src/api/samples_catalog.py:16,94â€“96,146â€“157` | Regex `^[a-zA-Z0-9][a-zA-Z0-9_.-]*$`; tests reject `../etc/passwd` |
 | Upload validation module | `app/src/ingest/validator.py` | 10 MB cap, empty-file rejection, PIL decode check |
 | Secrets via environment | `app/src/config.py`, `app/.env.example` | `.env` gitignored; `extra="ignore"` on settings |
 | Deterministic verdict engine | `app/src/rules/engine.py` | Rules, not LLM, own compliance outcomes |
-| OCR timeout | `app/src/verify/pipeline.py:52–55` | `asyncio.wait_for(..., timeout=settings.ocr_timeout_seconds)` |
+| OCR timeout | `app/src/verify/pipeline.py:52â€“55` | `asyncio.wait_for(..., timeout=settings.ocr_timeout_seconds)` |
 | Batch concurrency cap | `app/src/verify/batch_service.py:88,129` | `asyncio.Semaphore(settings.batch_concurrency)` (default 6) |
-| Atomic batch file writes | `app/src/verify/batch_store.py:52–56` | Temp file + `os.replace` |
+| Atomic batch file writes | `app/src/verify/batch_store.py:52â€“56` | Temp file + `os.replace` |
 | No shell execution | Application code | No subprocess from user input |
 | `sanitize_label_id` helper exists | `app/src/domain/label_id.py` | Available but not wired into all paths |
 | Minimal UI dependencies | `app/ui/package.json` | Small JS attack surface |
@@ -453,14 +455,14 @@ OCR failures in the pipeline similarly append exception text:
 
 These are guidance only; no changes were made during this audit.
 
-### P0 — Before any public deployment with real data
+### P0 â€” Before any public deployment with real data
 
 1. **Add authentication** (API key, mutual TLS, or OAuth) to all mutating and data-bearing endpoints.
 2. **Fix CORS:** Remove `"*"` from `allow_origins`; set explicit origins; disable `allow_credentials` unless required.
 3. **Enforce upload limits at the HTTP layer** before `await file.read()` (middleware or streaming with size cap).
 4. **Sanitize filesystem joins:** Apply `sanitize_label_id()` (or equivalent) to `batch_id` reads and sidecar stem hints; resolve paths and verify they remain under intended directories.
 
-### P1 — Hardening
+### P1 â€” Hardening
 
 5. Add **rate limiting** on `/verify` and `/batch/*`.
 6. Add **security headers middleware** (CSP, `X-Content-Type-Options`, `X-Frame-Options`, HSTS).
@@ -469,7 +471,7 @@ These are guidance only; no changes were made during this audit.
 9. **Disable FastAPI docs** in production (`docs_url=None`, `redoc_url=None`).
 10. Return **generic error messages** to clients; log detailed exceptions server-side only.
 
-### P2 — Operational hygiene
+### P2 â€” Operational hygiene
 
 11. **Pin Python dependencies** and add CI vulnerability scanning (`pip-audit`, `npm audit`, Dependabot).
 12. Run container as **non-root user**.
@@ -481,19 +483,19 @@ These are guidance only; no changes were made during this audit.
 
 ## Audit Limitations
 
-- **Static analysis only** — no runtime testing, fuzzing, or authenticated penetration testing.
-- **No CVE database lookup** — dependency versions were reviewed for pinning policy, not known vulnerabilities.
-- **Prototype context** — findings are assessed against documented prototype intent; production TTB workloads would require a stricter threat model (PII, regulatory data classification, federal ATO considerations).
-- **Untracked files** — `data/chroma/` artifacts in git status were noted but not inspected for sensitive content.
+- **Static analysis only** â€” no runtime testing, fuzzing, or authenticated penetration testing.
+- **No CVE database lookup** â€” dependency versions were reviewed for pinning policy, not known vulnerabilities.
+- **Prototype context** â€” findings are assessed against documented prototype intent; production TTB workloads would require a stricter threat model (PII, regulatory data classification, federal ATO considerations).
+- **Untracked files** â€” `data/chroma/` artifacts in git status were noted but not inspected for sensitive content.
 
 ---
 
 ## Conclusion
 
-LabelForge implements reasonable prototype safeguards: environment-based secrets, upload validation, fixture ID whitelisting on catalog routes, and a deterministic rules engine that avoids LLM verdict manipulation. The primary security debt is **exposure control** — the service is designed to be reachable and usable without friction, which leaves authentication, CORS, rate limiting, and resource bounds as open gaps.
+LabelForge implements reasonable prototype safeguards: environment-based secrets, upload validation, fixture ID whitelisting on catalog routes, and a deterministic rules engine that avoids LLM verdict manipulation. The primary security debt is **exposure control** â€” the service is designed to be reachable and usable without friction, which leaves authentication, CORS, rate limiting, and resource bounds as open gaps.
 
 **Overall risk rating for prototype/local use:** Moderate (acceptable with network isolation).  
-**Overall risk rating for internet-facing production use with real label data:** High — remediate P0 items before deployment.
+**Overall risk rating for internet-facing production use with real label data:** High â€” remediate P0 items before deployment.
 
 ---
 

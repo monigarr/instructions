@@ -1,9 +1,11 @@
-# ARCHITECTURE.md — Template
+﻿> **Archived 2026-10-19.** Historical document retained for traceability. It predates the repository consolidation; canonical docs are [README](../README.md) | [APPROACH](../APPROACH.md) | [SECURITY_ACCESSIBILITY](../SECURITY_ACCESSIBILITY.md) | [PRD](../PRD.md) | [ClientRequirement](../ClientRequirement.md). Relative links inside this file may be stale.
+
+# ARCHITECTURE.md â€” Template
 
 | Primary Source | [ClientRequirement.md](ClientRequirement.md) |
-| Derived Spec | [PRD.md](PRD.md) — project instance only |
+| Derived Spec | [PRD.md](PRD.md) â€” project instance only |
 
-> **Project instance**: [ARCHITECTURE.md](ARCHITECTURE.md) (LabelForge — TTB Alcohol Label Verification)
+> **Project instance**: [ARCHITECTURE.md](ARCHITECTURE.md) (LabelForge â€” TTB Alcohol Label Verification)
 >
 > **Upstream source**: [ClientRequirement.md](ClientRequirement.md) (primary). Project instance derives from [PRD.md](PRD.md).
 
@@ -257,15 +259,15 @@ Examples:
 
 ```text
 [ Client ]
-    ↓
+    â†“
 [ Gateway ]
-    ↓
+    â†“
 [ Application Layer ]
-    ↓
+    â†“
 [ AI Orchestration ]
-    ↓
+    â†“
 [ Verification Layer ]
-    ↓
+    â†“
 [ Data Layer ]
 ```
 

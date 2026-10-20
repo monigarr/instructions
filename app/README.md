@@ -2,7 +2,7 @@
 
 Standalone proof-of-concept for TTB compliance agents: upload label artwork, compare extracted fields to application data, and review match/mismatch results — single label or batch.
 
-**Live demo:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) · **Onboarding:** [ONBOARDING.md](../ONBOARDING.md) · **Proof index:** [DELIVERABLES_PROOF.md](../DELIVERABLES_PROOF.md) · **3-min demo:** [REVIEWER_GUIDE.md](../REVIEWER_GUIDE.md)
+**Live demo:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) · **Streamlit surface:** [`streamlit_app.py`](streamlit_app.py) · **Approach:** [APPROACH.md](../APPROACH.md) · **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](../SECURITY_ACCESSIBILITY.md) · **Historical docs:** [docs/archive/](../docs/archive/)
 
 **Normative requirements:** [ClientRequirement.md](../ClientRequirement.md) — all approach and fixture decisions trace to this document.
 
@@ -33,7 +33,7 @@ Standalone proof-of-concept for TTB compliance agents: upload label artwork, com
 ### Prerequisites
 
 - Python 3.11+
-- Node.js 18+ locally (Node 20 in Docker/CI)
+- Node.js 22+ locally (Node 24 in Docker/CI)
 - [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) installed and on `PATH` (default offline OCR)
 
 ### Backend
@@ -55,7 +55,7 @@ uvicorn src.api.main:app --reload --host 0.0.0.0 --port 8000
 
 ```bash
 cd app/ui
-npm install
+npm ci
 npm run dev
 ```
 
@@ -78,15 +78,26 @@ docker compose up --build
 
 Open http://localhost:8000
 
+### Streamlit surface
+
+```bash
+pip install -r app/requirements.txt
+streamlit run app/streamlit_app.py
+```
+
+Open http://localhost:8501. The Streamlit app uses the same pipeline, rules, and fixtures; batch runs are chunked (25) and resumable. Community Cloud deployment details are in the [repo README](../README.md#1-streamlit-community-cloud-new-deploy-target).
+
 ## Demo URL
 
 | Environment | URL | Status |
 |-------------|-----|--------|
 | **Production (Render)** | https://labelforge-w32d.onrender.com | Live — Starter plan (always-on, no free-tier cold start) |
+| **Streamlit Community Cloud** | assigned at deploy time (e.g. `https://<app>.streamlit.app`) | Deploy from `app/streamlit_app.py` — steps in the repo README |
 | **Local (Docker)** | http://localhost:8000 | `docker compose up --build` |
 | **Local dev UI** | http://localhost:5173 | `npm run dev` + `VITE_API_URL=http://localhost:8000` |
+| **Local Streamlit** | http://localhost:8501 | `streamlit run app/streamlit_app.py` |
 
-**Proof index:** [DELIVERABLES_PROOF.md](../DELIVERABLES_PROOF.md) — file paths, API smoke tests, fixture map.
+**Proof index (historical):** [docs/archive/DELIVERABLES_PROOF.md](../docs/archive/DELIVERABLES_PROOF.md) — file paths, API smoke tests, fixture map.
 
 Deploy via [DEPLOY.md](DEPLOY.md) and [render.yaml](../render.yaml). Tesseract OCR runs in-container; no API keys required for the default demo path.
 
@@ -156,7 +167,7 @@ One-click **Try this sample** loads both label image and application JSON automa
 
 ### API reference
 
-Defined in [`src/api/main.py`](src/api/main.py). Full table in [DELIVERABLES_PROOF.md](../DELIVERABLES_PROOF.md) §5.
+Defined in [`src/api/main.py`](src/api/main.py). Full table in [docs/archive/DELIVERABLES_PROOF.md](../docs/archive/DELIVERABLES_PROOF.md) §5.
 
 | Method | Path | Purpose |
 |--------|------|---------|
@@ -213,8 +224,8 @@ For local Vite dev, also set `VITE_API_URL=http://localhost:8000` in `ui/.env.lo
 
 ```bash
 cd app
-pytest tests/ -v          # 28 tests: test_rules (7), test_eval_metrics (5), test_batch_service (4),
-                          # test_samples_catalog (4), test_fixture_stem (4), test_scale_fixtures (4)
+pytest tests/ -v          # 63 tests: rules (100% coverage), eval metrics, batch service,
+                          # samples catalog, fixture stems, scale fixtures, logging/trace ids
 python evals/runners/run_eval_suite.py
 ```
 

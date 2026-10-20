@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import time
-import uuid
 
 from src.adapters.ocr.factory import create_fallback_provider, create_ocr_provider
 from src.config import settings
@@ -19,8 +19,11 @@ from src.domain.models import (
     VerificationResult,
 )
 from src.ingest.validator import UploadValidationError, validate_image_upload
+from src.observability import current_trace_id, new_trace_id
 from src.rules.engine import DeterministicRulesEngine
 from src.structure.field_mapper import structure_fields
+
+logger = logging.getLogger("labelforge.pipeline")
 
 
 def _summarize(verdicts) -> LabelSummary:
@@ -77,14 +80,14 @@ class VerificationPipeline:
         content_type: str | None = None,
     ) -> VerificationResult:
         start = time.perf_counter()
-        trace_id = str(uuid.uuid4())
+        trace_id = current_trace_id() or new_trace_id()
         errors: list[str] = []
 
         try:
             image_bytes = validate_image_upload(image_bytes, content_type)
         except UploadValidationError as exc:
             elapsed = (time.perf_counter() - start) * 1000
-            return VerificationResult(
+            result = VerificationResult(
                 label_id=application.label_id,
                 verdicts=[],
                 summary=LabelSummary.FAILED,
@@ -92,13 +95,15 @@ class VerificationPipeline:
                 trace_id=trace_id,
                 errors=[str(exc)],
             )
+            self._log_result(result, provider="none", error_count=1)
+            return result
 
         ocr, ocr_errors = await self._extract_with_fallback(image_bytes, application.label_id)
         errors.extend(ocr_errors)
 
         if not ocr.full_text.strip():
             elapsed = (time.perf_counter() - start) * 1000
-            return VerificationResult(
+            result = VerificationResult(
                 label_id=application.label_id,
                 verdicts=[],
                 summary=LabelSummary.NEEDS_REVIEW,
@@ -106,12 +111,14 @@ class VerificationPipeline:
                 trace_id=trace_id,
                 errors=errors + ["Image unreadable — please upload a flat, well-lit photo of the label."],
             )
+            self._log_result(result, provider=ocr.provider, error_count=len(result.errors))
+            return result
 
         extracted = structure_fields(ocr)
         verdicts = self._rules.evaluate_all(application, extracted)
         elapsed = (time.perf_counter() - start) * 1000
 
-        return VerificationResult(
+        result = VerificationResult(
             label_id=application.label_id,
             verdicts=verdicts,
             summary=_summarize(verdicts),
@@ -119,4 +126,20 @@ class VerificationPipeline:
             trace_id=trace_id,
             errors=errors,
             latency_warning=settings.latency_gate_enabled and elapsed > settings.latency_warn_ms,
+        )
+        self._log_result(result, provider=ocr.provider, error_count=len(errors))
+        return result
+
+    @staticmethod
+    def _log_result(result: VerificationResult, *, provider: str, error_count: int) -> None:
+        logger.info(
+            "verification_completed",
+            extra={
+                "event": "verification_completed",
+                "label_id": result.label_id,
+                "summary": result.summary.value,
+                "duration_ms": round(result.elapsed_ms, 2),
+                "provider": provider,
+                "error_count": error_count,
+            },
         )

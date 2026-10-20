@@ -3,12 +3,11 @@
 **Product:** AI-Powered Alcohol Label Verification App — *LabelForge Agent Factory*  
 **Document type:** Prototype / proof-of-concept PRD (technical interview showcase)  
 **Primary source:** [ClientRequirement.md](ClientRequirement.md)  
-**Onboarding:** [ONBOARDING.md](ONBOARDING.md)  
-**Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md)  
-**Deliverables:** [DELIVERABLES.md](DELIVERABLES.md)  
-**Status:** Implemented (P1 + P2+ in `app/`); **production live** at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com)  
+**Approach & trade-offs:** [APPROACH.md](APPROACH.md)  
+**Security & accessibility:** [SECURITY_ACCESSIBILITY.md](SECURITY_ACCESSIBILITY.md)  
+**Status:** Implemented (P1 + P2+ in `app/`); **deployed** on Render at [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com); additionally deployable on Streamlit Community Cloud from `app/streamlit_app.py` (steps in [README.md](README.md#1-streamlit-community-cloud-new-deploy-target))  
 **Author:** Monica Peters (MoniGarr) | Gauntlet AI GFA Cohort 5 Fellowship, 2026  
-**Last updated:** 2026-07-08
+**Last updated:** 2026-10-19
 
 ---
 
@@ -16,14 +15,13 @@
 
 | Layer | Authority | Role |
 |-------|-----------|------|
-| **Onboarding** | [ONBOARDING.md](ONBOARDING.md) | Engineer & architect runbook — repo map, config, quality gates |
 | **Client truth** | [ClientRequirement.md](ClientRequirement.md) | Normative requirements and **two deliverables only** |
-| **Proof** | [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) | File paths + live URLs proving §10 deliverables |
-| **Submission** | [DELIVERABLES.md](DELIVERABLES.md) + **§10 below** | Checklist for repo + URL + client constraints |
-| **Target-state design** | [ARCHITECTURE.md](ARCHITECTURE.md) | Phased LabelForge factory — **P2+ shipped in `app/`** |
-| **Interview craft** | §7, §4.3, §12 | Gauntlet-style depth in **code + README approach** after P1 ships |
+| **Approach** | [APPROACH.md](APPROACH.md) | Tools, assumptions, trade-offs, upgrade/deferred register |
+| **Security & accessibility** | [SECURITY_ACCESSIBILITY.md](SECURITY_ACCESSIBILITY.md) | Prototype posture, controls, 508 fixes, hardening backlog |
+| **This PRD** | [PRD.md](PRD.md) | Requirements, scope boundary, phases, acceptance criteria |
+| **Archived design docs** | [docs/archive/](docs/archive/) | Historical target-state design, proof index, onboarding, review guide, audit |
 
-**Rule:** Ship **P1 MVP** first. Factory, RAG, and eval CI are proof of senior engineering — not a third client deliverable.
+**Rule:** Ship **P1 MVP** first. Factory, RAG, and eval CI are proof of senior engineering — not a third client deliverable. The eight superseded root documents were archived on 2026-10-19; each carries an archive banner.
 
 ---
 
@@ -33,7 +31,7 @@ The TTB Compliance Division reviews roughly 150,000 alcohol label applications p
 
 **P1 (submission):** Working source repo + deployed URL with upload → extract → compare → results (single + batch), TTB field coverage, and documented approach in README.
 
-**P2+ (interview craft):** Evolve toward the **LabelForge Agent Software Factory** — graph orchestration, RAG, evals, S.O.L.I.D. boundaries — as described in [ARCHITECTURE.md](ARCHITECTURE.md). This depth demonstrates senior AI-native design but does **not** replace the two client deliverables.
+**P2+ (interview craft):** Evolve toward the **LabelForge Agent Software Factory** — graph orchestration, RAG, evals, S.O.L.I.D. boundaries — as described in [ARCHITECTURE.md](docs/archive/ARCHITECTURE.md). This depth demonstrates senior AI-native design but does **not** replace the two client deliverables.
 
 This is **not** a COLA integration project.
 
@@ -130,9 +128,9 @@ This is **not** a COLA integration project.
 - Batch upload and batch results view
 - Simple, accessible UI and basic error handling
 - README: setup, run, approach, tools, assumptions, trade-offs
-- **Two deliverables only:** source repo + deployed URL ([DELIVERABLES.md](DELIVERABLES.md))
+- **Two deliverables only:** source repo + deployed URL ([§10](#10-deliverables))
 
-### 5.1b In scope — phased target (interview craft — **P2+**, ARCHITECTURE.md)
+### 5.1b In scope — phased target (interview craft — **P2+**, [archived design](docs/archive/ARCHITECTURE.md))
 
 - Agent Software Factory composition root
 - LangGraph (or equivalent) workflow with fallbacks
@@ -150,6 +148,8 @@ This is **not** a COLA integration project.
 - Long-term document retention or PII handling policies (prototype uses non-sensitive exercise data)
 - Full legal adjudication of borderline compliance cases (human review remains authoritative)
 - Fully autonomous approval without human agent sign-off
+
+**Scope boundary reaffirmed 2026-10-19.** The following remain deliberately cut and are not partial implementations: document retention/purge policy, data-classification program, CUI/PIA documentation, NIST 800-53 / CISA attestation, and a VPAT. Production identity/SSO, WAF/rate limiting, managed queue/object storage, and database-backed audit state are also out of scope. Security and accessibility posture — including what was implemented and what remains for production — is documented in [SECURITY_ACCESSIBILITY.md](SECURITY_ACCESSIBILITY.md); the deferred register is in [APPROACH.md](APPROACH.md) §7–§9.
 
 ### 5.3 Stretch / nice-to-have
 
@@ -218,7 +218,7 @@ P2+: ingest → extract → structure → [rag_enrich] → rules → [nuance] �
 ### 6.4 User interface (client-first)
 
 - **Clean, obvious layout** — benchmark: Sarah Chen’s “my mother could figure out” standard.
-- **USWDS 3.0–aligned styling** — Public Sans typography and federal design tokens ([U.S. Web Design System](https://designsystem.digital.gov/)) in custom CSS; two-tab workflow (Verify One Label / Batch Verify).
+- **USWDS 3.0–aligned styling** — federal design tokens and system font stack (no third-party font CDN) in custom CSS; two-tab workflow (Verify One Label / Batch Verify).
 - **Must show:** label image, extracted values, application values, field-level diffs for mismatches.
 - **Batch quick-starts:** demo catalog batch (34), 200-label and 300-label scale tests (Sarah/Janet peak-load requirement).
 - **Must not:** hide complexity behind opaque scores; require training to find primary actions (Dave Morrison).
@@ -235,7 +235,7 @@ P2+: ingest → extract → structure → [rag_enrich] → rules → [nuance] �
 
 ## 7. AI-native factory requirements (P2+ target state)
 
-> **Not client deliverables.** This section defines phased engineering depth per [ARCHITECTURE.md](ARCHITECTURE.md). Implement after P1 repo + URL satisfy §10.
+> **Not client deliverables.** This section defines phased engineering depth per [ARCHITECTURE.md](docs/archive/ARCHITECTURE.md). Implement after P1 repo + URL satisfy §10.
 
 ### 7.1 Autonomous Agent Software Factory
 
@@ -338,7 +338,7 @@ evals/
 | **I** — Interface Segregation | Separate `IOCRProvider`, `IRulesEngine`, `IRAGRetriever`, `IAgentNode`, `IGraphRunner` |
 | **D** — Dependency Inversion | Factory wires concrete adapters from config; domain depends on abstractions |
 
-All production code files must use [CODE_COMMENT_HEADER_TEMPLATE.md](CODE_COMMENT_HEADER_TEMPLATE.md).
+All production code files must use [CODE_COMMENT_HEADER_TEMPLATE.md](docs/archive/CODE_COMMENT_HEADER_TEMPLATE.md).
 
 ---
 
@@ -359,42 +359,46 @@ All production code files must use [CODE_COMMENT_HEADER_TEMPLATE.md](CODE_COMMEN
 | Category | Requirement |
 |----------|-------------|
 | **Maintainability** | SOLID modules; swappable OCR provider |
-| **Observability** | Structured logs; optional `trace_id` (logs/README, not required in UI) |
+| **Observability** | Structured JSON logs; `trace_id` in logs/results and `X-Trace-ID` response header (not required in UI) |
 | **Testability** | Rules unit tests P1; golden eval suite P2+; ≥ 80% rules coverage aspirational |
 
 ---
 
 ## 9. Technical constraints and context
 
-- No mandated language/framework; **recommended stack** documented in [ARCHITECTURE.md](ARCHITECTURE.md).
+- No mandated language/framework; **recommended stack** documented in [ARCHITECTURE.md](docs/archive/ARCHITECTURE.md).
 - Azure is agency context; prototype deploys to any HTTPS-accessible URL.
 - COLA (.NET legacy) — **no direct coupling**.
-- Interview time-box: **P1 ships first** (repo + URL + §10.2); factory/RAG/eval CI per §12 and [ARCHITECTURE.md](ARCHITECTURE.md).
+- Interview time-box: **P1 ships first** (repo + URL + §10.2); factory/RAG/eval CI per §12 and [ARCHITECTURE.md](docs/archive/ARCHITECTURE.md).
 
-### Recommended AI-native stack
+### Recommended AI-native stack (as shipped)
 
 | Layer | Technology |
 |-------|------------|
-| API | Python FastAPI |
-| Graph | LangGraph |
+| API | Python FastAPI + Uvicorn |
+| Graph (optional) | LangGraph (`USE_FACTORY_GRAPH=true`) |
 | Agents/tools | LangChain or lightweight custom `IAgentNode` |
-| RAG | LangChain retriever + Chroma (local) or Azure AI Search |
-| OCR | Azure Document Intelligence + Tesseract fallback |
-| Evals | Custom runner + optional LangSmith |
-| UI | React + TypeScript |
-| CI | GitHub Actions (`pytest`, `run_eval_suite.py`, deploy) |
+| RAG (optional) | LangChain retriever + Chroma (`RAG_ENABLED=true`) |
+| OCR | Tesseract default (offline) + Azure Document Intelligence fallback + content-addressed fixture sidecar |
+| Evals | Custom runner + optional LangSmith traces |
+| UI | React + TypeScript (production); Streamlit (Community Cloud surface) |
+| Batch | Chunked/resumable Streamlit batches; concurrent API batch with optional persistence |
+| Packaging | Docker (non-root) + hash-pinned `requirements.lock` |
+| CI | GitHub Actions: `test`, `ui`, `lint-and-security`, `locked-install`, `streamlit-smoke`, `docker` |
 
 ---
 
 ## 10. Deliverables
 
-> **Client truth lives here and in [DELIVERABLES.md](DELIVERABLES.md).** [ClientRequirement.md](ClientRequirement.md) lists exactly **two** submissions. Everything else is implementation or phased target state.
+> **Client truth lives in [ClientRequirement.md](ClientRequirement.md) and §10 below.** It lists exactly **two** submissions. Everything else is implementation or phased target state. The historical checklist moved to [docs/archive/DELIVERABLES.md](docs/archive/DELIVERABLES.md).
 
 **Authoritative client list:** [ClientRequirement.md](ClientRequirement.md) § Deliverables.  
-**Proof with file paths and URLs:** [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md).
+**Proof with file paths and URLs:** [docs/archive/DELIVERABLES_PROOF.md](docs/archive/DELIVERABLES_PROOF.md) (historical index; live setup is [README.md](README.md)).
 
 **Current repository:** [github.com/monigarr/instructions](https://github.com/monigarr/instructions) — application in [`app/`](app/).  
-**Deployed URL:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) — Render Starter, Blueprint-managed ([`render.yaml`](render.yaml)). Proof: [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md).
+**Deployed URLs:**  
+- Render Starter — [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) ([`render.yaml`](render.yaml))  
+- Streamlit Community Cloud — entrypoint `app/streamlit_app.py`, dependencies `app/requirements.txt`, apt `packages.txt`, Python 3.11 (deployment steps: [README.md](README.md#1-streamlit-community-cloud-new-deploy-target))
 
 Only **two submissions** are mandatory. LabelForge factory work (§7) is **phased engineering depth** — prove it in **code + README approach**, not as extra doc deliverables.
 
@@ -414,6 +418,15 @@ Only **two submissions** are mandatory. LabelForge factory work (§7) is **phase
 |-----------------|---------------------|
 | Working prototype | Public HTTPS URL; same core flows as local |
 | Accessible for hands-on test | Single-label + batch verification + clear results |
+
+**Deployed surfaces (same engine):**
+
+| Surface | Entry point | Status |
+|---------|-------------|--------|
+| Render (Docker, FastAPI + React) | [`render.yaml`](render.yaml) | live: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) |
+| Streamlit Community Cloud | `app/streamlit_app.py` + `app/requirements.txt` + `packages.txt` | deploy steps in [README.md](README.md#1-streamlit-community-cloud-new-deploy-target) |
+| Railway (Docker) | [`app/railway.toml`](app/railway.toml) | supported |
+| Docker Compose | [`app/docker-compose.yml`](app/docker-compose.yml) | supported |
 
 ### 10.2 Client requirements the deliverables must prove
 
@@ -436,7 +449,7 @@ Only **two submissions** are mandatory. LabelForge factory work (§7) is **phase
 | Phase | Client required? | Typical contents |
 |-------|------------------|------------------|
 | **P1 — submit** | **Yes** | `README`, app source, `fixtures/`, test labels, `.env.example`, deployed URL |
-| **P2+ — craft** | No | `factory/`, `graph/`, `rag/`, `evals/` — per ARCHITECTURE.md target layout |
+| **P2+ — craft** | No | `factory/`, `graph/`, `rag/`, `evals/` — per [archived target layout](docs/archive/ARCHITECTURE.md) |
 
 Omitting P2+ folders does **not** fail submission if §10.1–10.2 are met. Document factory roadmap in README approach section when P2+ is planned or partial.
 
@@ -453,11 +466,14 @@ Omitting P2+ folders does **not** fail submission if §10.1–10.2 are met. Docu
 
 | Artifact | Purpose |
 |----------|---------|
-| [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) | Proof index — file locations, API endpoints, live URLs |
-| [DELIVERABLES.md](DELIVERABLES.md) | Submission checklist mapped to ClientRequirement.md |
+| [README.md](README.md) | Setup, run, all six deployment options, reviewer paths |
+| [APPROACH.md](APPROACH.md) | Approach, tools, assumptions, trade-offs, upgrade/deferred register |
+| [SECURITY_ACCESSIBILITY.md](SECURITY_ACCESSIBILITY.md) | Prototype posture, implemented controls, 508 fixes, hardening backlog |
 | [ClientRequirement.md](ClientRequirement.md) | Primary source of truth |
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Phased target-state design (factory P2+ implemented in `app/`) |
 | [PRD.md](PRD.md) | This document |
+| [docs/archive/](docs/archive/) | Historical proof index, checklist, target-state design, onboarding, review guide, audit |
+
+> Superseded root documents were archived on 2026-10-19. Each archived file carries a banner pointing back to the canonical set.
 
 ---
 
@@ -474,14 +490,14 @@ Omitting P2+ folders does **not** fail submission if §10.1–10.2 are met. Docu
 
 ### Interview evaluators (AI-native depth)
 
-Evidence map: [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §1.1 · Live demo: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com)
+Evidence map: [APPROACH.md](APPROACH.md) §2–§6 · Live demo: [labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com) · Streamlit deploy: [README.md](README.md#1-streamlit-community-cloud-new-deploy-target)
 
 7. **Agent factory pattern** — composable agents with clear boundaries → [`app/src/factory/`](app/src/factory/)
 8. **Graph orchestration** — stateful workflow, fallbacks → [`app/src/graph/`](app/src/graph/)
 9. **RAG discipline** — grounded retrieval; rules own verdicts → [`app/src/rag/`](app/src/rag/)
 10. **Eval culture** — golden datasets, per-field CI gates, adversarial cases → [`app/evals/`](app/evals/), [`app/tests/test_eval_metrics.py`](app/tests/test_eval_metrics.py)
 11. **S.O.L.I.D. evidence** — interfaces, DI, OCR adapters → [`app/src/domain/interfaces.py`](app/src/domain/interfaces.py)
-12. **Pragmatic shipping** — P1 live on Render; P2+ behind flags → [`render.yaml`](render.yaml), [`app/README.md`](app/README.md)
+12. **Pragmatic shipping** — P1 live on Render and Streamlit Community Cloud; P2+ behind flags → [`render.yaml`](render.yaml), [`app/streamlit_app.py`](app/streamlit_app.py), [`app/README.md`](app/README.md)
 
 **Guidance:** **P1 satisfies ClientRequirement.md.** P2–P4 add interview craft; never block URL submission on eval CI or full graph.
 
@@ -494,8 +510,8 @@ Evidence map: [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §1.1 · Live demo:
 | **P0 — Foundation** | Interfaces, project skeleton, README draft | Compiles locally |
 | **P1 — MVP (SUBMIT)** | Ingest → extract → structure → rules → UI; single + batch; fixtures | **Repo + URL live**; §10.2 met; P95 ≤ ~5 s documented |
 | **P2 — Graph + RAG** | Factory, LangGraph, ComplianceRAGAgent, NuanceAgent | Interview craft; README approach updated |
-| **P3 — Eval hardening** | Golden/adversarial suites; **28** pytest tests; CI regression gate enforced | Engineering quality; production deploy unaffected |
-| **P4 — Stretch** | HITL node, explanations, image pre-processing | Jenny Park stretch; document if cut |
+| **P3 - Eval hardening** | Golden/adversarial suites; **63** pytest tests (100% rules coverage); CI regression gate enforced (six jobs incl. lockfile audit, secret scan, Streamlit smoke, Docker) | Engineering quality; production deploy unaffected |
+| **P4 — Stretch** | **Partially shipped:** batch checkpoint/resume (HITL-style review gate), `PREPROCESS_IMPERFECT` image preprocessing. **Documented as cut:** LLM-generated plain-language explanations, online eval sampling. | Jenny Park stretch; cuts recorded in [APPROACH.md](APPROACH.md) §9 |
 
 ---
 
@@ -515,22 +531,27 @@ Evidence map: [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §1.1 · Live demo:
 
 **Resolved:**
 
-- Batch manifest format: **JSON** (`POST /batch/verify`) and **CSV** (`POST /batch/verify-csv`) — see [DELIVERABLES_PROOF.md](DELIVERABLES_PROOF.md) §5
+- Batch manifest format: **JSON** (`POST /batch/verify`) and **CSV** (`POST /batch/verify-csv`) — see [APPROACH.md](APPROACH.md) §4
 
 ### Achieved metrics (beyond aspirational targets)
 
-| Metric | PRD target | Achieved (see proof index) |
-|--------|------------|----------------------------|
+| Metric | PRD target | Achieved |
+|--------|------------|----------|
 | Golden summary accuracy | ≥ 95% | **100%** (30 golden cases) |
 | Adversarial warning recall | 100% | **100%** |
+| False-pass rate (adversarial) | 0% | **0%** |
 | Production `/verify` latency | ≤ ~5 s | **~3.7 s** on Render Starter |
+| Batch scale | 200–300 labels | **300/300** completed in API and Streamlit (chunked, resumable) |
+| Dependency advisories | none known on shipped surface | `pip-audit` clean on `requirements.lock`; npm production clean |
 
 ---
 
 ## 14. References
 
 - [ClientRequirement.md](ClientRequirement.md) — primary source of truth
-- [ARCHITECTURE.md](ARCHITECTURE.md) — phased target-state design (P2+ factory); P1 in §3A/§3C
-- [DELIVERABLES.md](DELIVERABLES.md) — submission checklist
-- [CODE_COMMENT_HEADER_TEMPLATE.md](CODE_COMMENT_HEADER_TEMPLATE.md) — file standards
+- [README.md](README.md) — setup, run, six deployment options
+- [APPROACH.md](APPROACH.md) — approach, tools, assumptions, trade-offs, upgrade register
+- [SECURITY_ACCESSIBILITY.md](SECURITY_ACCESSIBILITY.md) — security and accessibility posture
+- [docs/archive/ARCHITECTURE.md](docs/archive/ARCHITECTURE.md) — phased target-state design (historical)
+- [docs/archive/CODE_COMMENT_HEADER_TEMPLATE.md](docs/archive/CODE_COMMENT_HEADER_TEMPLATE.md) — historical file-header standard
 - [TTB label guidance](https://www.ttb.gov) — regulatory corpus source

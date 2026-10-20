@@ -1,7 +1,7 @@
 # Deployment Guide
 
 **Production URL:** [https://labelforge-w32d.onrender.com](https://labelforge-w32d.onrender.com)  
-**Onboarding:** [ONBOARDING.md](../ONBOARDING.md) · **Blueprint:** [`render.yaml`](../render.yaml) · **Proof index:** [DELIVERABLES_PROOF.md](../DELIVERABLES_PROOF.md)  
+**Approach:** [APPROACH.md](../APPROACH.md) · **Security & accessibility:** [SECURITY_ACCESSIBILITY.md](../SECURITY_ACCESSIBILITY.md) · **Blueprint:** [`render.yaml`](../render.yaml) · **Historical docs:** [docs/archive/](../docs/archive/)  
 **Client constraints:** [ClientRequirement.md](../ClientRequirement.md) — standalone PoC, firewall-aware OCR (Marcus Williams)
 
 Live on Render Starter (always-on). Tesseract OCR runs in-container; no API keys required for the default demo path.
@@ -52,7 +52,7 @@ The Blueprint sets:
 
 Render injects `PORT` automatically (default `10000`). The Dockerfile reads `${PORT:-8000}` so local Docker Compose still works on port 8000.
 
-First build takes ~5–10 minutes (Node 20 UI build + Tesseract install + pip).
+First build takes ~5-10 minutes (Node 24 UI build + Tesseract install + pip).
 
 ### Option B — Manual dashboard
 
@@ -97,7 +97,18 @@ VITE_API_URL=http://localhost:8000
 
 [`vite.config.ts`](ui/vite.config.ts) proxies `/verify`, `/batch`, and `/health` only — not `/samples` or `/labels`. See [app/README.md](README.md) § Quick start.
 
-**Node versions:** Node.js 18+ for local dev; Docker and CI use Node 20.
+**Node versions:** Node.js 22+ for local dev; Docker and CI use Node 24.
+
+## Streamlit Community Cloud
+
+1. Push the repository to GitHub (branch `main`).
+2. At [share.streamlit.io](https://share.streamlit.io): **Create app** → **Deploy from GitHub**.
+3. Repository `monigarr/instructions`, branch `main`, main file path `app/streamlit_app.py`.
+4. Advanced settings → Python **3.11**; leave secrets empty.
+5. Deploy. Community Cloud installs [`requirements.txt`](requirements.txt), apt packages from root [`packages.txt`](../packages.txt) (`tesseract-ocr`), and reads root [`.streamlit/config.toml`](../.streamlit/config.toml).
+6. Smoke-test the gallery and a 300-label batch, then record the assigned URL.
+
+Do not place a `uv.lock`, `Pipfile`, `environment.yml`, or `pyproject.toml` in `app/` — Community Cloud prefers those over `requirements.txt`. The hash-pinned lockfile lives at the repo root for the API/Docker surface.
 
 ## Smoke test after deploy
 
@@ -114,6 +125,6 @@ Browser: open the URL, use **Try this sample** on **Old Tom — Pass**, verify s
 
 ## Local without Tesseract
 
-If Tesseract is not on PATH, set `label_id` in application JSON to match a fixture stem (e.g. `old_tom_match`) — sidecar `.txt` files in `fixtures/labels/` are used for demo OCR. Production Docker images include Tesseract.
+If Tesseract is not on PATH, the fixture sidecar can supply OCR text only for a **committed fixture image uploaded byte-for-byte unchanged** (e.g. the `old_tom_match` sample from the gallery). Sidecar text is content-addressed, so an arbitrary upload with a copied `label_id` returns no text rather than fabricated compliance values. Production Docker images and Streamlit Cloud include Tesseract.
 
-*Last verified against repo: 2026-07-08*
+*Last verified against repo: 2026-10-19*

@@ -30,6 +30,8 @@ class Settings(BaseSettings):
     use_factory_graph: bool = False
     rag_enabled: bool = False
     chroma_persist_dir: str = "./data/chroma"
+    log_level: str = "INFO"
+    log_json: bool = True
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
